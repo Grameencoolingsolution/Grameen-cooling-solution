@@ -1,0 +1,144 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grameen Cooling Solution</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f1f5f9;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #0284c7;
+      color: white;
+      padding: 1em;
+      text-align: center;
+    }
+    nav {
+      background-color: #0369a1;
+      padding: 0.5em;
+      text-align: center;
+    }
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .container {
+      padding: 2em;
+    }
+    .service, .product {
+      background-color: white;
+      padding: 1em;
+      margin-bottom: 1em;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    form input, form select, form textarea, form button {
+      width: 100%;
+      padding: 0.8em;
+      margin: 0.5em 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    footer {
+      background-color: #0284c7;
+      color: white;
+      text-align: center;
+      padding: 1em;
+      margin-top: 2em;
+    }
+    #payment button {
+      padding: 1em 2em;
+      background-color: #10b981;
+      color: white;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Grameen Cooling Solution</h1>
+    <p>AC Service, Repairing, Installation & Equipment Booking</p>
+  </header>  <nav>
+    <a href="#services">Services</a>
+    <a href="#booking">Booking</a>
+    <a href="#products">Products</a>
+    <a href="#payment">Payment</a>
+  </nav>  <div class="container">
+    <section id="services">
+      <h2>Our Services</h2>
+      <div class="service">
+        <h3>AC Installation</h3>
+        <p>Professional AC installation by experienced technicians.</p>
+      </div>
+      <div class="service">
+        <h3>AC Repairing</h3>
+        <p>All types of air conditioner repairs with quick turnaround.</p>
+      </div>
+      <div class="service">
+        <h3>AC Servicing</h3>
+        <p>Routine servicing to keep your AC running efficiently.</p>
+      </div>
+    </section><section id="booking">
+  <h2>Book a Service</h2>
+  <form id="bookingForm">
+    <input type="text" name="name" placeholder="Your Name" required />
+    <input type="tel" name="phone" placeholder="Phone Number" required />
+    <input type="text" name="address" placeholder="Your Address" required />
+    <select name="serviceType" required>
+      <option value="">Select Service Type</option>
+      <option value="installation">AC Installation</option>
+      <option value="repair">AC Repairing</option>
+      <option value="servicing">AC Servicing</option>
+    </select>
+    <textarea name="details" placeholder="Additional Details (optional)"></textarea>
+    <button type="submit">Submit Booking</button>
+  </form>
+</section>
+
+<section id="products">
+  <h2>AC Equipment</h2>
+  <div class="product">
+    <h3>Universal AC Remote</h3>
+    <p>Compatible with most AC brands. Price: ₹350</p>
+  </div>
+  <div class="product">
+    <h3>AC Copper Pipe</h3>
+    <p>High-quality copper pipe for AC installation. Price: ₹500/meter</p>
+  </div>
+</section>
+
+<section id="payment">
+  <h2>Pay Online</h2>
+  <p>Secure payment via Cashfree</p>
+  <button onclick="initiatePayment()">Pay Now</button>
+</section>
+
+  </div>  <footer>
+    <p>Contact: +91 9433319493 | Email: gramincoolingsolution@gmail.com</p>
+    <p>Location: BD Sherpur, Bharatpur, Murshidabad, West Bengal - 742301</p>
+  </footer>  <script src="https://sdk.cashfree.com/js/ui/2.0.0/cashfree.prod.js"></script>  <script>
+    document.getElementById('bookingForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      alert('Your booking request has been submitted! We will contact you soon.');
+      this.reset();
+    });
+
+    function initiatePayment() {
+      const cashfree = new Cashfree({ mode: "sandbox" }); // Change to "production" for live
+      const paymentSessionId = "PASTE_YOUR_PAYMENT_SESSION_ID_HERE"; // Replace with actual session ID
+
+      cashfree.checkout({
+        paymentSessionId,
+        redirect: false,
+      });
+    }
+  </script></body>
+</html>
