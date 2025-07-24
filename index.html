@@ -1,69 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Grameen Cooling Solution - Payment</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      background: #f2f2f2;
-      text-align: center;
-      padding: 40px;
-    }
-    h1 {
-      color: #0077b6;
-    }
-    button {
-      padding: 15px 30px;
-      font-size: 16px;
-      background-color: #0077b6;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #023e8a;
-    }
-  </style>
+  <title>Grameen Cooling Solution</title>
 </head>
 <body>
+  <h1>Welcome to Grameen Cooling Solution</h1>
+  <p>AC और Home Appliance सर्विसिंग के लिए संपर्क करें।</p>
 
-  <h1>Grameen Cooling Solution</h1>
-  <p>Pay ₹500 to book AC servicing</p>
-
-  <button id="rzp-button">Pay ₹500</button>
+  <button id="rzp-button1">Pay Now</button>
 
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script>
     var options = {
-      "key": "rzp_test_PBDa0hjP8yKc60", // आपका Razorpay Key ID
-      "amount": 50000, // ₹500 (पैसे में)
-      "currency": "INR",
-      "name": "Grameen Cooling Solution",
-      "description": "AC Service Booking",
-      "image": "https://your-logo-url.com/logo.png", // अगर कोई लोगो है तो URL डालें
-      "handler": function (response){
-          // ✅ पेमेंट के बाद Redirect URL:
-          window.location.href = "https://grameencoolingsolution.github.io/Grameen-cooling-solution/thankyou.html";
-      },
-      "prefill": {
-        "name": "Customer Name",
-        "email": "customer@example.com",
-        "contact": "9000000000"
-      },
-      "theme": {
-        "color": "#0077b6"
-      }
+        "key": "rzp_test_PBDa0hjP8yKc60",
+        "amount": "10000", // ₹100 = 10000 paise
+        "currency": "INR",
+        "name": "Grameen Cooling Solution",
+        "description": "Service Booking",
+        "handler": function (response){
+            alert("Payment successful. Payment ID: " + response.razorpay_payment_id);
+            window.location.href = "thankyou.html";
+        },
+        "theme": {
+            "color": "#3399cc"
+        }
     };
-
     var rzp1 = new Razorpay(options);
-    document.getElementById('rzp-button').onclick = function(e){
-      rzp1.open();
-      e.preventDefault();
+    document.getElementById('rzp-button1').onclick = function(e){
+        rzp1.open();
+        e.preventDefault();
     }
   </script>
-
 </body>
 </html>
