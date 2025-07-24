@@ -3,63 +3,67 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Grameen Cooling Solution</title>
+  <title>Grameen Cooling Solution - Payment</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f7f7f7;
-      margin: 0;
-      padding: 0;
+      font-family: sans-serif;
+      background: #f2f2f2;
       text-align: center;
+      padding: 40px;
     }
-    header {
+    h1 {
+      color: #0077b6;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 16px;
       background-color: #0077b6;
       color: white;
-      padding: 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
     }
-    main {
-      padding: 20px;
-    }
-    .card {
-      background-color: white;
-      padding: 20px;
-      margin: 20px auto;
-      max-width: 400px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-    footer {
-      background-color: #0077b6;
-      color: white;
-      padding: 10px;
-      margin-top: 30px;
+    button:hover {
+      background-color: #023e8a;
     }
   </style>
 </head>
 <body>
 
-<header>
   <h1>Grameen Cooling Solution</h1>
-  <p>BD Sherpur, Bharatpur, Murshidabad, WB - 742301</p>
-  <p>Contact: 9609013418</p>
-</header>
+  <p>Pay ₹500 to book AC servicing</p>
 
-<main>
-  <div class="card">
-    <h2>AC Repair Booking</h2>
-    <p>Pay ₹500 to confirm your service</p>
-    <form>
-      <script src="https://checkout.razorpay.com/v1/payment-button.js"
-              data-payment_button_id="pl_QpEk8J9yrdZn7C"
-              async>
-      </script>
-    </form>
-  </div>
-</main>
+  <button id="rzp-button">Pay ₹500</button>
 
-<footer>
-  &copy; 2025 Grameen Cooling Solution
-</footer>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    var options = {
+      "key": "rzp_test_PBDa0hjP8yKc60", // आपका Razorpay Key ID
+      "amount": 50000, // ₹500 (पैसे में)
+      "currency": "INR",
+      "name": "Grameen Cooling Solution",
+      "description": "AC Service Booking",
+      "image": "https://your-logo-url.com/logo.png", // अगर कोई लोगो है तो URL डालें
+      "handler": function (response){
+          // ✅ पेमेंट के बाद Redirect URL:
+          window.location.href = "https://grameencoolingsolution.github.io/Grameen-cooling-solution/thankyou.html";
+      },
+      "prefill": {
+        "name": "Customer Name",
+        "email": "customer@example.com",
+        "contact": "9000000000"
+      },
+      "theme": {
+        "color": "#0077b6"
+      }
+    };
+
+    var rzp1 = new Razorpay(options);
+    document.getElementById('rzp-button').onclick = function(e){
+      rzp1.open();
+      e.preventDefault();
+    }
+  </script>
 
 </body>
 </html>
