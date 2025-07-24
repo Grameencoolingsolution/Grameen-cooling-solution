@@ -6,65 +6,60 @@
   <title>Grameen Cooling Solution</title>
   <style>
     body {
-      font-family: sans-serif;
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
       margin: 0;
       padding: 0;
-      background: #f0f8ff;
+      text-align: center;
     }
     header {
-      background: #0077b6;
+      background-color: #0077b6;
       color: white;
-      padding: 1rem;
-      text-align: center;
-    }
-    nav {
-      background: #023e8a;
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      padding: 0.5rem 0;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
+      padding: 20px;
     }
     main {
-      padding: 2rem;
-      text-align: center;
+      padding: 20px;
+    }
+    .card {
+      background-color: white;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 400px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
     footer {
-      background: #0077b6;
+      background-color: #0077b6;
       color: white;
-      text-align: center;
-      padding: 1rem;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
+      padding: 10px;
+      margin-top: 30px;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Grameen Cooling Solution</h1>
-    <p>AC and Home Appliance Repair Service Center</p>
-  </header>
 
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="services.html">Services</a>
-    <a href="booking.html">Book Now</a>
-    <a href="contact.html">Contact</a>
-  </nav>
+<header>
+  <h1>Grameen Cooling Solution</h1>
+  <p>BD Sherpur, Bharatpur, Murshidabad, WB - 742301</p>
+  <p>Contact: 9609013418</p>
+</header>
 
-  <main>
-    <h2>Welcome!</h2>
-    <p>We provide expert AC and home appliance repair services in BD Sherpur, Bharatpur, Murshidabad.</p>
-    <p>Fast service, trusted technicians, and affordable rates.</p>
-  </main>
+<main>
+  <div class="card">
+    <h2>AC Repair Booking</h2>
+    <p>Pay ₹500 to confirm your service</p>
+    <form>
+      <script src="https://checkout.razorpay.com/v1/payment-button.js"
+              data-payment_button_id="pl_QpEk8J9yrdZn7C"
+              async>
+      </script>
+    </form>
+  </div>
+</main>
 
-  <footer>
-    Contact: 9609013418 | BD Sherpur, Bharatpur, Murshidabad - 742301
-  </footer>
+<footer>
+  &copy; 2025 Grameen Cooling Solution
+</footer>
+
 </body>
 </html>
