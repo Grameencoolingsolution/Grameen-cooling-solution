@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Book a Service - Grameen Cooling Solution</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f1f5f9;
+    }
+    header {
+      background: #0077b6;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    nav {
+      background: #023e8a;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      padding: 0.5rem 0;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    main {
+      padding: 2rem;
+    }
+    form {
+      max-width: 400px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 0.5rem;
+      margin: 0.5rem 0 1rem 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background: #0077b6;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    footer {
+      background: #0077b6;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Book a Service</h1>
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="booking.html">Book Now</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+  <main>
+    <form>
+      <label for="name">Full Name</label>
+      <input type="text" id="name" placeholder="Your name" required />
+
+      <label for="phone">Mobile Number</label>
+      <input type="tel" id="phone" placeholder="10-digit number" required />
+
+      <label for="service">Select Service</label>
+      <select id="service" required>
+        <option value="">--Choose a Service--</option>
+        <option>AC Installation</option>
+        <option>AC Cleaning</option>
+        <option>Gas Refilling</option>
+        <option>Fridge Repair</option>
+        <option>Washing Machine Repair</option>
+      </select>
+
+      <label for="message">Any Message (Optional)</label>
+      <textarea id="message" rows="3" placeholder="Write here..."></textarea>
+
+      <button type="submit">Submit Request</button>
+    </form>
+  </main>
+
+  <footer>
+    Contact: 9609013418 | BD Sherpur, Bharatpur, Murshidabad - 742301
+  </footer>
+</body>
+</html>
