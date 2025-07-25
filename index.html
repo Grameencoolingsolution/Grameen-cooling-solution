@@ -6,8 +6,6 @@
 <title>Grameen Cooling Solution</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
-
-  /* Reset and base */
   * {
     box-sizing: border-box;
   }
@@ -15,8 +13,6 @@
     margin: 0; font-family: 'Montserrat', sans-serif;
     background: #f5f8fa; color: #223344;
   }
-
-  /* Header with logo and hamburger */
   header {
     background: linear-gradient(90deg, #004466, #006699);
     color: white; padding: 15px 20px;
@@ -26,6 +22,7 @@
   }
   .logo {
     font-weight: 700; font-size: 1.6rem; letter-spacing: 3px;
+    cursor: pointer;
   }
   .hamburger {
     width: 28px; height: 22px;
@@ -37,7 +34,6 @@
     height: 4px; border-radius: 2px;
     transition: 0.3s;
   }
-  /* Hamburger active animation */
   .hamburger.active div:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
   }
@@ -47,8 +43,6 @@
   .hamburger.active div:nth-child(3) {
     transform: rotate(-45deg) translate(5px, -5px);
   }
-
-  /* Mobile nav */
   nav {
     position: fixed;
     top: 56px; right: 0;
@@ -75,12 +69,15 @@
   nav a:hover {
     background: #004466;
   }
-
   main {
     max-width: 900px; margin: 40px auto; padding: 0 20px;
   }
-
-  /* Services grid */
+  section {
+    display: none;
+  }
+  section.active {
+    display: block;
+  }
   .services-section {
     display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;
     margin-bottom: 50px;
@@ -106,8 +103,6 @@
     margin: 10px 0 0; font-size: 1.1rem; color: #004466;
     font-weight: 700;
   }
-
-  /* Booking button */
   .booking-button {
     display: block;
     margin: 0 auto 60px;
@@ -123,45 +118,6 @@
   }
   .booking-button:hover {
     background: #004466;
-  }
-
-  /* Booking form modal */
-  .modal {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.5);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-  }
-  .modal.active {
-    display: flex;
-  }
-  .modal-content {
-    background: white;
-    border-radius: 20px;
-    padding: 30px 40px;
-    width: 90%;
-    max-width: 520px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    position: relative;
-    max-height: 90vh;
-    overflow-y: auto;
-  }
-  .modal-content h2 {
-    margin-top: 0; color: #004466; font-weight: 700;
-    text-align: center;
-    margin-bottom: 25px;
-  }
-  .close-btn {
-    position: absolute;
-    top: 18px; right: 18px;
-    background: transparent;
-    border: none;
-    font-size: 1.8rem;
-    cursor: pointer;
-    color: #004466;
   }
   label {
     display: block;
@@ -200,7 +156,9 @@
   button.submit-btn:hover {
     background: #004466;
   }
-
+  #totalPrice {
+    margin-top:12px; font-weight:700; font-size:1.2rem; color:#006699; text-align:center;
+  }
   /* Responsive */
   @media (max-width: 600px) {
     .services-section {
@@ -211,10 +169,6 @@
       width: 140px;
       padding: 20px;
     }
-    .booking-button {
-      padding: 12px 36px;
-      font-size: 1.1rem;
-    }
     nav {
       width: 160px;
     }
@@ -224,111 +178,145 @@
 <body>
 
 <header>
-  <div class="logo" aria-label="Website Logo">Grameen Cooling Solution</div>
+  <div class="logo" tabindex="0" role="button" aria-label="Go to Home" onclick="showSection('home')">Grameen Cooling Solution</div>
   <div class="hamburger" aria-label="Toggle menu" role="button" tabindex="0" aria-expanded="false">
     <div></div><div></div><div></div>
   </div>
 </header>
 
 <nav aria-label="Main Navigation">
-  <a href="#services">Services</a>
-  <a href="#booking">Booking</a>
-  <a href="#contact">Contact Us</a>
-  <a href="#terms">Terms & Conditions</a>
-  <a href="#return">Return Policy</a>
+  <a href="#" onclick="showSection('home'); closeNav()">Home</a>
+  <a href="#" onclick="showSection('booking'); closeNav()">Book Service</a>
+  <a href="#" onclick="showSection('tracking'); closeNav()">Track Order</a>
+  <a href="#" onclick="showSection('terms'); closeNav()">Terms & Conditions</a>
+  <a href="#" onclick="showSection('return'); closeNav()">Return Policy</a>
+  <a href="#" onclick="showSection('contact'); closeNav()">Contact Us</a>
 </nav>
 
 <main>
-  <section id="services" class="services-section" aria-label="AC Services Catalog">
-    <div class="service-card" tabindex="0">
-      <img src="https://cdn-icons-png.flaticon.com/512/709/709699.png" alt="AC Servicing Icon" />
-      <h3>AC Servicing</h3>
+  <section id="home" class="active" aria-label="Home Section">
+    <div class="services-section" aria-label="AC Services Catalog">
+      <div class="service-card" tabindex="0">
+        <img src="https://cdn-icons-png.flaticon.com/512/709/709699.png" alt="AC Servicing Icon" />
+        <h3>AC Servicing</h3>
+      </div>
+      <div class="service-card" tabindex="0">
+        <img src="https://cdn-icons-png.flaticon.com/512/1627/1627583.png" alt="Breakdown Repair Icon" />
+        <h3>Breakdown Repair</h3>
+      </div>
+      <div class="service-card" tabindex="0">
+        <img src="https://cdn-icons-png.flaticon.com/512/1373/1373473.png" alt="Installation Icon" />
+        <h3>Installation</h3>
+      </div>
+      <div class="service-card" tabindex="0">
+        <img src="https://cdn-icons-png.flaticon.com/512/2779/2779840.png" alt="Uninstallation Icon" />
+        <h3>Uninstallation</h3>
+      </div>
+      <div class="service-card" tabindex="0">
+        <img src="https://cdn-icons-png.flaticon.com/512/2667/2667002.png" alt="Z-Pump Service Icon" />
+        <h3>Z-Pump Service</h3>
+      </div>
+      <div class="service-card" tabindex="0">
+        <img src="https://cdn-icons-png.flaticon.com/512/565/565547.png" alt="Premium Service Icon" />
+        <h3>Premium Service</h3>
+      </div>
     </div>
-    <div class="service-card" tabindex="0">
-      <img src="https://cdn-icons-png.flaticon.com/512/1627/1627583.png" alt="Breakdown Repair Icon" />
-      <h3>Breakdown Repair</h3>
-    </div>
-    <div class="service-card" tabindex="0">
-      <img src="https://cdn-icons-png.flaticon.com/512/1373/1373473.png" alt="Installation Icon" />
-      <h3>Installation</h3>
-    </div>
-    <div class="service-card" tabindex="0">
-      <img src="https://cdn-icons-png.flaticon.com/512/2779/2779840.png" alt="Uninstallation Icon" />
-      <h3>Uninstallation</h3>
-    </div>
-    <div class="service-card" tabindex="0">
-      <img src="https://cdn-icons-png.flaticon.com/512/2667/2667002.png" alt="Z-Pump Service Icon" />
-      <h3>Z-Pump Service</h3>
-    </div>
-    <div class="service-card" tabindex="0">
-      <img src="https://cdn-icons-png.flaticon.com/512/565/565547.png" alt="Premium Service Icon" />
-      <h3>Premium Service</h3>
-    </div>
+    <button class="booking-button" onclick="showSection('booking')">Book Your Service</button>
   </section>
 
-  <button id="booking" class="booking-button" aria-haspopup="dialog" aria-controls="bookingModal">Book Your Service</button>
+  <section id="booking" aria-label="Booking Section">
+    <h2>Book Your AC Service</h2>
+    <form id="bookingForm">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" required placeholder="Your full name" />
 
-  <div class="modal" id="bookingModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
-    <div class="modal-content">
-      <button class="close-btn" aria-label="Close Booking Form">&times;</button>
-      <h2 id="modalTitle">Book Your AC Service</h2>
-      <form id="bookingForm">
-        <label for="name">Full Name</label>
-        <input type="text" id="name" required placeholder="Your full name" />
+      <label for="mobile">Mobile Number</label>
+      <input type="tel" id="mobile" required placeholder="10-digit mobile number" pattern="[0-9]{10}" />
 
-        <label for="mobile">Mobile Number</label>
-        <input type="tel" id="mobile" required placeholder="10-digit mobile number" pattern="[0-9]{10}" />
+      <label for="pincode">Pin Code</label>
+      <input type="text" id="pincode" required placeholder="Area pin code" pattern="[0-9]{6}" />
 
-        <label for="pincode">Pin Code</label>
-        <input type="text" id="pincode" required placeholder="Area pin code" pattern="[0-9]{6}" />
+      <label for="address">Address</label>
+      <textarea id="address" rows="3" required placeholder="Your full address"></textarea>
 
-        <label for="address">Address</label>
-        <textarea id="address" rows="3" required placeholder="Your full address"></textarea>
+      <label for="email">Email (optional)</label>
+      <input type="email" id="email" placeholder="Your email address" />
 
-        <label for="email">Email (optional)</label>
-        <input type="email" id="email" placeholder="Your email address" />
+      <label for="service">Select Service</label>
+      <select id="service" required>
+        <option value="">-- Select Service --</option>
+        <option value="AC Servicing" data-price="499">AC Servicing - ₹499</option>
+        <option value="Breakdown Repair" data-price="699">Breakdown Repair - ₹699</option>
+        <option value="Installation" data-price="999">Installation - ₹999</option>
+        <option value="Uninstallation" data-price="599">Uninstallation - ₹599</option>
+        <option value="Z-Pump Service" data-price="799">Z-Pump Service - ₹799</option>
+        <option value="Premium Service" data-price="1499">Premium Service - ₹1499</option>
+      </select>
 
-        <label for="service">Select Service</label>
-        <select id="service" required>
-          <option value="">-- Select Service --</option>
-          <option value="AC Servicing" data-price="499">AC Servicing - ₹499</option>
-          <option value="Breakdown Repair" data-price="699">Breakdown Repair - ₹699</option>
-          <option value="Installation" data-price="999">Installation - ₹999</option>
-          <option value="Uninstallation" data-price="599">Uninstallation - ₹599</option>
-          <option value="Z-Pump Service" data-price="799">Z-Pump Service - ₹799</option>
-          <option value="Premium Service" data-price="1499">Premium Service - ₹1499</option>
-        </select>
+      <label for="condition">Condition</label>
+      <select id="condition" required>
+        <option value="">-- Select Condition --</option>
+        <option value="New">New</option>
+        <option value="Used">Used</option>
+        <option value="Repair">Repair</option>
+      </select>
 
-        <label for="condition">Condition</label>
-        <select id="condition" required>
-          <option value="">-- Select Condition --</option>
-          <option value="New">New</option>
-          <option value="Used">Used</option>
-          <option value="Repair">Repair</option>
-        </select>
+      <label for="visitingCharge">Visiting Charge (Fixed)</label>
+      <input type="number" id="visitingCharge" value="200" readonly />
 
-        <label for="visitingCharge">Visiting Charge (Fixed)</label>
-        <input type="number" id="visitingCharge" value="200" readonly />
+      <label for="quantity">Quantity</label>
+      <input type="number" id="quantity" value="1" min="1" required />
 
-        <label for="quantity">Quantity</label>
-        <input type="number" id="quantity" value="1" min="1" required />
+      <div id="totalPrice">Total Price: ₹ 0</div>
 
-        <div id="totalPrice" style="margin-top:12px; font-weight:700; font-size:1.2rem; color:#006699; text-align:center;">Total Price: ₹ 0</div>
+      <button type="submit" class="submit-btn">Pay & Book</button>
+    </form>
+  </section>
 
-        <button type="submit" class="submit-btn">Pay & Book</button>
-      </form>
-    </div>
-  </div>
+  <section id="tracking" aria-label="Order Tracking Section">
+    <h2>Track Your Order</h2>
+    <label for="trackOrderId">Enter Order ID</label>
+    <input type="text" id="trackOrderId" placeholder="e.g. ORD1627891234567" />
+    <button onclick="trackOrder()">Track</button>
+    <div id="trackingResult" style="margin-top:20px; font-weight:600;"></div>
+  </section>
+
+  <section id="terms" aria-label="Terms and Conditions">
+    <h2>Terms & Conditions</h2>
+    <p>All services are subject to our terms and conditions. Please read carefully before booking.</p>
+    <ul>
+      <li>Services will be provided as per the scheduled date and time.</li>
+      <li>Payment must be completed before service.</li>
+      <li>Cancellation is possible up to 24 hours before the scheduled service.</li>
+      <li>Warranty and support terms apply as per product and service type.</li>
+    </ul>
+  </section>
+
+  <section id="return" aria-label="Return Policy">
+    <h2>Return Policy</h2>
+    <p>If you are not satisfied with our service, please contact us within 7 days for resolution.</p>
+    <ul>
+      <li>Refunds will be processed after verification.</li>
+      <li>Return requests should be made within the specified time.</li>
+      <li>Terms apply based on service type.</li>
+    </ul>
+  </section>
+
+  <section id="contact" aria-label="Contact Us">
+    <h2>Contact Us</h2>
+    <p><strong>Address:</strong> 123, Cooling Street, Your City</p>
+    <p><strong>Phone:</strong> +91 98765 43210</p>
+    <p><strong>Email:</strong> support@grameencoolingsolution.com</p>
+  </section>
 </main>
 
 <script>
-  // Hamburger menu toggle
+  // Hamburger toggle
   const hamburger = document.querySelector('.hamburger');
   const nav = document.querySelector('nav');
   hamburger.addEventListener('click', () => {
     hamburger.classList.toggle('active');
     nav.classList.toggle('open');
-    // Update aria-expanded
     const expanded = hamburger.getAttribute('aria-expanded') === 'true';
     hamburger.setAttribute('aria-expanded', !expanded);
   });
@@ -339,27 +327,24 @@
     }
   });
 
-  // Modal open/close logic
-  const bookingBtn = document.querySelector('.booking-button');
-  const modal = document.getElementById('bookingModal');
-  const closeBtn = modal.querySelector('.close-btn');
+  // Section switching
+  function showSection(id) {
+    document.querySelectorAll('main section').forEach(sec => {
+      sec.classList.remove('active');
+    });
+    document.getElementById(id).classList.add('active');
+    // Close nav on mobile after selection
+    closeNav();
+    // Scroll top
+    window.scrollTo(0,0);
+  }
+  function closeNav() {
+    nav.classList.remove('open');
+    hamburger.classList.remove('active');
+    hamburger.setAttribute('aria-expanded', 'false');
+  }
 
-  bookingBtn.addEventListener('click', () => {
-    modal.classList.add('active');
-    modal.focus();
-  });
-
-  closeBtn.addEventListener('click', () => {
-    modal.classList.remove('active');
-  });
-
-  modal.addEventListener('click', (e) => {
-    if(e.target === modal) {
-      modal.classList.remove('active');
-    }
-  });
-
-  // Price calculation logic
+  // Price calculation
   const serviceSelect = document.getElementById("service");
   const quantityInput = document.getElementById("quantity");
   const visitingChargeInput = document.getElementById("visitingCharge");
@@ -373,7 +358,6 @@
     const total = (price * quantity) + visitingCharge;
     totalPriceDiv.textContent = "Total Price: ₹ " + total;
   }
-
   serviceSelect.addEventListener("change", updatePrice);
   quantityInput.addEventListener("input", updatePrice);
   updatePrice();
@@ -413,12 +397,34 @@
 
     alert(`Thank you for booking!\nYour Order ID: ${orderId}\nPlease save this for tracking.`);
 
-    // Redirect to tracking page if exists
-    // window.location.href = "track.html?orderId=" + orderId;
+    // Redirect to tracking section after booking
+    showSection('tracking');
 
-    modal.classList.remove('active');
     this.reset();
+    updatePrice();
   });
+
+  // Order tracking
+  function trackOrder() {
+    const orderIdInput = document.getElementById("trackOrderId").value.trim();
+    const resultDiv = document.getElementById("trackingResult");
+    if (!orderIdInput) {
+      resultDiv.textContent = "Please enter your Order ID.";
+      return;
+    }
+    const orders = JSON.parse(localStorage.getItem("orders") || "{}");
+    if (orders[orderIdInput]) {
+      const order = orders[orderIdInput];
+      resultDiv.innerHTML = `<p><strong>Order ID:</strong> ${orderIdInput}</p>
+        <p><strong>Name:</strong> ${order.name}</p>
+        <p><strong>Service:</strong> ${order.service}</p>
+        <p><strong>Condition:</strong> ${order.condition}</p>
+        <p><strong>Quantity:</strong> ${order.quantity}</p>
+        <p><strong>Status:</strong> ${order.status}</p>`;
+    } else {
+      resultDiv.textContent = "Order ID not found. Please check and try again.";
+    }
+  }
 </script>
 
 </body>
