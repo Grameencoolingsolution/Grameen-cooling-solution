@@ -5,71 +5,111 @@
   <title>Admin Panel</title>
   <style>
     body {
-      font-family: Arial;
+      font-family: Arial, sans-serif;
       padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+    h1 {
+      color: #004466;
+      text-align: center;
+      margin-bottom: 30px;
     }
     table {
       width: 100%;
       border-collapse: collapse;
+      margin-bottom: 30px;
     }
     th, td {
-      padding: 10px;
       border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background: #0077cc;
+      color: white;
     }
     select {
-      padding: 5px;
+      padding: 6px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+    button {
+      padding: 8px 12px;
+      border: none;
+      background: #0077cc;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #005fa3;
     }
   </style>
 </head>
 <body>
-  <h2>Admin Panel - Manage Orders</h2>
+  <h1>Admin Panel - Manage Orders</h1>
   <table>
     <thead>
       <tr>
         <th>Order ID</th>
+        <th>Customer</th>
+        <th>Service</th>
+        <th>Quantity</th>
+        <th>Total Price</th>
         <th>Status</th>
-        <th>Action</th>
+        <th>Update Status</th>
       </tr>
     </thead>
-    <tbody id="orderTable"></tbody>
+    <tbody id="orderTable">
+      <!-- Orders will be loaded here -->
+    </tbody>
   </table>
 
   <script>
     const orderTable = document.getElementById("orderTable");
-    const orders = JSON.parse(localStorage.getItem("orders") || "{}");
 
-    for (const id in orders) {
-      const tr = document.createElement("tr");
+    function loadOrders() {
+      const orders = JSON.parse(localStorage.getItem("orders") || "{}");
+      orderTable.innerHTML = "";
+      for (const id in orders) {
+        const order = orders[id];
+        const tr = document.createElement("tr");
 
-      const tdId = document.createElement("td");
-      tdId.textContent = id;
+        tr.innerHTML = `
+          <td>${id}</td>
+          <td>${order.name}</td>
+          <td>${order.service}</td>
+          <td>${order.quantity}</td>
+          <td>${order.totalPrice}</td>
+          <td>${order.status}</td>
+          <td>
+            <select data-id="${id}">
+              <option value="Pending Approval" ${order.status === "Pending Approval" ? "selected" : ""}>Pending Approval</option>
+              <option value="Approved" ${order.status === "Approved" ? "selected" : ""}>Approved</option>
+              <option value="Cancelled" ${order.status === "Cancelled" ? "selected" : ""}>Cancelled</option>
+              <option value="Completed" ${order.status === "Completed" ? "selected" : ""}>Completed</option>
+            </select>
+          </td>
+        `;
 
-      const tdStatus = document.createElement("td");
-      tdStatus.textContent = orders[id];
+        orderTable.appendChild(tr);
+      }
 
-      const tdAction = document.createElement("td");
-      const select = document.createElement("select");
-
-      ["Pending Approval", "Approved", "Cancelled"].forEach(status => {
-        const opt = document.createElement("option");
-        opt.value = status;
-        opt.textContent = status;
-        if (status === orders[id]) opt.selected = true;
-        select.appendChild(opt);
+      // Add change event listeners on selects
+      document.querySelectorAll("select[data-id]").forEach(select => {
+        select.addEventListener("change", function() {
+          const id = this.getAttribute("data-id");
+          const orders = JSON.parse(localStorage.getItem("orders") || "{}");
+          orders[id].status = this.value;
+          localStorage.setItem("orders", JSON.stringify(orders));
+          loadOrders(); // Refresh the table
+        });
       });
-
-      select.onchange = function () {
-        orders[id] = select.value;
-        localStorage.setItem("orders", JSON.stringify(orders));
-        tdStatus.textContent = select.value;
-      };
-
-      tdAction.appendChild(select);
-      tr.appendChild(tdId);
-      tr.appendChild(tdStatus);
-      tr.appendChild(tdAction);
-      orderTable.appendChild(tr);
     }
+
+    loadOrders();
   </script>
 </body>
 </html>
