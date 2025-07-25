@@ -5,33 +5,83 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Grameen Cooling Solution</title>
   <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    header {
+      background-color: #004466;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .menu-icon {
+      font-size: 30px;
+      cursor: pointer;
+      display: none;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li {
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .menu-icon {
+        display: block;
+      }
+
+      nav ul {
+        flex-direction: column;
+        background-color: #004466;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        width: 200px;
+        display: none;
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+    }
+  </style>
 </head>
 <body>
   <header>
+    <h1>Grameen Cooling</h1>
+    <span class="material-icons menu-icon" onclick="toggleMenu()">menu</span>
     <nav>
-      <div class="logo">Grameen Cooling Solution</div>
-      <div class="menu-toggle" onclick="toggleMenu()">☰</div>
       <ul id="menu">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="book.html">Book Service</a></li>
-        <li><a href="track.html">Track Order</a></li>
-        <li><a href="admin.html">Admin</a></li>
+        <li>Home</li>
+        <li>Book Service</li>
+        <li>Track Order</li>
+        <li>Contact</li>
       </ul>
     </nav>
   </header>
 
-  <main>
-    <section class="hero">
-      <h1>Stay Cool with Grameen Cooling Solution</h1>
-      <p>Affordable AC services for your comfort.</p>
-      <a href="book.html" class="btn">Book Now</a>
-    </section>
-  </main>
-
   <script>
     function toggleMenu() {
       const menu = document.getElementById("menu");
-      menu.style.display = menu.style.display === "block" ? "none" : "block";
+      menu.classList.toggle("active");
     }
   </script>
 </body>
