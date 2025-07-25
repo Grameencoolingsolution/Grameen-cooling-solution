@@ -31,10 +31,10 @@
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script>
     function payNow() {
-      const name = document.getElementById('name').value;
-      const phone = document.getElementById('phone').value;
-      const email = document.getElementById('email').value;
-      const address = document.getElementById('address').value;
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const address = document.getElementById('address').value.trim();
       const service = document.getElementById('service').value;
 
       if (!name || !phone || !email || !address || !service) {
@@ -43,16 +43,32 @@
       }
 
       const orderId = 'ORD' + Date.now();
-      localStorage.setItem(orderId, JSON.stringify({ name, phone, email, address, service }));
+      const now = new Date().toLocaleString();
 
+      const orderData = {
+        name,
+        phone,
+        email,
+        address,
+        service,
+        status: 'Approved',
+        approvedAt: now,
+        technicianAssignedAt: '',
+        technicianVisitTime: ''
+      };
+
+      // Payment options setup
       const options = {
-        key: 'rzp_test_PBDa0hjP8yKc60', // ನೀವು ನಿಮ್ಮ ರೇಜರ್ ಪೇಯ್ ಕೀ ಇಲ್ಲಿ ಹಾಕಿಕೊಳ್ಳಿ
+        key: 'rzp_test_PBDa0hjP8yKc60', // अपना रेजरपे API key यहाँ डालें
         amount: 10000, // ₹100 in paise
         currency: 'INR',
         name: 'Grameen Cooling Solution',
         description: 'Service Booking',
         handler: function (response) {
-          alert('Payment successful! Order ID: ' + orderId);
+          // Payment successful
+          localStorage.setItem(orderId, JSON.stringify(orderData));
+          alert('Payment successful! Your Order ID: ' + orderId);
+          // Redirect to track page with orderId in URL
           window.location.href = 'track.html?id=' + orderId;
         },
         prefill: { name, email, contact: phone },
