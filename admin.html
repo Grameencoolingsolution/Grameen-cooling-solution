@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Panel - Grameen Cooling Solution</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 2rem; max-width: 600px; margin: auto; }
+    input, button { padding: 0.5rem; margin: 0.5rem 0; width: 100%; }
+    label { font-weight: bold; margin-top: 1rem; display: block; }
+    .info { background: #f0f0f0; padding: 1rem; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>Admin Panel</h1>
+
+  <input type="text" id="orderIdInput" placeholder="Enter Order ID" />
+  <button onclick="loadOrder()">Load Order</button>
+
+  <div id="orderDetails" style="display:none;">
+    <div class="info" id="orderInfo"></div>
+
+    <label for="technicianAssignedAt">Technician Assigned At:</label>
+    <input type="datetime-local" id="technicianAssignedAt" />
+
+    <label for="technicianVisitTime">Technician Visit Time:</label>
+    <input type="datetime-local" id="technicianVisitTime" />
+
+    <button onclick="updateOrder()">Update Order</button>
+    <p id="message" style="color:green;"></p>
+  </div>
+
+  <script>
+    function loadOrder() {
+      const orderId = document.getElementById('orderIdInput').value.trim();
+      const orderDetailsDiv = document.getElementById('orderDetails');
+      const orderInfoDiv = document.getElementById('orderInfo');
+      const messageP = document.getElementById('message');
+      messageP.textContent = '';
+
+      if (!orderId) {
+        alert('Please enter Order ID');
+        return;
+      }
+
+      const orderStr = localStorage.getItem(orderId);
+      if (!orderStr) {
+        alert('No order found with this ID.');
+        orderDetailsDiv.style.display = 'none';
+        return;
+      }
+
+      const order = JSON.parse(orderStr);
+
+      let infoHtml = `
+        <p><strong>Order ID:</strong> ${orderId}</p>
+        <p><strong>Name:</strong> ${order.name}</p>
+        <p><strong>Phone:</strong> ${order.phone}</p>
+        <p><strong>Email:</strong> ${order.email}</p>
+        <p><strong>Address:</strong> ${order.address}</p>
+        <p><strong>Service:</strong> ${order.service}</p>
+        <p><strong>Status:</strong> ${order.status || 'Approved'}</p>
+        <p><strong>Approved At:</strong> ${order.approvedAt}</p>
+      `;
+
+      orderInfoDiv.innerHTML = infoHtml;
+
+      // Set existing technician times if any (convert to local datetime format)
+      document.getElementById('technicianAssignedAt').value = order.technicianAssignedAt ? new Date(order.technicianAssignedAt).toISOString().slice(0,16) : '';
+      document.getElementById('technicianVisitTime').value = order.technicianVisitTime ? new Date(order.technicianVisitTime).toISOString().slice(0,16) : '';
+
+      orderDetailsDiv.style.display = 'block';
+    }
+
+    function updateOrder() {
+      const orderId = document.getElementById('orderIdInput').value.trim();
+      const technicianAssignedAt = document.getElementById('technicianAssignedAt').value;
+      const technicianVisitTime = document.getElementById('technicianVisitTime').value;
+      const messageP = document.getElementById('message');
+
+      if (!orderId) {
+        alert('Please enter Order ID');
+        return;
+      }
+
+      const orderStr = localStorage.getItem(orderId);
+      if (!orderStr) {
+        alert('No order found with this ID.');
+        return;
+      }
+
+      const order = JSON.parse(orderStr);
+
+      order.technicianAssignedAt = technicianAssignedAt ? new Date(technicianAssignedAt).toLocaleString() : '';
+      order.technicianVisitTime = technicianVisitTime ? new Date(technicianVisitTime).toLocaleString() : '';
+
+      // Save updated order back to localStorage
+      localStorage.setItem(orderId, JSON.stringify(order));
+
+      messageP.textContent = 'Order updated successfully!';
+    }
+  </script>
+</body>
+</html>
