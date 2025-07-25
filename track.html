@@ -2,55 +2,61 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Track Order - Grameen Cooling Solution</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Track Your Order</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 2rem;
+      background: #f2f2f2;
+    }
+    h1 {
+      background: #007bff;
+      color: white;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+    #orderDetails {
+      margin-top: 2rem;
+      background: white;
+      padding: 1rem 2rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .not-found {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Track Your Order</h1>
-  </header>
-
-  <section style="padding: 2rem;">
-    <div id="result" style="margin-top: 2rem;"></div>
-  </section>
+  <h1>Track Your Order</h1>
+  <div id="orderDetails"></div>
 
   <script>
-    function getOrderIdFromURL() {
-      const params = new URLSearchParams(window.location.search);
-      return params.get("id");
-    }
+    const params = new URLSearchParams(window.location.search);
+    const orderId = params.get('id');
+    const container = document.getElementById('orderDetails');
 
-    window.onload = function () {
-      const orderId = getOrderIdFromURL();
-      const resultDiv = document.getElementById('result');
-
-      if (!orderId) {
-        resultDiv.innerHTML = `<p style="color:red;">Order ID not found in URL.</p>`;
-        return;
-      }
-
-      const orderDataStr = localStorage.getItem(orderId);
-
-      if (orderDataStr) {
-        const order = JSON.parse(orderDataStr);
-        resultDiv.innerHTML = `
-          <h3>Order Details:</h3>
-          <p><strong>Order ID:</strong> ${orderId}</p>
-          <p><strong>Name:</strong> ${order.name}</p>
-          <p><strong>Phone:</strong> ${order.phone}</p>
-          <p><strong>Email:</strong> ${order.email}</p>
-          <p><strong>Address:</strong> ${order.address}</p>
-          <p><strong>Service:</strong> ${order.service}</p>
-          <p><strong>Status:</strong> ${order.status || 'Approved'}</p>
-          <p><strong>Approved At:</strong> ${order.approvedAt || new Date().toLocaleString()}</p>
-          <p><strong>Technician Assigned At:</strong> ${order.technicianAssignedAt || 'Pending'}</p>
-          <p><strong>Technician Visit Time:</strong> ${order.technicianVisitTime || 'Pending'}</p>
-        `;
+    if (!orderId) {
+      container.innerHTML = '<p class="not-found">❌ Order ID not found in URL.</p>';
+    } else {
+      const order = localStorage.getItem(orderId);
+      if (!order) {
+        container.innerHTML = '<p class="not-found">❌ No data found for Order ID: <strong>' + orderId + '</strong></p>';
       } else {
-        resultDiv.innerHTML = `<p style="color:red;">No order found with this ID.</p>`;
+        const data = JSON.parse(order);
+        container.innerHTML = `
+          <h2>✅ Order ID: ${orderId}</h2>
+          <p><strong>Name:</strong> ${data.name}</p>
+          <p><strong>Phone:</strong> ${data.phone}</p>
+          <p><strong>Service:</strong> ${data.service || 'Not specified'}</p>
+          <p><strong>Date:</strong> ${data.date || 'Not provided'}</p>
+          <p><strong>Status:</strong> ${data.status || 'Pending'}</p>
+        `;
       }
-    };
+    }
   </script>
 </body>
 </html>
