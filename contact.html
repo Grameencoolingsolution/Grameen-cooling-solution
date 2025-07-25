@@ -2,38 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <title>Contact Us</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Contact Us - Grameen Cooling Solution</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f9f9f9; }
+    h1 { color: #004466; }
+    form { max-width: 400px; margin: auto; }
+    input, textarea {
+      width: 100%; padding: 10px; margin: 8px 0;
+      border: 1px solid #ccc; border-radius: 5px;
+    }
+    button {
+      background: #004466; color: white;
+      padding: 10px 20px; border: none; border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Contact Us</h1>
-  </header>
-  <section style="padding: 2rem;">
-    <form id="contactForm">
-      <input type="text" id="name" placeholder="Your Name" required /><br/><br/>
-      <input type="email" id="email" placeholder="Your Email" required /><br/><br/>
-      <input type="tel" id="phone" placeholder="Your Phone" required /><br/><br/>
-      <textarea id="message" placeholder="Your Message" required></textarea><br/><br/>
-      <button type="submit">Send Message</button>
-    </form>
-    <p id="response" style="margin-top:1rem;"></p>
-  </section>
-  <script>
-    document.getElementById("contactForm").addEventListener("submit", function(e){
-      e.preventDefault();
-      const name = document.getElementById("name").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const message = document.getElementById("message").value.trim();
-      if(!name || !email || !phone || !message){
-        document.getElementById("response").innerText = "Please fill in all fields.";
-        return;
-      }
-      document.getElementById("response").innerText = "Thank you! We’ll get back to you soon.";
-      this.reset();
-    });
-  </script>
+  <h1>Contact Us</h1>
+  <form onsubmit="event.preventDefault(); alert('Thank you for contacting us!');">
+    <input type="text" placeholder="Your Name" required />
+    <input type="email" placeholder="Your Email" required />
+    <textarea placeholder="Your Message" rows="5" required></textarea>
+    <button type="submit">Send</button>
+  </form>
 </body>
 </html>
