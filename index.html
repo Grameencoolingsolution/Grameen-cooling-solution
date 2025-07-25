@@ -1,134 +1,87 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grameen Cooling Solution</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AC Service Booking</title>
   <style>
     body {
-      font-family: sans-serif;
+      font-family: Arial, sans-serif;
       margin: 0;
-      padding: 0;
+      background: #f0f8ff;
+      padding: 20px;
     }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: #008080;
-      padding: 10px 20px;
-      color: #fff;
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    .logo {
-      font-size: 1.4em;
+    h1 {
+      text-align: center;
+      color: #008080;
     }
-    .menu-toggle {
-      display: none;
-      flex-direction: column;
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    select, input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .charges {
+      margin-bottom: 15px;
+      font-size: 0.9em;
+      color: #333;
+      background: #e0ffff;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    button {
+      background: #008080;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
       cursor: pointer;
     }
-    .menu-toggle span {
-      background: #fff;
-      height: 3px;
-      margin: 4px 0;
-      width: 25px;
-    }
-    nav {
-      display: flex;
-    }
-    nav ul {
-      list-style: none;
-      display: flex;
-      margin: 0;
-      padding: 0;
-    }
-    nav li {
-      margin: 0 10px;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-    }
-
-    @media (max-width: 768px) {
-      nav {
-        display: none;
-        flex-direction: column;
-        background-color: #007070;
-        position: absolute;
-        top: 60px;
-        right: 0;
-        width: 200px;
-      }
-      nav.active {
-        display: flex;
-      }
-      .menu-toggle {
-        display: flex;
-      }
-    }
-
-    .hero {
-      background-color: #e0f7fa;
-      padding: 40px;
-      text-align: center;
-    }
-    .hero .btn {
-      padding: 10px 20px;
-      background-color: #008080;
-      color: white;
-      border: none;
-      text-decoration: none;
-      margin-top: 10px;
-      display: inline-block;
+    button:hover {
+      background: #006666;
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="logo">🌬️ গ্রামীণ কুলিং</div>
-    <div class="menu-toggle" onclick="toggleMenu()">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-    <nav id="nav">
-      <ul>
-        <li><a href="#">হোম</a></li>
-        <li><a href="#services">সার্ভিস</a></li>
-        <li><a href="booking.html">বুকিং</a></li>
-        <li><a href="tracking.html">অর্ডার ট্র্যাকিং</a></li>
-        <li><a href="#payment">টাকা বাকি</a></li>
-        <li><a href="#contact">যোগাযোগ</a></li>
-      </ul>
-    </nav>
-  </header>
+  <div class="container">
+    <h1>AC Service Booking</h1>
+    <form>
+      <label for="serviceType">Select Service Type:</label>
+      <select id="serviceType" name="serviceType">
+        <option value="installation">Installation</option>
+        <option value="breakdown">Breakdown Repair</option>
+        <option value="routine">Routine Servicing</option>
+      </select>
 
-  <section class="hero">
-    <h1>আপনার এসি ও জেট পাম্পের সম্পূর্ণ পরিষেবা</h1>
-    <p>মুর্শিদাবাদের প্রতিটি ঘরে ঠান্ডা ও পরিষ্কার হাওয়া পৌঁছাচ্ছে</p>
-    <a class="btn" href="booking.html">এখনই বুক করুন</a>
-  </section>
+      <div class="charges">
+        💰 <strong>Service Charges:</strong><br>
+        Installation – ₹799<br>
+        Breakdown Repair – ₹599<br>
+        Routine Servicing – ₹499<br>
+        Home Visit Charge – ₹199 (included)
+      </div>
 
-  <section id="payment">
-    <h2 style="text-align:center;">টাকা বাকি চেক করুন</h2>
-    <p style="text-align:center;">যারা এখনো টাকা দেননি তাদের নাম দেখতে <a href="due.html">এখানে ক্লিক করুন</a></p>
-  </section>
+      <label for="bookingTime">Preferred Booking Time:</label>
+      <input type="datetime-local" id="bookingTime" name="bookingTime" />
 
-  <section id="contact" style="padding:20px;text-align:center;">
-    <h2>যোগাযোগ করুন</h2>
-    <p>📍 ভারতপুর, মুর্শিদাবাদ, পশ্চিমবঙ্গ 742301</p>
-    <p>📧 gramincoolingsolution@gmail.com</p>
-    <p>📞 +91 9433319493</p>
-  </section>
+      <label for="quantity">Number of AC Units:</label>
+      <input type="number" id="quantity" name="quantity" min="1" placeholder="Enter quantity" />
 
-  <footer style="background-color:#008080;color:#fff;text-align:center;padding:10px;">
-    <p>© ২০২৫ Grameen Cooling Solution | ❤️ দিয়ে তৈরি</p>
-  </footer>
-
-  <script>
-    function toggleMenu() {
-      document.getElementById('nav').classList.toggle('active');
-    }
-  </script>
+      <button type="submit">Book Service</button>
+    </form>
+  </div>
 </body>
 </html>
