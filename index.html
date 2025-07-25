@@ -1,175 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Grameen Cooling Solution</title>
-  <style>
-    body {
-      margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f4f9ff;
-      color: #333;
-    }
-    header {
-      background: #004466;
-      color: white;
-      padding: 15px 20px;
-      display: flex; justify-content: space-between; align-items: center;
-      position: sticky; top: 0; z-index: 1000;
-    }
-    .logo {
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
-    nav ul {
-      list-style: none;
-      margin: 0; padding: 0;
-      display: flex;
-      gap: 20px;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-    .menu-toggle {
-      display: none;
-      font-size: 1.8rem;
-      cursor: pointer;
-    }
-    main {
-      padding: 40px 20px;
-      max-width: 1200px;
-      margin: auto;
-    }
-    .hero {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    .hero h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-      color: #004466;
-    }
-    .hero p {
-      font-size: 1.2rem;
-      margin-bottom: 20px;
-    }
-    .btn-primary {
-      background: #0077cc;
-      color: white;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    .btn-primary:hover {
-      background: #005fa3;
-    }
-    .services {
-      display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
-      gap: 25px;
-    }
-    .service-card {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgb(0 0 0 / 0.1);
-      text-align: center;
-      transition: transform 0.3s ease;
-    }
-    .service-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 8px 20px rgb(0 0 0 / 0.15);
-    }
-    .service-card img {
-      width: 80px;
-      margin-bottom: 15px;
-    }
-    .service-card h3 {
-      margin-bottom: 10px;
-      color: #004466;
-    }
-
-    /* Responsive Nav */
-    @media (max-width: 768px) {
-      nav ul {
-        display: none;
-        flex-direction: column;
-        background: #004466;
-        position: absolute;
-        top: 60px; right: 20px;
-        width: 180px;
-        border-radius: 8px;
-        padding: 10px 0;
-      }
-      nav ul.show {
-        display: flex;
-      }
-      .menu-toggle {
-        display: block;
-      }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Grameen Cooling Solution - Book Service</title>
+<style>
+  body {
+    margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f8ff; color: #004466;
+  }
+  header {
+    display: flex; justify-content: space-between; align-items: center;
+    background: #004466; color: white; padding: 15px 20px;
+  }
+  .logo {
+    font-size: 1.8rem; font-weight: bold;
+  }
+  .icon-button {
+    background: none; border: none; color: white; font-size: 1.8rem; cursor: pointer; margin-left: 15px;
+  }
+  nav {
+    position: absolute; top: 60px; right: 20px; background: #004466; border-radius: 8px; display: none; flex-direction: column;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+  }
+  nav a {
+    color: white; padding: 12px 20px; text-decoration: none; border-bottom: 1px solid #006699;
+  }
+  nav a:hover {
+    background: #006699;
+  }
+  nav.show {
+    display: flex;
+  }
+  main {
+    max-width: 600px; margin: 40px auto; background: white; padding: 25px; border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+  h1 {
+    text-align: center; color: #004466; margin-bottom: 25px;
+  }
+  label {
+    display: block; margin-top: 15px; font-weight: 600;
+  }
+  input, select, textarea {
+    width: 100%; padding: 10px; margin-top: 6px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem;
+  }
+  button.pay {
+    margin-top: 25px; background: #0077cc; color: white; border: none; padding: 14px;
+    border-radius: 8px; font-size: 1.2rem; width: 100%; cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  button.pay:hover {
+    background: #005fa3;
+  }
+  #totalPrice {
+    margin-top: 6px; font-weight: 700; font-size: 1.2rem; color: #0077cc;
+  }
+</style>
 </head>
 <body>
-  <header>
-    <div class="logo">Grameen Cooling</div>
-    <div class="menu-toggle" id="menuToggle">☰</div>
-    <nav>
-      <ul id="navMenu">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="book.html">Book Service</a></li>
-        <li><a href="track.html">Track Order</a></li>
-        <li><a href="contact.html">Contact Us</a></li>
-      </ul>
-    </nav>
-  </header>
 
-  <main>
-    <section class="hero">
-      <h1>Your Trusted AC Service Partner</h1>
-      <p>We offer AC servicing, breakdown repair, installation & more with affordable prices.</p>
-      <a href="book.html" class="btn-primary">Book Your Service</a>
-    </section>
+<header>
+  <div class="logo">Grameen Cooling Solution</div>
+  <div>
+    <button id="menuBtn" class="icon-button" aria-label="Toggle menu">☰</button>
+    <button onclick="window.location.href='admin.html'" class="icon-button" aria-label="Admin settings">⚙️</button>
+  </div>
+</header>
 
-    <section class="services">
-      <div class="service-card">
-        <img src="https://cdn-icons-png.flaticon.com/512/3098/3098197.png" alt="AC Servicing" />
-        <h3>AC Servicing</h3>
-        <p>Keep your AC running smoothly with our expert servicing.</p>
-      </div>
-      <div class="service-card">
-        <img src="https://cdn-icons-png.flaticon.com/512/2491/2491909.png" alt="Breakdown Repair" />
-        <h3>Breakdown Repair</h3>
-        <p>Quick and reliable repair for all AC breakdowns.</p>
-      </div>
-      <div class="service-card">
-        <img src="https://cdn-icons-png.flaticon.com/512/2589/2589175.png" alt="Installation" />
-        <h3>Installation</h3>
-        <p>Professional AC installation by certified technicians.</p>
-      </div>
-      <div class="service-card">
-        <img src="https://cdn-icons-png.flaticon.com/512/2332/2332729.png" alt="Uninstallation" />
-        <h3>Uninstallation</h3>
-        <p>Safe and clean AC uninstallation services.</p>
-      </div>
-    </section>
-  </main>
+<nav id="navMenu">
+  <a href="index.html">Home</a>
+  <a href="book.html">Book Service</a>
+  <a href="track.html">Track Order</a>
+  <a href="contact.html">Contact Us</a>
+</nav>
 
-  <script>
-    const menuToggle = document.getElementById("menuToggle");
-    const navMenu = document.getElementById("navMenu");
+<main>
+  <h1>Book Your AC Service</h1>
+  <form id="bookingForm">
+    <label for="name">Name</label>
+    <input type="text" id="name" required placeholder="Your full name" />
 
-    menuToggle.addEventListener("click", () => {
-      navMenu.classList.toggle("show");
-    });
-  </script>
+    <label for="mobile">Mobile Number</label>
+    <input type="tel" id="mobile" required placeholder="10-digit mobile number" pattern="[0-9]{10}" />
+
+    <label for="pincode">Pin Code</label>
+    <input type="text" id="pincode" required placeholder="Area Pin Code" pattern="[0-9]{6}" />
+
+    <label for="address">Address</label>
+    <textarea id="address" required rows="3" placeholder="Full address"></textarea>
+
+    <label for="email">Email (optional)</label>
+    <input type="email" id="email" placeholder="Email address" />
+
+    <label for="service">Select Service</label>
+    <select id="service" required>
+      <option value="">-- Select --</option>
+      <option value="AC Servicing" data-price="499">AC Servicing - ₹499</option>
+      <option value="Breakdown Repair" data-price="699">Breakdown Repair - ₹699</option>
+      <option value="Installation" data-price="999">Installation - ₹999</option>
+      <option value="Uninstallation" data-price="599">Uninstallation - ₹599</option>
+    </select>
+
+    <label for="quantity">Quantity</label>
+    <input type="number" id="quantity" value="1" min="1" required />
+
+    <div>Total Price: <span id="totalPrice">₹ 0</span></div>
+
+    <button type="submit" class="pay">Pay & Book</button>
+  </form>
+</main>
+
+<script>
+  // Toggle menu
+  const menuBtn = document.getElementById("menuBtn");
+  const navMenu = document.getElementById("navMenu");
+  menuBtn.addEventListener("click", () => {
+    navMenu.classList.toggle("show");
+  });
+
+  // Update price on service or quantity change
+  const serviceSelect = document.getElementById("service");
+  const quantityInput = document.getElementById("quantity");
+  const totalPriceSpan = document.getElementById("totalPrice");
+
+  function updatePrice() {
+    const selectedOption = serviceSelect.options[serviceSelect.selectedIndex];
+    const price = Number(selectedOption.getAttribute("data-price") || 0);
+    const quantity = Number(quantityInput.value) || 1;
+    totalPriceSpan.textContent = "₹ " + (price * quantity);
+  }
+
+  serviceSelect.addEventListener("change", updatePrice);
+  quantityInput.addEventListener("input", updatePrice);
+
+  updatePrice();
+
+  // Booking form submit handler
+  document.getElementById("bookingForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const name = this.name.value.trim();
+    const mobile = this.mobile.value.trim();
+    const pincode = this.pincode.value.trim();
+    const address = this.address.value.trim();
+    const email = this.email.value.trim();
+    const service = this.service.value;
+    const quantity = this.quantity.value;
+    const totalPrice = totalPriceSpan.textContent;
+
+    if (!service) {
+      alert("Please select a service.");
+      return;
+    }
+
+    const orderId = "ORD" + Date.now();
+
+    let orders = JSON.parse(localStorage.getItem("orders") || "{}");
+    orders[orderId] = {
+      name, mobile, pincode, address, email, service, quantity, totalPrice,
+      status: "Pending Approval"
+    };
+    localStorage.setItem("orders", JSON.stringify(orders));
+
+    alert(`Thank you for booking!\nYour Order ID: ${orderId}\nPlease save this for tracking.`);
+
+    window.location.href = "track.html?orderId=" + orderId;
+  });
+</script>
+
 </body>
 </html>
