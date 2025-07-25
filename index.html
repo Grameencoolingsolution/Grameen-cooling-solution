@@ -1,57 +1,134 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Grameen Cooling Solution</title>
-  <link rel="stylesheet" href="style.css" />
-  <script defer src="script.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #008080;
+      padding: 10px 20px;
+      color: #fff;
+    }
+    .logo {
+      font-size: 1.4em;
+    }
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+    .menu-toggle span {
+      background: #fff;
+      height: 3px;
+      margin: 4px 0;
+      width: 25px;
+    }
+    nav {
+      display: flex;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+    nav li {
+      margin: 0 10px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+        flex-direction: column;
+        background-color: #007070;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        width: 200px;
+      }
+      nav.active {
+        display: flex;
+      }
+      .menu-toggle {
+        display: flex;
+      }
+    }
+
+    .hero {
+      background-color: #e0f7fa;
+      padding: 40px;
+      text-align: center;
+    }
+    .hero .btn {
+      padding: 10px 20px;
+      background-color: #008080;
+      color: white;
+      border: none;
+      text-decoration: none;
+      margin-top: 10px;
+      display: inline-block;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <div class="logo">🌬️ Grameen Cooling</div>
-    <nav>
+    <div class="logo">🌬️ গ্রামীণ কুলিং</div>
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <nav id="nav">
       <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="booking.html">Booking</a></li>
-        <li><a href="tracking.html">Order Tracking</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#">হোম</a></li>
+        <li><a href="#services">সার্ভিস</a></li>
+        <li><a href="booking.html">বুকিং</a></li>
+        <li><a href="tracking.html">অর্ডার ট্র্যাকিং</a></li>
+        <li><a href="#payment">টাকা বাকি</a></li>
+        <li><a href="#contact">যোগাযোগ</a></li>
       </ul>
     </nav>
   </header>
 
   <section class="hero">
-    <h1>Premium AC & Jet Pump Servicing</h1>
-    <p>Bringing clean air and cool comfort to every home in Murshidabad.</p>
-    <a class="btn" href="booking.html">Book Now</a>
+    <h1>আপনার এসি ও জেট পাম্পের সম্পূর্ণ পরিষেবা</h1>
+    <p>মুর্শিদাবাদের প্রতিটি ঘরে ঠান্ডা ও পরিষ্কার হাওয়া পৌঁছাচ্ছে</p>
+    <a class="btn" href="booking.html">এখনই বুক করুন</a>
   </section>
 
-  <section id="services" class="services">
-    <h2>Our Services</h2>
-    <div class="service-card">
-      <h3>AC Servicing</h3>
-      <p>Routine checkups & cleaning to keep your air conditioner performing at its best.</p>
-    </div>
-    <div class="service-card">
-      <h3>Jet Pump Service</h3>
-      <p>We clean both indoor & outdoor AC units using high-pressure water jets.</p>
-    </div>
-    <div class="service-card">
-      <h3>Premium Service</h3>
-      <p>Includes full machine dismount, internal wash, and deep cleaning for optimal performance.</p>
-    </div>
+  <section id="payment">
+    <h2 style="text-align:center;">টাকা বাকি চেক করুন</h2>
+    <p style="text-align:center;">যারা এখনো টাকা দেননি তাদের নাম দেখতে <a href="due.html">এখানে ক্লিক করুন</a></p>
   </section>
 
-  <section id="contact" class="contact">
-    <h2>Get in Touch</h2>
-    <p>📍 Bharatpur, Murshidabad, West Bengal 742301</p>
+  <section id="contact" style="padding:20px;text-align:center;">
+    <h2>যোগাযোগ করুন</h2>
+    <p>📍 ভারতপুর, মুর্শিদাবাদ, পশ্চিমবঙ্গ 742301</p>
     <p>📧 gramincoolingsolution@gmail.com</p>
     <p>📞 +91 9433319493</p>
   </section>
 
-  <footer>
-    <p>© 2025 Grameen Cooling Solution | Crafted with ❤️ by Copilot</p>
+  <footer style="background-color:#008080;color:#fff;text-align:center;padding:10px;">
+    <p>© ২০২৫ Grameen Cooling Solution | ❤️ দিয়ে তৈরি</p>
   </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('nav').classList.toggle('active');
+    }
+  </script>
 </body>
 </html>
