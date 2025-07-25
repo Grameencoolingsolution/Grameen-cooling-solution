@@ -1,115 +1,338 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Admin Panel</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      max-width: 800px;
-      margin: auto;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Grameen Cooling Solution - Admin Panel</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+  body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0; background: #f5f8fa; color: #223344;
+  }
+  header {
+    background: #004466;
+    color: white;
+    padding: 15px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 1000;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  }
+  .logo {
+    font-weight: 700; font-size: 1.5rem; cursor: pointer;
+  }
+  .hamburger {
+    width: 28px; height: 22px;
+    cursor: pointer;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .hamburger div {
+    background: white;
+    height: 4px; border-radius: 2px;
+    transition: 0.3s;
+  }
+  .hamburger.active div:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+  .hamburger.active div:nth-child(2) {
+    opacity: 0;
+  }
+  .hamburger.active div:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+  nav {
+    position: fixed;
+    top: 56px; right: 0;
+    background: #006699;
+    width: 200px;
+    height: calc(100% - 56px);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    padding-top: 20px;
+    z-index: 1500;
+  }
+  nav.open {
+    transform: translateX(0);
+  }
+  nav a {
+    display: block;
+    padding: 15px 25px;
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid #005577;
+    transition: background 0.2s;
+  }
+  nav a:hover {
+    background: #004466;
+  }
+  main {
+    max-width: 1000px; margin: 70px auto 40px; padding: 0 20px;
+  }
+  h1 {
+    margin-bottom: 20px;
+    color: #004466;
+    font-weight: 700;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  th, td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    font-size: 0.95rem;
+  }
+  th {
+    background: #006699;
+    color: white;
+    font-weight: 700;
+  }
+  tr:hover {
+    background: #f0f8ff;
+  }
+  select, input[type="date"], input[type="time"] {
+    padding: 6px 8px;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    border: 1.5px solid #a9c6d9;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  select:focus, input[type="date"]:focus, input[type="time"]:focus {
+    outline: none;
+    border-color: #004466;
+    box-shadow: 0 0 6px rgba(0,70,102,0.5);
+  }
+  button.action-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s;
+    min-width: 70px;
+  }
+  button.approve {
+    background-color: #28a745;
+  }
+  button.approve:hover {
+    background-color: #218838;
+  }
+  button.reject {
+    background-color: #dc3545;
+  }
+  button.reject:hover {
+    background-color: #bd2130;
+  }
+  button.cancel {
+    background-color: #6c757d;
+  }
+  button.cancel:hover {
+    background-color: #5a6268;
+  }
+  .status-pending {
+    color: #ff9800; font-weight: 700;
+  }
+  .status-approved {
+    color: #28a745; font-weight: 700;
+  }
+  .status-rejected {
+    color: #dc3545; font-weight: 700;
+  }
+  .status-cancelled {
+    color: #6c757d; font-weight: 700;
+  }
+  @media (max-width: 900px) {
+    nav {
+      width: 160px;
     }
-    h1 {
+    table, thead, tbody, th, td, tr {
+      display: block;
+    }
+    thead tr {
+      display: none;
+    }
+    tr {
+      margin-bottom: 15px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      padding: 15px;
+    }
+    td {
+      text-align: right;
+      padding-left: 50%;
+      position: relative;
+    }
+    td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 15px; top: 15px;
+      font-weight: 700;
       color: #004466;
-      text-align: center;
-      margin-bottom: 30px;
+      white-space: nowrap;
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 30px;
+    td:last-child {
+      border-bottom: 0;
     }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 12px;
-      text-align: left;
-    }
-    th {
-      background: #0077cc;
-      color: white;
-    }
-    select {
-      padding: 6px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      font-size: 1rem;
-    }
-    button {
-      padding: 8px 12px;
-      border: none;
-      background: #0077cc;
-      color: white;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #005fa3;
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
-  <h1>Admin Panel - Manage Orders</h1>
-  <table>
+
+<header>
+  <div class="logo" tabindex="0" role="button" aria-label="Admin Home" onclick="location.reload()">Grameen Cooling Solution - Admin</div>
+  <div class="hamburger" aria-label="Toggle menu" role="button" tabindex="0" aria-expanded="false">
+    <div></div><div></div><div></div>
+  </div>
+</header>
+
+<nav aria-label="Admin Navigation">
+  <a href="#" onclick="location.reload()">Dashboard</a>
+  <a href="#" onclick="alert('Logout clicked!')">Logout</a>
+</nav>
+
+<main>
+  <h1>Orders Management</h1>
+  <table aria-label="Orders List">
     <thead>
       <tr>
         <th>Order ID</th>
-        <th>Customer</th>
+        <th>Name</th>
         <th>Service</th>
         <th>Quantity</th>
-        <th>Total Price</th>
+        <th>Condition</th>
+        <th>Visiting Charge</th>
+        <th>Technician</th>
+        <th>Visit Date</th>
+        <th>Visit Time</th>
+        <th>Payment Status</th>
         <th>Status</th>
-        <th>Update Status</th>
+        <th>Actions</th>
       </tr>
     </thead>
-    <tbody id="orderTable">
-      <!-- Orders will be loaded here -->
+    <tbody id="ordersTableBody">
+      <!-- Orders will appear here -->
     </tbody>
   </table>
+</main>
 
-  <script>
-    const orderTable = document.getElementById("orderTable");
-
-    function loadOrders() {
-      const orders = JSON.parse(localStorage.getItem("orders") || "{}");
-      orderTable.innerHTML = "";
-      for (const id in orders) {
-        const order = orders[id];
-        const tr = document.createElement("tr");
-
-        tr.innerHTML = `
-          <td>${id}</td>
-          <td>${order.name}</td>
-          <td>${order.service}</td>
-          <td>${order.quantity}</td>
-          <td>${order.totalPrice}</td>
-          <td>${order.status}</td>
-          <td>
-            <select data-id="${id}">
-              <option value="Pending Approval" ${order.status === "Pending Approval" ? "selected" : ""}>Pending Approval</option>
-              <option value="Approved" ${order.status === "Approved" ? "selected" : ""}>Approved</option>
-              <option value="Cancelled" ${order.status === "Cancelled" ? "selected" : ""}>Cancelled</option>
-              <option value="Completed" ${order.status === "Completed" ? "selected" : ""}>Completed</option>
-            </select>
-          </td>
-        `;
-
-        orderTable.appendChild(tr);
-      }
-
-      // Add change event listeners on selects
-      document.querySelectorAll("select[data-id]").forEach(select => {
-        select.addEventListener("change", function() {
-          const id = this.getAttribute("data-id");
-          const orders = JSON.parse(localStorage.getItem("orders") || "{}");
-          orders[id].status = this.value;
-          localStorage.setItem("orders", JSON.stringify(orders));
-          loadOrders(); // Refresh the table
-        });
-      });
+<script>
+  // Hamburger toggle
+  const hamburger = document.querySelector('.hamburger');
+  const nav = document.querySelector('nav');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    nav.classList.toggle('open');
+    const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+    hamburger.setAttribute('aria-expanded', !expanded);
+  });
+  hamburger.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      hamburger.click();
     }
+  });
 
-    loadOrders();
-  </script>
+  // Load orders from localStorage
+  function loadOrders() {
+    const orders = JSON.parse(localStorage.getItem('orders') || '{}');
+    const tbody = document.getElementById('ordersTableBody');
+    tbody.innerHTML = '';
+    Object.keys(orders).forEach(orderId => {
+      const order = orders[orderId];
+      const tr = document.createElement('tr');
+
+      tr.innerHTML = `
+        <td data-label="Order ID">${orderId}</td>
+        <td data-label="Name">${order.name}</td>
+        <td data-label="Service">${order.service}</td>
+        <td data-label="Quantity">${order.quantity}</td>
+        <td data-label="Condition">${order.condition}</td>
+        <td data-label="Visiting Charge">₹${order.visitingCharge}</td>
+        <td data-label="Technician">
+          <input type="text" value="${order.technician || ''}" placeholder="Assign technician" 
+            oninput="updateTechnician('${orderId}', this.value)" aria-label="Technician for ${orderId}" />
+        </td>
+        <td data-label="Visit Date">
+          <input type="date" value="${order.visitDate || ''}" 
+            onchange="updateVisitDate('${orderId}', this.value)" aria-label="Visit date for ${orderId}" />
+        </td>
+        <td data-label="Visit Time">
+          <input type="time" value="${order.visitTime || ''}" 
+            onchange="updateVisitTime('${orderId}', this.value)" aria-label="Visit time for ${orderId}" />
+        </td>
+        <td data-label="Payment Status">
+          <select onchange="updatePaymentStatus('${orderId}', this.value)" aria-label="Payment status for ${orderId}">
+            <option value="Pending" ${order.paymentStatus === 'Pending' ? 'selected' : ''}>Pending</option>
+            <option value="Paid" ${order.paymentStatus === 'Paid' ? 'selected' : ''}>Paid</option>
+          </select>
+        </td>
+        <td data-label="Status">
+          <span class="status-${order.status.toLowerCase().replace(' ', '-')}">${order.status}</span>
+        </td>
+        <td data-label="Actions">
+          <button class="action-btn approve" onclick="updateStatus('${orderId}', 'Approved')" aria-label="Approve order ${orderId}">Approve</button>
+          <button class="action-btn reject" onclick="updateStatus('${orderId}', 'Rejected')" aria-label="Reject order ${orderId}">Reject</button>
+          <button class="action-btn cancel" onclick="updateStatus('${orderId}', 'Cancelled')" aria-label="Cancel order ${orderId}">Cancel</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  // Update technician
+  function updateTechnician(orderId, value) {
+    const orders = JSON.parse(localStorage.getItem('orders') || '{}');
+    if (orders[orderId]) {
+      orders[orderId].technician = value;
+      localStorage.setItem('orders', JSON.stringify(orders));
+    }
+  }
+  // Update visit date
+  function updateVisitDate(orderId, value) {
+    const orders = JSON.parse(localStorage.getItem('orders') || '{}');
+    if (orders[orderId]) {
+      orders[orderId].visitDate = value;
+      localStorage.setItem('orders', JSON.stringify(orders));
+    }
+  }
+  // Update visit time
+  function updateVisitTime(orderId, value) {
+    const orders = JSON.parse(localStorage.getItem('orders') || '{}');
+    if (orders[orderId]) {
+      orders[orderId].visitTime = value;
+      localStorage.setItem('orders', JSON.stringify(orders));
+    }
+  }
+  // Update payment status
+  function updatePaymentStatus(orderId, value) {
+    const orders = JSON.parse(localStorage.getItem('orders') || '{}');
+    if (orders[orderId]) {
+      orders[orderId].paymentStatus = value;
+      localStorage.setItem('orders', JSON.stringify(orders));
+    }
+  }
+  // Update order status
+  function updateStatus(orderId, newStatus) {
+    const orders = JSON.parse(localStorage.getItem('orders') || '{}');
+    if (orders[orderId]) {
+      orders[orderId].status = newStatus;
+      localStorage.setItem('orders', JSON.stringify(orders));
+      loadOrders();
+    }
+  }
+
+  // Initial load
+  loadOrders();
+</script>
+
 </body>
 </html>
