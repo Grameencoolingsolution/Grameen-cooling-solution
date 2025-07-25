@@ -4,53 +4,43 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Track Order - Grameen Cooling Solution</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { font-family: Arial, sans-serif; padding: 2rem; }
+    input, button { margin: 0.5rem 0; padding: 0.5rem; }
+    #result { margin-top: 1rem; background: #eee; padding: 1rem; white-space: pre-wrap; }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Track Your Order</h1>
-  </header>
+  <h1>Track Your Order</h1>
 
-  <section style="padding: 2rem;">
-    <div id="result" style="margin-top: 2rem;"></div>
-  </section>
+  <label for="orderId">Enter Order ID:</label><br/>
+  <input type="text" id="orderId" placeholder="Order ID" />
+  <button onclick="trackOrder()">Track Order</button>
+
+  <pre id="result"></pre>
 
   <script>
-    function getOrderIdFromURL() {
-      const params = new URLSearchParams(window.location.search);
-      return params.get("id");
-    }
-
-    window.onload = function () {
-      const orderId = getOrderIdFromURL();
-      const resultDiv = document.getElementById('result');
+    function trackOrder() {
+      const orderId = document.getElementById("orderId").value.trim();
+      const resultDiv = document.getElementById("result");
 
       if (!orderId) {
-        resultDiv.innerHTML = `<p style="color:red;">Order ID not found in URL.</p>`;
+        resultDiv.innerText = "Please enter Order ID.";
         return;
       }
 
       const orderDataStr = localStorage.getItem(orderId);
-
-      if (orderDataStr) {
-        const order = JSON.parse(orderDataStr);
-        resultDiv.innerHTML = `
-          <h3>Order Details:</h3>
-          <p><strong>Order ID:</strong> ${orderId}</p>
-          <p><strong>Name:</strong> ${order.name}</p>
-          <p><strong>Phone:</strong> ${order.phone}</p>
-          <p><strong>Email:</strong> ${order.email}</p>
-          <p><strong>Address:</strong> ${order.address}</p>
-          <p><strong>Service:</strong> ${order.service}</p>
-          <p><strong>Status:</strong> ${order.status || 'Approved'}</p>
-          <p><strong>Approved At:</strong> ${order.approvedAt || new Date().toLocaleString()}</p>
-          <p><strong>Technician Assigned At:</strong> ${order.technicianAssignedAt || 'Pending'}</p>
-          <p><strong>Technician Visit Time:</strong> ${order.technicianVisitTime || 'Pending'}</p>
-        `;
-      } else {
-        resultDiv.innerHTML = `<p style="color:red;">No order found with this ID.</p>`;
+      if (!orderDataStr) {
+        resultDiv.innerText = "No order found with this ID.";
+        return;
       }
-    };
+
+      const order = JSON.parse(orderDataStr);
+
+      let displayText = `Order ID: ${orderId}\nName: ${order.name || 'N/A'}\nPhone: ${order.phone || 'N/A'}\nEmail: ${order.email || 'N/A'}\nAddress: ${order.address || 'N/A'}\nService: ${order.service || 'N/A'}\nStatus: ${order.status || 'Pending'}\nApproved At: ${order.approvedAt || 'Not Approved Yet'}\nTechnician Assigned: ${order.technician || 'Not Assigned'}\nTechnician Assigned At: ${order.technicianAssignedAt || 'Pending'}\nTechnician Visit Time: ${order.technicianVisitTime || 'Pending'}`;
+
+      resultDiv.innerText = displayText;
+    }
   </script>
 </body>
 </html>
