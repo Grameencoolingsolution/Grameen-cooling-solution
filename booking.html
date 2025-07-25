@@ -4,40 +4,148 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Book Service - Grameen Cooling Solution</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f9ff;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      color: #004466;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      color: #004466;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    button {
+      margin-top: 25px;
+      background: #0077cc;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background: #005fa3;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Book Your Service</h1>
-  </header>
+  <h1>Book Your Service</h1>
+  <form id="bookingForm">
+    <label for="name">Name</label>
+    <input type="text" id="name" placeholder="Your full name" required />
 
-  <section style="padding: 20px;">
-    <form id="bookingForm">
-      <input type="text" placeholder="Your Name" required /><br /><br />
-      <input type="text" placeholder="Mobile Number" required /><br /><br />
-      <input type="text" placeholder="Pin Code" required /><br /><br />
-      <input type="text" placeholder="Address" required /><br /><br />
-      <select id="service">
-        <option value="AC Servicing">AC Servicing - ₹499</option>
-        <option value="Breakdown">Breakdown - ₹699</option>
-        <option value="Install">Installation - ₹999</option>
-        <option value="Uninstall">Uninstallation - ₹599</option>
-      </select><br /><br />
-      <input type="number" id="qty" placeholder="Quantity" value="1" min="1" /><br /><br />
-      <button type="submit">Pay & Book</button>
-    </form>
-  </section>
+    <label for="mobile">Mobile Number</label>
+    <input type="tel" id="mobile" placeholder="10-digit mobile number" required pattern="[0-9]{10}" />
+
+    <label for="pincode">Pin Code</label>
+    <input type="text" id="pincode" placeholder="Area Pin Code" required pattern="[0-9]{6}" />
+
+    <label for="address">Address</label>
+    <textarea id="address" placeholder="Full address" rows="3" required></textarea>
+
+    <label for="email">Email (optional)</label>
+    <input type="email" id="email" placeholder="Email address" />
+
+    <label for="fault">Fault Description</label>
+    <textarea id="fault" placeholder="Describe your AC issue" rows="3" required></textarea>
+
+    <label for="service">Select Service</label>
+    <select id="service" required>
+      <option value="">-- Select --</option>
+      <option value="AC Servicing" data-price="499">AC Servicing - ₹499</option>
+      <option value="Breakdown Repair" data-price="699">Breakdown Repair - ₹699</option>
+      <option value="Installation" data-price="999">Installation - ₹999</option>
+      <option value="Uninstallation" data-price="599">Uninstallation - ₹599</option>
+    </select>
+
+    <label for="quantity">Quantity</label>
+    <input type="number" id="quantity" value="1" min="1" required />
+
+    <label>Total Price</label>
+    <div id="totalPrice" style="font-weight:bold; font-size:1.2rem; margin-top:5px;">₹ 0</div>
+
+    <button type="submit">Pay & Book</button>
+  </form>
 
   <script>
-    document.getElementById("bookingForm").onsubmit = function (e) {
+    const serviceSelect = document.getElementById("service");
+    const quantityInput = document.getElementById("quantity");
+    const totalPriceDiv = document.getElementById("totalPrice");
+
+    function updatePrice() {
+      const selectedOption = serviceSelect.options[serviceSelect.selectedIndex];
+      const price = selectedOption.getAttribute("data-price") || 0;
+      const quantity = quantityInput.value || 1;
+      const total = price * quantity;
+      totalPriceDiv.textContent = "₹ " + total;
+    }
+
+    serviceSelect.addEventListener("change", updatePrice);
+    quantityInput.addEventListener("input", updatePrice);
+
+    updatePrice();
+
+    document.getElementById("bookingForm").addEventListener("submit", function(e) {
       e.preventDefault();
-      const orderId = "ORD" + Math.floor(Math.random() * 1000000);
-      const orders = JSON.parse(localStorage.getItem("orders") || "{}");
-      orders[orderId] = "Pending Approval";
+
+      const name = document.getElementById("name").value.trim();
+      const mobile = document.getElementById("mobile").value.trim();
+      const pincode = document.getElementById("pincode").value.trim();
+      const address = document.getElementById("address").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const fault = document.getElementById("fault").value.trim();
+      const service = serviceSelect.value;
+      const quantity = quantityInput.value;
+      const totalPrice = totalPriceDiv.textContent;
+
+      if (!service) {
+        alert("Please select a service.");
+        return;
+      }
+
+      // Generate order ID
+      const orderId = "ORD" + Date.now();
+
+      // Save order to localStorage (simulate database)
+      let orders = JSON.parse(localStorage.getItem("orders") || "{}");
+      orders[orderId] = {
+        name, mobile, pincode, address, email, fault,
+        service, quantity, totalPrice,
+        status: "Pending Approval"
+      };
       localStorage.setItem("orders", JSON.stringify(orders));
-      alert("Thank you! Your Order ID is: " + orderId);
+
+      alert(`Thank you for booking!\nYour Order ID: ${orderId}\nPlease note this for tracking.`);
+
+      // Redirect to track page with orderId
       window.location.href = "track.html?orderId=" + orderId;
-    };
+    });
   </script>
 </body>
 </html>
