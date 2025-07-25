@@ -6,23 +6,81 @@
 <title>Grameen Cooling Solution</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+  /* Reset and base */
+  * {
+    box-sizing: border-box;
+  }
   body {
     margin: 0; font-family: 'Montserrat', sans-serif;
     background: #f5f8fa; color: #223344;
   }
+
+  /* Header with logo and hamburger */
   header {
     background: linear-gradient(90deg, #004466, #006699);
-    color: white; padding: 20px 30px;
+    color: white; padding: 15px 20px;
     display: flex; align-items: center; justify-content: space-between;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
     position: sticky; top: 0; z-index: 1000;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
   }
-  header .logo {
-    font-weight: 700; font-size: 1.8rem; letter-spacing: 3px;
+  .logo {
+    font-weight: 700; font-size: 1.6rem; letter-spacing: 3px;
   }
+  .hamburger {
+    width: 28px; height: 22px;
+    cursor: pointer;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .hamburger div {
+    background: white;
+    height: 4px; border-radius: 2px;
+    transition: 0.3s;
+  }
+  /* Hamburger active animation */
+  .hamburger.active div:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+  .hamburger.active div:nth-child(2) {
+    opacity: 0;
+  }
+  .hamburger.active div:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
+  /* Mobile nav */
+  nav {
+    position: fixed;
+    top: 56px; right: 0;
+    background: #006699;
+    width: 200px;
+    height: calc(100% - 56px);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    padding-top: 20px;
+    z-index: 1500;
+  }
+  nav.open {
+    transform: translateX(0);
+  }
+  nav a {
+    display: block;
+    padding: 15px 25px;
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid #005577;
+    transition: background 0.2s;
+  }
+  nav a:hover {
+    background: #004466;
+  }
+
   main {
     max-width: 900px; margin: 40px auto; padding: 0 20px;
   }
+
+  /* Services grid */
   .services-section {
     display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;
     margin-bottom: 50px;
@@ -48,12 +106,13 @@
     margin: 10px 0 0; font-size: 1.1rem; color: #004466;
     font-weight: 700;
   }
+
   /* Booking button */
   .booking-button {
     display: block;
     margin: 0 auto 60px;
-    padding: 14px 50px;
-    font-size: 1.3rem;
+    padding: 12px 48px;
+    font-size: 1.25rem;
     background: #006699;
     color: white;
     border: none;
@@ -65,6 +124,7 @@
   .booking-button:hover {
     background: #004466;
   }
+
   /* Booking form modal */
   .modal {
     position: fixed;
@@ -83,9 +143,11 @@
     border-radius: 20px;
     padding: 30px 40px;
     width: 90%;
-    max-width: 500px;
+    max-width: 520px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
   }
   .modal-content h2 {
     margin-top: 0; color: #004466; font-weight: 700;
@@ -138,6 +200,7 @@
   button.submit-btn:hover {
     background: #004466;
   }
+
   /* Responsive */
   @media (max-width: 600px) {
     .services-section {
@@ -149,8 +212,11 @@
       padding: 20px;
     }
     .booking-button {
-      padding: 12px 40px;
+      padding: 12px 36px;
       font-size: 1.1rem;
+    }
+    nav {
+      width: 160px;
     }
   }
 </style>
@@ -158,11 +224,22 @@
 <body>
 
 <header>
-  <div class="logo">Grameen Cooling Solution</div>
+  <div class="logo" aria-label="Website Logo">Grameen Cooling Solution</div>
+  <div class="hamburger" aria-label="Toggle menu" role="button" tabindex="0" aria-expanded="false">
+    <div></div><div></div><div></div>
+  </div>
 </header>
 
+<nav aria-label="Main Navigation">
+  <a href="#services">Services</a>
+  <a href="#booking">Booking</a>
+  <a href="#contact">Contact Us</a>
+  <a href="#terms">Terms & Conditions</a>
+  <a href="#return">Return Policy</a>
+</nav>
+
 <main>
-  <section class="services-section" aria-label="AC Services">
+  <section id="services" class="services-section" aria-label="AC Services Catalog">
     <div class="service-card" tabindex="0">
       <img src="https://cdn-icons-png.flaticon.com/512/709/709699.png" alt="AC Servicing Icon" />
       <h3>AC Servicing</h3>
@@ -189,7 +266,7 @@
     </div>
   </section>
 
-  <button class="booking-button" aria-haspopup="dialog" aria-controls="bookingModal">Book Your Service</button>
+  <button id="booking" class="booking-button" aria-haspopup="dialog" aria-controls="bookingModal">Book Your Service</button>
 
   <div class="modal" id="bookingModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
     <div class="modal-content">
@@ -222,6 +299,14 @@
           <option value="Premium Service" data-price="1499">Premium Service - ₹1499</option>
         </select>
 
+        <label for="condition">Condition</label>
+        <select id="condition" required>
+          <option value="">-- Select Condition --</option>
+          <option value="New">New</option>
+          <option value="Used">Used</option>
+          <option value="Repair">Repair</option>
+        </select>
+
         <label for="visitingCharge">Visiting Charge (Fixed)</label>
         <input type="number" id="visitingCharge" value="200" readonly />
 
@@ -237,6 +322,23 @@
 </main>
 
 <script>
+  // Hamburger menu toggle
+  const hamburger = document.querySelector('.hamburger');
+  const nav = document.querySelector('nav');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    nav.classList.toggle('open');
+    // Update aria-expanded
+    const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+    hamburger.setAttribute('aria-expanded', !expanded);
+  });
+  hamburger.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      hamburger.click();
+    }
+  });
+
   // Modal open/close logic
   const bookingBtn = document.querySelector('.booking-button');
   const modal = document.getElementById('bookingModal');
@@ -286,6 +388,7 @@
     const address = this.address.value.trim();
     const email = this.email.value.trim();
     const service = this.service.value;
+    const condition = this.condition.value;
     const quantity = this.quantity.value;
     const visitingCharge = this.visitingCharge.value;
 
@@ -293,12 +396,16 @@
       alert("Please select a service.");
       return;
     }
+    if (!condition) {
+      alert("Please select condition.");
+      return;
+    }
 
     const orderId = "ORD" + Date.now();
 
     let orders = JSON.parse(localStorage.getItem("orders") || "{}");
     orders[orderId] = {
-      name, mobile, pincode, address, email, service, quantity,
+      name, mobile, pincode, address, email, service, condition, quantity,
       visitingCharge,
       status: "Pending Approval"
     };
@@ -306,7 +413,7 @@
 
     alert(`Thank you for booking!\nYour Order ID: ${orderId}\nPlease save this for tracking.`);
 
-    // Redirect to tracking page (if you have one)
+    // Redirect to tracking page if exists
     // window.location.href = "track.html?orderId=" + orderId;
 
     modal.classList.remove('active');
