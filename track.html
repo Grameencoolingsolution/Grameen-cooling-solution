@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Track Order - Grameen Cooling Solution</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Track Your Order</h1>
+  </header>
+
+  <section style="padding: 2rem;">
+    <input type="text" id="orderIdInput" placeholder="Enter Order ID" />
+    <button onclick="trackOrder()">Track</button>
+
+    <div id="result" style="margin-top: 2rem;"></div>
+  </section>
+
+  <script>
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    function trackOrder() {
+      const id = document.getElementById('orderIdInput').value.trim();
+      const data = localStorage.getItem(id);
+      const resultDiv = document.getElementById('result');
+
+      if (data) {
+        const order = JSON.parse(data);
+        resultDiv.innerHTML = `
+          <h3>Order Details:</h3>
+          <p><strong>Name:</strong> ${order.name}</p>
+          <p><strong>Phone:</strong> ${order.phone}</p>
+          <p><strong>Email:</strong> ${order.email}</p>
+          <p><strong>Address:</strong> ${order.address}</p>
+          <p><strong>Service:</strong> ${order.service}</p>
+          <p><strong>Status:</strong> Payment Successful</p>
+        `;
+      } else {
+        resultDiv.innerHTML = `<p style="color:red;">No order found with this ID.</p>`;
+      }
+    }
+
+    const autoId = getQueryParam('id');
+    if (autoId) {
+      document.getElementById('orderIdInput').value = autoId;
+      trackOrder();
+    }
+  </script>
+</body>
+</html>
