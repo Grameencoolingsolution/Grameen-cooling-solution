@@ -1,60 +1,103 @@
-body {
-  font-family: sans-serif;
+/* Reset & Fonts */
+* {
   margin: 0;
   padding: 0;
-  background: #f9f9f9;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Segoe UI', sans-serif;
+  line-height: 1.6;
+  background-color: #f4f4f4;
+  color: #333;
 }
 
+/* Header */
 header {
-  background: #007bff;
-  padding: 15px;
-  color: white;
-}
-
-nav {
+  background-color: #009688;
+  color: #fff;
+  padding: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
 nav ul {
-  list-style: none;
   display: flex;
-  gap: 20px;
+  list-style: none;
 }
-
-nav ul li a {
-  color: white;
+nav ul li {
+  margin-left: 1rem;
+}
+nav a {
+  color: #fff;
   text-decoration: none;
+  font-weight: bold;
+}
+nav a:hover {
+  text-decoration: underline;
 }
 
-.menu-toggle {
-  display: none;
-  cursor: pointer;
-}
-
+/* Hero Section */
 .hero {
-  padding: 50px;
-  text-align: center;
-  background: #eaf4ff;
-}
-
-.hero .btn {
-  background: #007bff;
-  padding: 10px 20px;
+  background: linear-gradient(to right, #80cbc4, #009688);
   color: white;
-  text-decoration: none;
+  text-align: center;
+  padding: 4rem 2rem;
+}
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+.hero p {
+  font-size: 1.2rem;
+}
+.btn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.8rem 1.5rem;
+  background-color: #004d40;
+  color: #fff;
   border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+}
+.btn:hover {
+  background-color: #00251a;
 }
 
-@media (max-width: 768px) {
-  .menu-toggle {
-    display: block;
-  }
-  nav ul {
-    display: none;
-    flex-direction: column;
-    background: #007bff;
-    padding: 10px;
-  }
+/* Services */
+.services {
+  padding: 3rem 2rem;
+  background-color: #fff;
 }
+.services h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #009688;
+}
+.service-card {
+  background-color: #e0f2f1;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+}
+
+/* Contact Section */
+.contact {
+  background-color: #f1f8e9;
+  padding: 2rem;
+  text-align: center;
+}
+.contact h2 {
+  color: #558b2f;
+  margin-bottom: 1rem;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #004d40;
