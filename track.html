@@ -2,73 +2,51 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Track Order - Grameen Cooling Solution</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Track Your Booking | Grameen Cooling</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background-color: #f7f9fb;
-    }
-    h1 {
-      color: #004d80;
-    }
-    .order-details {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      margin-top: 20px;
-    }
-    label, input, button {
-      font-size: 1rem;
-    }
-    .hidden {
-      display: none;
-    }
-  </style>
 </head>
 <body>
-  <h1>Track Your Order</h1>
-  <label for="orderId">Enter Order ID</label><br/>
-  <input type="text" id="orderId" placeholder="ORD1234567890" />
-  <button onclick="trackOrder()">Track</button>
+  <header>
+    <div class="logo">🌬️ Grameen Cooling</div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="booking.html">Booking</a></li>
+      </ul>
+    </nav>
+  </header>
 
-  <div id="result" class="order-details hidden"></div>
+  <section class="hero">
+    <h1>Track Your Service</h1>
+    <p>Enter your registered phone number or booking ID to get the latest status.</p>
+  </section>
+
+  <section class="services" style="max-width:600px; margin:auto;">
+    <form id="tracking-form">
+      <label for="trackingId">🔍 Phone Number or Booking ID:</label>
+      <input type="text" id="trackingId" name="trackingId" required />
+      <br/><br/>
+      <button type="submit" class="btn">Check Status</button>
+    </form>
+
+    <div id="tracking-result" style="margin-top:2rem; display:none;">
+      <h3>Status Result</h3>
+      <p>Your booking is currently: <strong>Confirmed ✅</strong></p>
+      <!-- You can customize this result with backend integration -->
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Grameen Cooling Solution | Tracking powered by Copilot 🔎</p>
+  </footer>
 
   <script>
-    function trackOrder() {
-      const orderId = document.getElementById('orderId').value.trim();
-      const resultDiv = document.getElementById('result');
-
-      // Get order data from localStorage
-      const orders = JSON.parse(localStorage.getItem('orders')) || [];
-
-      const order = orders.find(o => o.orderId === orderId);
-
-      if (!order) {
-        resultDiv.innerHTML = "<p>❌ Order not found.</p>";
-        resultDiv.classList.remove("hidden");
-        return;
-      }
-
-      // Show all details
-      resultDiv.innerHTML = `
-        <p><strong>Order ID:</strong> ${order.orderId}</p>
-        <p><strong>Name:</strong> ${order.name}</p>
-        <p><strong>Service:</strong> ${order.service}</p>
-        <p><strong>Condition:</strong> ${order.condition}</p>
-        <p><strong>Quantity:</strong> ${order.quantity}</p>
-        <p><strong>Technician:</strong> ${order.technician || 'Not Assigned'}</p>
-        <p><strong>Visit Date:</strong> ${order.visitDate || 'Pending'}</p>
-        <p><strong>Visit Time:</strong> ${order.visitTime || 'Pending'}</p>
-        <p><strong>Visiting Charge:</strong> ₹${order.visitingCharge || '0'}</p>
-        <p><strong>Payment Status:</strong> ${order.paymentStatus || 'Unpaid'}</p>
-        <p><strong>Status:</strong> ${order.status}</p>
-      `;
-      resultDiv.classList.remove("hidden");
-    }
+    document.getElementById("tracking-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      // Dummy simulation of tracking result
+      document.getElementById("tracking-result").style.display = "block";
+    });
   </script>
 </body>
 </html>
