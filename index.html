@@ -5,202 +5,259 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Grameen Cooling Solution</title>
 <style>
-  /* Reset and base styles */
-  * {
-    box-sizing: border-box;
-  }
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
   body {
-    margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f0f8ff; color: #004466;
+    margin: 0; font-family: 'Montserrat', sans-serif;
+    background: #f5f8fa; color: #223344;
   }
   header {
-    background-color: #004466; color: white;
+    background: linear-gradient(90deg, #004466, #006699);
+    color: white; padding: 20px 30px;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 15px 20px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
     position: sticky; top: 0; z-index: 1000;
   }
-  .logo {
-    display: flex; align-items: center; gap: 12px;
-  }
-  .logo img {
-    height: 40px;
-    width: 40px;
-  }
-  .logo h1 {
-    font-size: 1.8rem; margin: 0; letter-spacing: 2px;
-  }
-  nav {
-    display: flex;
-    gap: 20px;
-  }
-  nav a {
-    color: white; text-decoration: none;
-    font-weight: 600; font-size: 1rem;
-    padding: 6px 12px;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-  }
-  nav a:hover, nav a:focus {
-    background-color: #006699;
-  }
-  /* Hamburger styles */
-  .hamburger {
-    display: none;
-    flex-direction: column;
-    cursor: pointer;
-    width: 30px;
-    height: 22px;
-    justify-content: space-between;
-  }
-  .hamburger div {
-    background-color: white;
-    height: 4px;
-    border-radius: 2px;
-  }
-  /* Mobile menu */
-  @media (max-width: 768px) {
-    nav {
-      position: fixed;
-      top: 60px;
-      right: 0;
-      background-color: #004466;
-      width: 200px;
-      height: calc(100% - 60px);
-      flex-direction: column;
-      padding: 20px;
-      transform: translateX(100%);
-      transition: transform 0.3s ease;
-      box-shadow: -2px 0 5px rgba(0,0,0,0.3);
-    }
-    nav.open {
-      transform: translateX(0);
-    }
-    nav a {
-      padding: 12px 10px;
-      font-size: 1.1rem;
-      border-bottom: 1px solid #006699;
-    }
-    .hamburger {
-      display: flex;
-    }
+  header .logo {
+    font-weight: 700; font-size: 1.8rem; letter-spacing: 3px;
   }
   main {
-    max-width: 700px; margin: 40px auto; background: white; padding: 25px; border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    max-width: 900px; margin: 40px auto; padding: 0 20px;
   }
-  h2 {
-    text-align: center; color: #004466; margin-bottom: 25px;
+  .services-section {
+    display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;
+    margin-bottom: 50px;
+  }
+  .service-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    width: 180px; padding: 25px;
+    text-align: center;
+    transition: transform 0.3s ease;
+    cursor: default;
+  }
+  .service-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+  }
+  .service-card img {
+    width: 80px; height: 80px; margin-bottom: 15px;
+    object-fit: contain;
+  }
+  .service-card h3 {
+    margin: 10px 0 0; font-size: 1.1rem; color: #004466;
+    font-weight: 700;
+  }
+  /* Booking button */
+  .booking-button {
+    display: block;
+    margin: 0 auto 60px;
+    padding: 14px 50px;
+    font-size: 1.3rem;
+    background: #006699;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 6px 12px rgba(0,102,153,0.4);
+    transition: background 0.3s ease;
+  }
+  .booking-button:hover {
+    background: #004466;
+  }
+  /* Booking form modal */
+  .modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+  }
+  .modal.active {
+    display: flex;
+  }
+  .modal-content {
+    background: white;
+    border-radius: 20px;
+    padding: 30px 40px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    position: relative;
+  }
+  .modal-content h2 {
+    margin-top: 0; color: #004466; font-weight: 700;
+    text-align: center;
+    margin-bottom: 25px;
+  }
+  .close-btn {
+    position: absolute;
+    top: 18px; right: 18px;
+    background: transparent;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #004466;
   }
   label {
-    display: block; margin-top: 15px; font-weight: 700;
+    display: block;
+    margin-top: 15px;
+    font-weight: 600;
+    color: #223344;
   }
   input, select, textarea {
-    width: 100%; padding: 12px; margin-top: 6px;
-    border: 1px solid #ccc; border-radius: 8px;
-    font-size: 1rem; transition: border-color 0.3s ease;
+    width: 100%;
+    padding: 12px 15px;
+    margin-top: 6px;
+    border: 1.8px solid #a9c6d9;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    transition: border-color 0.3s ease;
   }
   input:focus, select:focus, textarea:focus {
     outline: none;
-    border-color: #0077cc;
-    box-shadow: 0 0 5px rgba(0,119,204,0.5);
+    border-color: #006699;
+    box-shadow: 0 0 8px rgba(0,102,153,0.4);
   }
-  button {
-    margin-top: 30px; background-color: #0077cc; color: white;
-    border: none; padding: 15px; font-size: 1.3rem;
-    border-radius: 10px; cursor: pointer; width: 100%;
-    transition: background-color 0.3s ease;
+  button.submit-btn {
+    margin-top: 28px;
+    background: #006699;
+    color: white;
+    font-size: 1.2rem;
+    padding: 14px 0;
+    border: none;
+    border-radius: 30px;
+    width: 100%;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,102,153,0.4);
+    transition: background 0.3s ease;
   }
-  button:hover {
-    background-color: #005fa3;
+  button.submit-btn:hover {
+    background: #004466;
   }
-  #totalPrice {
-    margin-top: 12px; font-weight: 700; font-size: 1.4rem; color: #0077cc;
-    text-align: center;
-  }
-  .note {
-    font-size: 0.9rem; color: #555; margin-top: 6px; text-align: center;
+  /* Responsive */
+  @media (max-width: 600px) {
+    .services-section {
+      gap: 20px;
+      justify-content: center;
+    }
+    .service-card {
+      width: 140px;
+      padding: 20px;
+    }
+    .booking-button {
+      padding: 12px 40px;
+      font-size: 1.1rem;
+    }
   }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">
-    <img src="https://cdn-icons-png.flaticon.com/512/3208/3208757.png" alt="AC Service Logo" />
-    <h1>Grameen Cooling Solution</h1>
-  </div>
-
-  <div class="hamburger" aria-label="Menu" role="button" tabindex="0">
-    <div></div>
-    <div></div>
-    <div></div>
-  </div>
-
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="terms.html">Terms & Conditions</a>
-    <a href="return.html">Return Policy</a>
-    <a href="contact.html">Contact Us</a>
-  </nav>
+  <div class="logo">Grameen Cooling Solution</div>
 </header>
 
 <main>
-  <h2>Book Your AC Service</h2>
-  <form id="bookingForm">
-    <label for="name">Name</label>
-    <input type="text" id="name" required placeholder="Enter your full name" />
+  <section class="services-section" aria-label="AC Services">
+    <div class="service-card" tabindex="0">
+      <img src="https://cdn-icons-png.flaticon.com/512/709/709699.png" alt="AC Servicing Icon" />
+      <h3>AC Servicing</h3>
+    </div>
+    <div class="service-card" tabindex="0">
+      <img src="https://cdn-icons-png.flaticon.com/512/1627/1627583.png" alt="Breakdown Repair Icon" />
+      <h3>Breakdown Repair</h3>
+    </div>
+    <div class="service-card" tabindex="0">
+      <img src="https://cdn-icons-png.flaticon.com/512/1373/1373473.png" alt="Installation Icon" />
+      <h3>Installation</h3>
+    </div>
+    <div class="service-card" tabindex="0">
+      <img src="https://cdn-icons-png.flaticon.com/512/2779/2779840.png" alt="Uninstallation Icon" />
+      <h3>Uninstallation</h3>
+    </div>
+    <div class="service-card" tabindex="0">
+      <img src="https://cdn-icons-png.flaticon.com/512/2667/2667002.png" alt="Z-Pump Service Icon" />
+      <h3>Z-Pump Service</h3>
+    </div>
+    <div class="service-card" tabindex="0">
+      <img src="https://cdn-icons-png.flaticon.com/512/565/565547.png" alt="Premium Service Icon" />
+      <h3>Premium Service</h3>
+    </div>
+  </section>
 
-    <label for="mobile">Mobile Number</label>
-    <input type="tel" id="mobile" required placeholder="10-digit mobile number" pattern="[0-9]{10}" />
+  <button class="booking-button" aria-haspopup="dialog" aria-controls="bookingModal">Book Your Service</button>
 
-    <label for="pincode">Pin Code</label>
-    <input type="text" id="pincode" required placeholder="Area pin code" pattern="[0-9]{6}" />
+  <div class="modal" id="bookingModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
+    <div class="modal-content">
+      <button class="close-btn" aria-label="Close Booking Form">&times;</button>
+      <h2 id="modalTitle">Book Your AC Service</h2>
+      <form id="bookingForm">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" required placeholder="Your full name" />
 
-    <label for="address">Address</label>
-    <textarea id="address" required rows="3" placeholder="Your full address"></textarea>
+        <label for="mobile">Mobile Number</label>
+        <input type="tel" id="mobile" required placeholder="10-digit mobile number" pattern="[0-9]{10}" />
 
-    <label for="email">Email (optional)</label>
-    <input type="email" id="email" placeholder="Your email address" />
+        <label for="pincode">Pin Code</label>
+        <input type="text" id="pincode" required placeholder="Area pin code" pattern="[0-9]{6}" />
 
-    <label for="service">Select Service</label>
-    <select id="service" required>
-      <option value="">-- Select Service --</option>
-      <option value="AC Servicing" data-price="499">AC Servicing - ₹499</option>
-      <option value="Breakdown Repair" data-price="699">Breakdown Repair - ₹699</option>
-      <option value="Installation" data-price="999">Installation - ₹999</option>
-      <option value="Uninstallation" data-price="599">Uninstallation - ₹599</option>
-      <option value="Z-Pump Service" data-price="799">Z-Pump Service - ₹799</option>
-      <option value="Premium Service" data-price="1499">Premium Service - ₹1499</option>
-    </select>
+        <label for="address">Address</label>
+        <textarea id="address" rows="3" required placeholder="Your full address"></textarea>
 
-    <label for="visitingCharge">Visiting Charge (Fixed)</label>
-    <input type="number" id="visitingCharge" value="200" readonly />
+        <label for="email">Email (optional)</label>
+        <input type="email" id="email" placeholder="Your email address" />
 
-    <label for="quantity">Quantity</label>
-    <input type="number" id="quantity" value="1" min="1" required />
+        <label for="service">Select Service</label>
+        <select id="service" required>
+          <option value="">-- Select Service --</option>
+          <option value="AC Servicing" data-price="499">AC Servicing - ₹499</option>
+          <option value="Breakdown Repair" data-price="699">Breakdown Repair - ₹699</option>
+          <option value="Installation" data-price="999">Installation - ₹999</option>
+          <option value="Uninstallation" data-price="599">Uninstallation - ₹599</option>
+          <option value="Z-Pump Service" data-price="799">Z-Pump Service - ₹799</option>
+          <option value="Premium Service" data-price="1499">Premium Service - ₹1499</option>
+        </select>
 
-    <div id="totalPrice">Total Price: ₹ 0</div>
+        <label for="visitingCharge">Visiting Charge (Fixed)</label>
+        <input type="number" id="visitingCharge" value="200" readonly />
 
-    <button type="submit">Pay & Book</button>
-  </form>
-  <p class="note">* Visiting Charge ₹200 is fixed and added to total price.</p>
+        <label for="quantity">Quantity</label>
+        <input type="number" id="quantity" value="1" min="1" required />
+
+        <div id="totalPrice" style="margin-top:12px; font-weight:700; font-size:1.2rem; color:#006699; text-align:center;">Total Price: ₹ 0</div>
+
+        <button type="submit" class="submit-btn">Pay & Book</button>
+      </form>
+    </div>
+  </div>
 </main>
 
 <script>
-  // Hamburger menu toggle
-  const hamburger = document.querySelector('.hamburger');
-  const nav = document.querySelector('nav');
+  // Modal open/close logic
+  const bookingBtn = document.querySelector('.booking-button');
+  const modal = document.getElementById('bookingModal');
+  const closeBtn = modal.querySelector('.close-btn');
 
-  hamburger.addEventListener('click', () => {
-    nav.classList.toggle('open');
+  bookingBtn.addEventListener('click', () => {
+    modal.classList.add('active');
+    modal.focus();
   });
-  hamburger.addEventListener('keypress', (e) => {
-    if(e.key === 'Enter' || e.key === ' ') {
-      nav.classList.toggle('open');
+
+  closeBtn.addEventListener('click', () => {
+    modal.classList.remove('active');
+  });
+
+  modal.addEventListener('click', (e) => {
+    if(e.target === modal) {
+      modal.classList.remove('active');
     }
   });
 
-  // Price calculation
+  // Price calculation logic
   const serviceSelect = document.getElementById("service");
   const quantityInput = document.getElementById("quantity");
   const visitingChargeInput = document.getElementById("visitingCharge");
@@ -217,7 +274,6 @@
 
   serviceSelect.addEventListener("change", updatePrice);
   quantityInput.addEventListener("input", updatePrice);
-
   updatePrice();
 
   // Booking form submission
@@ -250,7 +306,11 @@
 
     alert(`Thank you for booking!\nYour Order ID: ${orderId}\nPlease save this for tracking.`);
 
-    window.location.href = "track.html?orderId=" + orderId;
+    // Redirect to tracking page (if you have one)
+    // window.location.href = "track.html?orderId=" + orderId;
+
+    modal.classList.remove('active');
+    this.reset();
   });
 </script>
 
