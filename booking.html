@@ -4,106 +4,40 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Book Service - Grameen Cooling Solution</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 2rem;
-      max-width: 500px;
-      margin: auto;
-    }
-    input, select, textarea, button {
-      width: 100%;
-      padding: 0.6rem;
-      margin: 0.4rem 0 1rem 0;
-      box-sizing: border-box;
-      font-size: 1rem;
-    }
-    button {
-      background-color: #0d6efd;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #0b5ed7;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
     <h1>Book Your Service</h1>
   </header>
 
-  <form id="bookingForm">
-    <input type="text" placeholder="Full Name" required id="name" />
-    <input type="tel" placeholder="Mobile Number" required id="phone" />
-    <input type="email" placeholder="Email" required id="email" />
-    <textarea placeholder="Full Address" required id="address"></textarea>
-    <input type="text" placeholder="PIN Code" required id="pincode" maxlength="6" pattern="\d{6}" title="Please enter 6 digit PIN code" />
-    <select id="service" required>
-      <option value="">Select Service</option>
-      <option value="AC">AC Repair & Installation</option>
-      <option value="Washing Machine">Washing Machine Service</option>
-      <option value="Geyser">Geyser Repair</option>
-      <option value="Microwave">Microwave Repair</option>
-    </select>
-    <button type="button" onclick="payNow()">Pay & Book</button>
-  </form>
+  <section style="padding: 20px;">
+    <form id="bookingForm">
+      <input type="text" placeholder="Your Name" required /><br /><br />
+      <input type="text" placeholder="Mobile Number" required /><br /><br />
+      <input type="text" placeholder="Pin Code" required /><br /><br />
+      <input type="text" placeholder="Address" required /><br /><br />
+      <select id="service">
+        <option value="AC Servicing">AC Servicing - ₹499</option>
+        <option value="Breakdown">Breakdown - ₹699</option>
+        <option value="Install">Installation - ₹999</option>
+        <option value="Uninstall">Uninstallation - ₹599</option>
+      </select><br /><br />
+      <input type="number" id="qty" placeholder="Quantity" value="1" min="1" /><br /><br />
+      <button type="submit">Pay & Book</button>
+    </form>
+  </section>
 
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script>
-    function payNow() {
-      const name = document.getElementById('name').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const address = document.getElementById('address').value.trim();
-      const pincode = document.getElementById('pincode').value.trim();
-      const service = document.getElementById('service').value;
-
-      if (!name || !phone || !email || !address || !pincode || !service) {
-        alert('Please fill all fields');
-        return;
-      }
-
-      if (!/^\d{6}$/.test(pincode)) {
-        alert('Please enter a valid 6 digit PIN code');
-        return;
-      }
-
-      const orderId = 'ORD' + Date.now();
-      const now = new Date().toLocaleString();
-
-      const orderData = {
-        name,
-        phone,
-        email,
-        address,
-        pincode,
-        service,
-        status: 'Pending',
-        approvedAt: '',
-        technicianAssignedAt: '',
-        technicianVisitTime: ''
-      };
-
-      const options = {
-        key: 'rzp_test_PBDa0hjP8yKc60',
-        amount: 10000,
-        currency: 'INR',
-        name: 'Grameen Cooling Solution',
-        description: 'Service Booking',
-        handler: function (response) {
-          localStorage.setItem(orderId, JSON.stringify(orderData));
-          alert('Payment successful! Your Order ID: ' + orderId);
-          window.location.href = 'track.html?id=' + orderId;
-        },
-        prefill: { name, email, contact: phone },
-        theme: { color: '#0d6efd' }
-      };
-
-      const rzp = new Razorpay(options);
-      rzp.open();
-    }
+    document.getElementById("bookingForm").onsubmit = function (e) {
+      e.preventDefault();
+      const orderId = "ORD" + Math.floor(Math.random() * 1000000);
+      const orders = JSON.parse(localStorage.getItem("orders") || "{}");
+      orders[orderId] = "Pending Approval";
+      localStorage.setItem("orders", JSON.stringify(orders));
+      alert("Thank you! Your Order ID is: " + orderId);
+      window.location.href = "track.html?orderId=" + orderId;
+    };
   </script>
 </body>
 </html>
