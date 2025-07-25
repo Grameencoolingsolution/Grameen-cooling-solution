@@ -2,45 +2,71 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Track Order - Grameen Cooling Solution</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Track Your Order - Grameen Cooling Solution</title>
+  <link rel="stylesheet" href="style.css"/>
   <style>
-    body { font-family: Arial, sans-serif; padding: 2rem; }
-    input, button { margin: 0.5rem 0; padding: 0.5rem; }
-    #result { margin-top: 1rem; background: #eee; padding: 1rem; white-space: pre-wrap; }
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f2f2f2;
+    }
+    h2 {
+      color: #007bff;
+    }
+    .track-box {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    .status {
+      margin-top: 20px;
+      font-weight: bold;
+      color: green;
+    }
   </style>
 </head>
 <body>
-  <h1>Track Your Order</h1>
-
-  <label for="orderId">Enter Order ID:</label><br/>
-  <input type="text" id="orderId" placeholder="Order ID" />
-  <button onclick="trackOrder()">Track Order</button>
-
-  <pre id="result"></pre>
+  <div class="track-box">
+    <h2>Track Your Order</h2>
+    <input type="text" id="orderId" placeholder="Enter your Order ID" />
+    <button onclick="trackOrder()">Track Order</button>
+    <div id="result" class="status"></div>
+  </div>
 
   <script>
     function trackOrder() {
-      const orderId = document.getElementById("orderId").value.trim();
-      const resultDiv = document.getElementById("result");
+      const orderId = document.getElementById("orderId").value;
+      const orders = JSON.parse(localStorage.getItem("orders") || "{}");
+      const status = orders[orderId];
+      const resultBox = document.getElementById("result");
 
-      if (!orderId) {
-        resultDiv.innerText = "Please enter Order ID.";
-        return;
+      if (status) {
+        resultBox.textContent = `Order Status: ${status}`;
+      } else {
+        resultBox.textContent = "Order not found!";
+        resultBox.style.color = "red";
       }
-
-      const orderDataStr = localStorage.getItem(orderId);
-      if (!orderDataStr) {
-        resultDiv.innerText = "No order found with this ID.";
-        return;
-      }
-
-      const order = JSON.parse(orderDataStr);
-
-      let displayText = `Order ID: ${orderId}\nName: ${order.name || 'N/A'}\nPhone: ${order.phone || 'N/A'}\nEmail: ${order.email || 'N/A'}\nAddress: ${order.address || 'N/A'}\nService: ${order.service || 'N/A'}\nStatus: ${order.status || 'Pending'}\nApproved At: ${order.approvedAt || 'Not Approved Yet'}\nTechnician Assigned: ${order.technician || 'Not Assigned'}\nTechnician Assigned At: ${order.technicianAssignedAt || 'Pending'}\nTechnician Visit Time: ${order.technicianVisitTime || 'Pending'}`;
-
-      resultDiv.innerText = displayText;
     }
+
+    // Optional: Auto-fill if ?orderId= is in URL
+    window.onload = function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const orderId = urlParams.get("orderId");
+      if (orderId) {
+        document.getElementById("orderId").value = orderId;
+        trackOrder();
+      }
+    };
   </script>
 </body>
 </html>
