@@ -1,35 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Grameen Cooling Solution</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Welcome to Grameen Cooling Solution</h1>
-  <p>AC और Home Appliance सर्विसिंग के लिए संपर्क करें।</p>
+  <header>
+    <h1>Grameen Cooling Solution</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="booking.html">Book Service</a>
+      <a href="track.html">Track Order</a>
+      <a href="terms.html">Terms</a>
+      <a href="return.html">Return Policy</a>
+      <a href="contact.html">Contact Us</a>
+    </nav>
+  </header>
 
-  <button id="rzp-button1">Pay Now</button>
+  <section class="hero">
+    <h2>AC, Washing Machine, Geyser, Microwave Repair & Installation</h2>
+    <p>Book reliable and affordable home appliance services now!</p>
+    <a href="booking.html" class="btn">Book a Service</a>
+  </section>
 
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-  <script>
-    var options = {
-        "key": "rzp_test_PBDa0hjP8yKc60",
-        "amount": "10000", // ₹100 = 10000 paise
-        "currency": "INR",
-        "name": "Grameen Cooling Solution",
-        "description": "Service Booking",
-        "handler": function (response){
-            alert("Payment successful. Payment ID: " + response.razorpay_payment_id);
-            window.location.href = "thankyou.html";
-        },
-        "theme": {
-            "color": "#3399cc"
-        }
-    };
-    var rzp1 = new Razorpay(options);
-    document.getElementById('rzp-button1').onclick = function(e){
-        rzp1.open();
-        e.preventDefault();
-    }
-  </script>
+  <section class="products">
+    <h3>Our Services</h3>
+    <div class="product-grid">
+      <div class="product">
+        <img src="https://via.placeholder.com/200x150?text=AC+Service" alt="AC Service" />
+        <p>AC Repair & Installation</p>
+      </div>
+      <div class="product">
+        <img src="https://via.placeholder.com/200x150?text=Washing+Machine" alt="Washing Machine" />
+        <p>Washing Machine Service</p>
+      </div>
+      <div class="product">
+        <img src="https://via.placeholder.com/200x150?text=Geyser" alt="Geyser" />
+        <p>Geyser Repair</p>
+      </div>
+      <div class="product">
+        <img src="https://via.placeholder.com/200x150?text=Microwave" alt="Microwave" />
+        <p>Microwave Repair</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Grameen Cooling Solution. All rights reserved.</p>
+  </footer>
 </body>
 </html>
