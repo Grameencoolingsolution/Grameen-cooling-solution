@@ -3,149 +3,179 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Book Service - Grameen Cooling Solution</title>
+  <title>Grameen Cooling - Book Service</title>
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f4f9ff;
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0;
+      background: #f0f8ff;
+    }
+    header {
+      background: #004466;
+      color: white;
+      padding: 10px;
+      text-align: center;
+    }
+    section {
       padding: 20px;
       max-width: 600px;
       margin: auto;
     }
-    h1 {
-      color: #004466;
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    form {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: 600;
-      color: #004466;
-    }
-    input, select, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 6px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1rem;
+    form input, form select, form button {
+      width: 100%; margin: 10px 0; padding: 10px;
+      border: 1px solid #ccc; border-radius: 5px;
     }
     button {
-      margin-top: 25px;
-      background: #0077cc;
-      color: white;
-      border: none;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 1.1rem;
+      background: #006699; color: white;
       cursor: pointer;
-      width: 100%;
-      transition: background-color 0.3s ease;
+      font-weight: bold;
     }
-    button:hover {
-      background: #005fa3;
+    #thankYouPopup {
+      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.6); z-index: 9999;
+      display: flex; justify-content: center; align-items: center;
     }
+    #thankYouPopup > div {
+      background: white; padding: 30px 20px; border-radius: 12px;
+      text-align: center; animation: zoomIn 0.4s ease;
+    }
+    @keyframes zoomIn {
+      from { transform: scale(0.6); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
-  <h1>Book Your Service</h1>
+
+<header>
+  <h1>Grameen Cooling Solution</h1>
+</header>
+
+<section id="bookingSection">
+  <h2>Book a Service</h2>
   <form id="bookingForm">
-    <label for="name">Name</label>
-    <input type="text" id="name" placeholder="Your full name" required />
+    <input type="text" name="name" placeholder="Your Name" required />
+    <input type="tel" name="mobile" placeholder="Mobile Number" required />
+    <input type="text" name="pincode" placeholder="Pincode" required />
+    <input type="text" name="address" placeholder="Full Address" required />
+    <input type="email" name="email" placeholder="Email" required />
 
-    <label for="mobile">Mobile Number</label>
-    <input type="tel" id="mobile" placeholder="10-digit mobile number" required pattern="[0-9]{10}" />
-
-    <label for="pincode">Pin Code</label>
-    <input type="text" id="pincode" placeholder="Area Pin Code" required pattern="[0-9]{6}" />
-
-    <label for="address">Address</label>
-    <textarea id="address" placeholder="Full address" rows="3" required></textarea>
-
-    <label for="email">Email (optional)</label>
-    <input type="email" id="email" placeholder="Email address" />
-
-    <label for="fault">Fault Description</label>
-    <textarea id="fault" placeholder="Describe your AC issue" rows="3" required></textarea>
-
-    <label for="service">Select Service</label>
-    <select id="service" required>
-      <option value="">-- Select --</option>
-      <option value="AC Servicing" data-price="499">AC Servicing - ₹499</option>
-      <option value="Breakdown Repair" data-price="699">Breakdown Repair - ₹699</option>
-      <option value="Installation" data-price="999">Installation - ₹999</option>
-      <option value="Uninstallation" data-price="599">Uninstallation - ₹599</option>
+    <select name="service" id="serviceSelect" required>
+      <option value="">Select Service</option>
+      <option value="AC Repair">AC Repair</option>
+      <option value="Cooler Installation">Cooler Installation</option>
     </select>
 
-    <label for="quantity">Quantity</label>
-    <input type="number" id="quantity" value="1" min="1" required />
+    <select name="condition" id="conditionSelect" required>
+      <option value="">Select Condition</option>
+      <option value="Working">Working</option>
+      <option value="Not Working">Not Working</option>
+    </select>
 
-    <label>Total Price</label>
-    <div id="totalPrice" style="font-weight:bold; font-size:1.2rem; margin-top:5px;">₹ 0</div>
-
-    <button type="submit">Pay & Book</button>
+    <input type="number" name="quantity" placeholder="Quantity" required />
+    <input type="number" name="visitingCharge" placeholder="Visiting Charge (₹)" required />
+    <button type="submit">Submit Booking</button>
   </form>
+</section>
 
-  <script>
-    const serviceSelect = document.getElementById("service");
-    const quantityInput = document.getElementById("quantity");
-    const totalPriceDiv = document.getElementById("totalPrice");
+<section id="trackingSection" class="hidden">
+  <h2>Track Your Order</h2>
+  <input type="text" id="trackOrderId" placeholder="Enter Your Order ID" />
+  <button onclick="trackOrder()">Track</button>
+  <div id="trackingResult" style="margin-top:15px; background:#eef; padding:10px; border-radius:6px;"></div>
+</section>
 
-    function updatePrice() {
-      const selectedOption = serviceSelect.options[serviceSelect.selectedIndex];
-      const price = selectedOption.getAttribute("data-price") || 0;
-      const quantity = quantityInput.value || 1;
-      const total = price * quantity;
-      totalPriceDiv.textContent = "₹ " + total;
+<!-- Thank You Popup -->
+<div id="thankYouPopup">
+  <div>
+    <h2 style="color:#006699;">🎉 Thank You!</h2>
+    <p>Your order has been placed successfully.</p>
+    <p><strong>Order ID:</strong> <span id="popupOrderId" style="color:#004466;"></span></p>
+    <p>Redirecting to tracking...</p>
+  </div>
+</div>
+
+<script>
+  function showSection(sectionId) {
+    document.getElementById("bookingSection").classList.add("hidden");
+    document.getElementById("trackingSection").classList.add("hidden");
+    document.getElementById(sectionId).classList.remove("hidden");
+  }
+
+  document.getElementById("bookingForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const name = this.name.value.trim();
+    const mobile = this.mobile.value.trim();
+    const pincode = this.pincode.value.trim();
+    const address = this.address.value.trim();
+    const email = this.email.value.trim();
+    const service = this.service.value;
+    const condition = this.condition.value;
+    const quantity = this.quantity.value;
+    const visitingCharge = this.visitingCharge.value;
+
+    if (!service || !condition) {
+      alert("Please select all options.");
+      return;
     }
 
-    serviceSelect.addEventListener("change", updatePrice);
-    quantityInput.addEventListener("input", updatePrice);
+    const orderId = "ORD" + Date.now();
+    let orders = JSON.parse(localStorage.getItem("orders") || "{}");
+    orders[orderId] = {
+      name, mobile, pincode, address, email,
+      service, condition, quantity, visitingCharge,
+      status: "Pending Approval"
+    };
+    localStorage.setItem("orders", JSON.stringify(orders));
 
-    updatePrice();
+    // Show Thank You Popup
+    document.getElementById("popupOrderId").innerText = orderId;
+    document.getElementById("thankYouPopup").style.display = "flex";
 
-    document.getElementById("bookingForm").addEventListener("submit", function(e) {
-      e.preventDefault();
+    this.reset();
 
-      const name = document.getElementById("name").value.trim();
-      const mobile = document.getElementById("mobile").value.trim();
-      const pincode = document.getElementById("pincode").value.trim();
-      const address = document.getElementById("address").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const fault = document.getElementById("fault").value.trim();
-      const service = serviceSelect.value;
-      const quantity = quantityInput.value;
-      const totalPrice = totalPriceDiv.textContent;
+    // Redirect after 4 seconds
+    setTimeout(() => {
+      document.getElementById("trackOrderId").value = orderId;
+      document.getElementById("thankYouPopup").style.display = "none";
+      showSection("trackingSection");
+      trackOrder();
+    }, 4000);
+  });
 
-      if (!service) {
-        alert("Please select a service.");
-        return;
-      }
+  function trackOrder() {
+    const orderIdInput = document.getElementById("trackOrderId").value.trim();
+    const resultDiv = document.getElementById("trackingResult");
 
-      // Generate order ID
-      const orderId = "ORD" + Date.now();
+    if (!orderIdInput) {
+      resultDiv.textContent = "Please enter your Order ID.";
+      return;
+    }
 
-      // Save order to localStorage (simulate database)
-      let orders = JSON.parse(localStorage.getItem("orders") || "{}");
-      orders[orderId] = {
-        name, mobile, pincode, address, email, fault,
-        service, quantity, totalPrice,
-        status: "Pending Approval"
-      };
-      localStorage.setItem("orders", JSON.stringify(orders));
+    const orders = JSON.parse(localStorage.getItem("orders") || "{}");
+    const order = orders[orderIdInput];
 
-      alert(`Thank you for booking!\nYour Order ID: ${orderId}\nPlease note this for tracking.`);
+    if (order) {
+      resultDiv.innerHTML = `
+        <p><strong>Order ID:</strong> ${orderIdInput}</p>
+        <p><strong>Name:</strong> ${order.name}</p>
+        <p><strong>Service:</strong> ${order.service}</p>
+        <p><strong>Condition:</strong> ${order.condition}</p>
+        <p><strong>Quantity:</strong> ${order.quantity}</p>
+        <p><strong>Technician:</strong> ${order.technician || "Pending"}</p>
+        <p><strong>Visit Date:</strong> ${order.visitDate || "Pending"}</p>
+        <p><strong>Visit Time:</strong> ${order.visitTime || "Pending"}</p>
+        <p><strong>Visiting Charge:</strong> ₹${order.visitingCharge || "0"}</p>
+        <p><strong>Payment Status:</strong> ${order.paymentStatus || "Pending"}</p>
+        <p><strong>Status:</strong> ${order.status}</p>
+      `;
+    } else {
+      resultDiv.textContent = "Order ID not found. Please check and try again.";
+    }
+  }
+</script>
 
-      // Redirect to track page with orderId
-      window.location.href = "track.html?orderId=" + orderId;
-    });
-  </script>
 </body>
 </html>
