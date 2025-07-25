@@ -19,18 +19,33 @@
   </section>
 
   <script>
-    function getQueryParam(param) {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get(param);
-    }
+    // फेक डेटा, असली में ये सर्वर से आएगा
+    const ordersData = {
+      'ORD1627483920': {
+        name: 'Rahul',
+        phone: '9876543210',
+        email: 'rahul@example.com',
+        address: 'Murshidabad',
+        service: 'AC Repair',
+        status: 'Approved',
+        approvedAt: '2025-07-24 10:00 AM',
+        technicianAssignedAt: '2025-07-24 11:00 AM',
+        technicianVisitTime: '2025-07-24 03:00 PM'
+      },
+      // नए ऑर्डर यहाँ एड करें
+    };
 
     function trackOrder() {
       const id = document.getElementById('orderIdInput').value.trim();
-      const data = localStorage.getItem(id);
       const resultDiv = document.getElementById('result');
 
-      if (data) {
-        const order = JSON.parse(data);
+      if (!id) {
+        resultDiv.innerHTML = `<p style="color:red;">Please enter Order ID.</p>`;
+        return;
+      }
+
+      const order = ordersData[id];
+      if (order) {
         resultDiv.innerHTML = `
           <h3>Order Details:</h3>
           <p><strong>Name:</strong> ${order.name}</p>
@@ -38,17 +53,14 @@
           <p><strong>Email:</strong> ${order.email}</p>
           <p><strong>Address:</strong> ${order.address}</p>
           <p><strong>Service:</strong> ${order.service}</p>
-          <p><strong>Status:</strong> Payment Successful</p>
+          <p><strong>Status:</strong> ${order.status}</p>
+          <p><strong>Approved At:</strong> ${order.approvedAt}</p>
+          <p><strong>Technician Assigned At:</strong> ${order.technicianAssignedAt}</p>
+          <p><strong>Technician Visit Time:</strong> ${order.technicianVisitTime}</p>
         `;
       } else {
         resultDiv.innerHTML = `<p style="color:red;">No order found with this ID.</p>`;
       }
-    }
-
-    const autoId = getQueryParam('id');
-    if (autoId) {
-      document.getElementById('orderIdInput').value = autoId;
-      trackOrder();
     }
   </script>
 </body>
