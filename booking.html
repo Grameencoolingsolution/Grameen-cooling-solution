@@ -4,30 +4,51 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Book Service - Grameen Cooling Solution</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      max-width: 500px;
+      margin: auto;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 0.6rem;
+      margin: 0.4rem 0 1rem 0;
+      box-sizing: border-box;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #0d6efd;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0b5ed7;
+    }
+  </style>
 </head>
 <body>
   <header>
     <h1>Book Your Service</h1>
   </header>
 
-  <section style="padding: 2rem;">
-    <form id="bookingForm">
-      <input type="text" placeholder="Full Name" required id="name" /><br /><br />
-      <input type="tel" placeholder="Mobile Number" required id="phone" /><br /><br />
-      <input type="email" placeholder="Email" required id="email" /><br /><br />
-      <textarea placeholder="Full Address" required id="address"></textarea><br /><br />
-      <input type="text" placeholder="PIN Code" required id="pincode" maxlength="6" pattern="\d{6}" title="Please enter 6 digit PIN code" /><br /><br />
-      <select id="service" required>
-        <option value="">Select Service</option>
-        <option value="AC">AC Repair & Installation</option>
-        <option value="Washing Machine">Washing Machine Service</option>
-        <option value="Geyser">Geyser Repair</option>
-        <option value="Microwave">Microwave Repair</option>
-      </select><br /><br />
-      <button type="button" onclick="payNow()">Pay & Book</button>
-    </form>
-  </section>
+  <form id="bookingForm">
+    <input type="text" placeholder="Full Name" required id="name" />
+    <input type="tel" placeholder="Mobile Number" required id="phone" />
+    <input type="email" placeholder="Email" required id="email" />
+    <textarea placeholder="Full Address" required id="address"></textarea>
+    <input type="text" placeholder="PIN Code" required id="pincode" maxlength="6" pattern="\d{6}" title="Please enter 6 digit PIN code" />
+    <select id="service" required>
+      <option value="">Select Service</option>
+      <option value="AC">AC Repair & Installation</option>
+      <option value="Washing Machine">Washing Machine Service</option>
+      <option value="Geyser">Geyser Repair</option>
+      <option value="Microwave">Microwave Repair</option>
+    </select>
+    <button type="button" onclick="payNow()">Pay & Book</button>
+  </form>
 
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script>
@@ -59,7 +80,7 @@
         address,
         pincode,
         service,
-        status: 'Pending',          // पहले Pending होगा, बाद में admin approve करेगा
+        status: 'Pending',
         approvedAt: '',
         technicianAssignedAt: '',
         technicianVisitTime: ''
@@ -67,7 +88,7 @@
 
       const options = {
         key: 'rzp_test_PBDa0hjP8yKc60',
-        amount: 10000, // ₹100 in paise, आप सर्विस के हिसाब से बदल सकते हैं
+        amount: 10000,
         currency: 'INR',
         name: 'Grameen Cooling Solution',
         description: 'Service Booking',
