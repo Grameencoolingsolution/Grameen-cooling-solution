@@ -17,6 +17,7 @@
       <input type="tel" placeholder="Mobile Number" required id="phone" /><br /><br />
       <input type="email" placeholder="Email" required id="email" /><br /><br />
       <textarea placeholder="Full Address" required id="address"></textarea><br /><br />
+      <input type="text" placeholder="PIN Code" required id="pincode" maxlength="6" pattern="\d{6}" title="Please enter 6 digit PIN code" /><br /><br />
       <select id="service" required>
         <option value="">Select Service</option>
         <option value="AC">AC Repair & Installation</option>
@@ -35,10 +36,16 @@
       const phone = document.getElementById('phone').value.trim();
       const email = document.getElementById('email').value.trim();
       const address = document.getElementById('address').value.trim();
+      const pincode = document.getElementById('pincode').value.trim();
       const service = document.getElementById('service').value;
 
-      if (!name || !phone || !email || !address || !service) {
+      if (!name || !phone || !email || !address || !pincode || !service) {
         alert('Please fill all fields');
+        return;
+      }
+
+      if (!/^\d{6}$/.test(pincode)) {
+        alert('Please enter a valid 6 digit PIN code');
         return;
       }
 
@@ -50,25 +57,23 @@
         phone,
         email,
         address,
+        pincode,
         service,
-        status: 'Approved',
-        approvedAt: now,
+        status: 'Pending',          // पहले Pending होगा, बाद में admin approve करेगा
+        approvedAt: '',
         technicianAssignedAt: '',
         technicianVisitTime: ''
       };
 
-      // Payment options setup
       const options = {
-        key: 'rzp_test_PBDa0hjP8yKc60', // अपना रेजरपे API key यहाँ डालें
-        amount: 10000, // ₹100 in paise
+        key: 'rzp_test_PBDa0hjP8yKc60',
+        amount: 10000, // ₹100 in paise, आप सर्विस के हिसाब से बदल सकते हैं
         currency: 'INR',
         name: 'Grameen Cooling Solution',
         description: 'Service Booking',
         handler: function (response) {
-          // Payment successful
           localStorage.setItem(orderId, JSON.stringify(orderData));
           alert('Payment successful! Your Order ID: ' + orderId);
-          // Redirect to track page with orderId in URL
           window.location.href = 'track.html?id=' + orderId;
         },
         prefill: { name, email, contact: phone },
