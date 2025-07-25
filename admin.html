@@ -3,185 +3,50 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Grameen Cooling Solution - Admin Panel</title>
+<title>Admin Panel - Grameen Cooling Solution</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
-  body {
-    font-family: 'Montserrat', sans-serif;
-    margin: 0; background: #f5f8fa; color: #223344;
-  }
-  header {
-    background: #004466;
-    color: white;
-    padding: 15px 20px;
-    display: flex; align-items: center; justify-content: space-between;
-    position: sticky; top: 0; z-index: 1000;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-  }
-  .logo {
-    font-weight: 700; font-size: 1.5rem; cursor: pointer;
-  }
-  .hamburger {
-    width: 28px; height: 22px;
-    cursor: pointer;
-    display: flex; flex-direction: column; justify-content: space-between;
-  }
-  .hamburger div {
-    background: white;
-    height: 4px; border-radius: 2px;
-    transition: 0.3s;
-  }
-  .hamburger.active div:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-  }
-  .hamburger.active div:nth-child(2) {
-    opacity: 0;
-  }
-  .hamburger.active div:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px);
-  }
-  nav {
-    position: fixed;
-    top: 56px; right: 0;
-    background: #006699;
-    width: 200px;
-    height: calc(100% - 56px);
-    transform: translateX(100%);
-    transition: transform 0.3s ease;
-    padding-top: 20px;
-    z-index: 1500;
-  }
-  nav.open {
-    transform: translateX(0);
-  }
-  nav a {
-    display: block;
-    padding: 15px 25px;
-    color: white;
-    font-weight: 600;
-    text-decoration: none;
-    border-bottom: 1px solid #005577;
-    transition: background 0.2s;
-  }
-  nav a:hover {
-    background: #004466;
-  }
-  main {
-    max-width: 1000px; margin: 70px auto 40px; padding: 0 20px;
-  }
-  h1 {
-    margin-bottom: 20px;
-    color: #004466;
-    font-weight: 700;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-    border-radius: 12px;
-    overflow: hidden;
-  }
-  th, td {
-    padding: 12px 15px;
-    border-bottom: 1px solid #ddd;
-    text-align: center;
-    font-size: 0.95rem;
-  }
-  th {
-    background: #006699;
-    color: white;
-    font-weight: 700;
-  }
-  tr:hover {
-    background: #f0f8ff;
-  }
-  select, input[type="date"], input[type="time"] {
-    padding: 6px 8px;
-    font-size: 0.9rem;
-    border-radius: 6px;
-    border: 1.5px solid #a9c6d9;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  select:focus, input[type="date"]:focus, input[type="time"]:focus {
-    outline: none;
-    border-color: #004466;
-    box-shadow: 0 0 6px rgba(0,70,102,0.5);
-  }
-  button.action-btn {
-    padding: 6px 12px;
-    border: none;
-    border-radius: 6px;
-    color: white;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background 0.3s;
-    min-width: 70px;
-  }
-  button.approve {
-    background-color: #28a745;
-  }
-  button.approve:hover {
-    background-color: #218838;
-  }
-  button.reject {
-    background-color: #dc3545;
-  }
-  button.reject:hover {
-    background-color: #bd2130;
-  }
-  button.cancel {
-    background-color: #6c757d;
-  }
-  button.cancel:hover {
-    background-color: #5a6268;
-  }
-  .status-pending {
-    color: #ff9800; font-weight: 700;
-  }
-  .status-approved {
-    color: #28a745; font-weight: 700;
-  }
-  .status-rejected {
-    color: #dc3545; font-weight: 700;
-  }
-  .status-cancelled {
-    color: #6c757d; font-weight: 700;
-  }
+  body { font-family: Arial, sans-serif; margin: 0; background: #f7f9fc; color: #222; }
+  header { background: #004466; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+  .logo { font-weight: bold; font-size: 1.5rem; cursor: pointer; }
+  .hamburger { display: flex; flex-direction: column; justify-content: space-between; width: 28px; height: 22px; cursor: pointer; }
+  .hamburger div { background: white; height: 4px; border-radius: 2px; transition: 0.3s; }
+  .hamburger.active div:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .hamburger.active div:nth-child(2) { opacity: 0; }
+  .hamburger.active div:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+  nav { position: fixed; top: 56px; right: 0; background: #006699; width: 200px; height: calc(100% - 56px); transform: translateX(100%); transition: transform 0.3s ease; padding-top: 20px; z-index: 1500; }
+  nav.open { transform: translateX(0); }
+  nav a { display: block; padding: 15px 25px; color: white; font-weight: 600; text-decoration: none; border-bottom: 1px solid #005577; }
+  nav a:hover { background: #004466; }
+  main { max-width: 1000px; margin: 70px auto 40px; padding: 0 20px; }
+  h1 { margin-bottom: 20px; color: #004466; font-weight: 700; }
+  table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 6px 18px rgba(0,0,0,0.1); border-radius: 12px; overflow: hidden; }
+  th, td { padding: 12px 15px; border-bottom: 1px solid #ddd; text-align: center; font-size: 0.95rem; }
+  th { background: #006699; color: white; font-weight: 700; }
+  tr:hover { background: #f0f8ff; }
+  select, input[type="date"], input[type="time"], input[type="text"] { padding: 6px 8px; font-size: 0.9rem; border-radius: 6px; border: 1.5px solid #a9c6d9; width: 100%; box-sizing: border-box; }
+  select:focus, input[type="date"]:focus, input[type="time"]:focus, input[type="text"]:focus { outline: none; border-color: #004466; box-shadow: 0 0 6px rgba(0,70,102,0.5); }
+  button.action-btn { padding: 6px 12px; border: none; border-radius: 6px; color: white; cursor: pointer; font-weight: 600; transition: background 0.3s; min-width: 70px; margin: 2px; }
+  button.approve { background-color: #28a745; }
+  button.approve:hover { background-color: #218838; }
+  button.reject { background-color: #dc3545; }
+  button.reject:hover { background-color: #bd2130; }
+  button.cancel { background-color: #6c757d; }
+  button.cancel:hover { background-color: #5a6268; }
+  button.complete { background-color: #007bff; }
+  button.complete:hover { background-color: #0056b3; }
+  .status-pending { color: #ff9800; font-weight: 700; }
+  .status-approved { color: #28a745; font-weight: 700; }
+  .status-rejected { color: #dc3545; font-weight: 700; }
+  .status-cancelled { color: #6c757d; font-weight: 700; }
+  .status-complete { color: #007bff; font-weight: 700; }
   @media (max-width: 900px) {
-    nav {
-      width: 160px;
-    }
-    table, thead, tbody, th, td, tr {
-      display: block;
-    }
-    thead tr {
-      display: none;
-    }
-    tr {
-      margin-bottom: 15px;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      padding: 15px;
-    }
-    td {
-      text-align: right;
-      padding-left: 50%;
-      position: relative;
-    }
-    td::before {
-      content: attr(data-label);
-      position: absolute;
-      left: 15px; top: 15px;
-      font-weight: 700;
-      color: #004466;
-      white-space: nowrap;
-    }
-    td:last-child {
-      border-bottom: 0;
-    }
+    nav { width: 160px; }
+    table, thead, tbody, th, td, tr { display: block; }
+    thead tr { display: none; }
+    tr { margin-bottom: 15px; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); padding: 15px; }
+    td { text-align: right; padding-left: 50%; position: relative; }
+    td::before { content: attr(data-label); position: absolute; left: 15px; top: 15px; font-weight: 700; color: #004466; white-space: nowrap; }
+    td:last-child { border-bottom: 0; }
   }
 </style>
 </head>
@@ -282,6 +147,7 @@
           <button class="action-btn approve" onclick="updateStatus('${orderId}', 'Approved')" aria-label="Approve order ${orderId}">Approve</button>
           <button class="action-btn reject" onclick="updateStatus('${orderId}', 'Rejected')" aria-label="Reject order ${orderId}">Reject</button>
           <button class="action-btn cancel" onclick="updateStatus('${orderId}', 'Cancelled')" aria-label="Cancel order ${orderId}">Cancel</button>
+          <button class="action-btn complete" onclick="updateStatus('${orderId}', 'Complete')" aria-label="Mark work complete for order ${orderId}">Work Complete</button>
         </td>
       `;
       tbody.appendChild(tr);
