@@ -1,431 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Grameen Cooling Solution</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
-  * {
-    box-sizing: border-box;
-  }
-  body {
-    margin: 0; font-family: 'Montserrat', sans-serif;
-    background: #f5f8fa; color: #223344;
-  }
-  header {
-    background: linear-gradient(90deg, #004466, #006699);
-    color: white; padding: 15px 20px;
-    display: flex; align-items: center; justify-content: space-between;
-    position: sticky; top: 0; z-index: 1000;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-  }
-  .logo {
-    font-weight: 700; font-size: 1.6rem; letter-spacing: 3px;
-    cursor: pointer;
-  }
-  .hamburger {
-    width: 28px; height: 22px;
-    cursor: pointer;
-    display: flex; flex-direction: column; justify-content: space-between;
-  }
-  .hamburger div {
-    background: white;
-    height: 4px; border-radius: 2px;
-    transition: 0.3s;
-  }
-  .hamburger.active div:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-  }
-  .hamburger.active div:nth-child(2) {
-    opacity: 0;
-  }
-  .hamburger.active div:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px);
-  }
-  nav {
-    position: fixed;
-    top: 56px; right: 0;
-    background: #006699;
-    width: 200px;
-    height: calc(100% - 56px);
-    transform: translateX(100%);
-    transition: transform 0.3s ease;
-    padding-top: 20px;
-    z-index: 1500;
-  }
-  nav.open {
-    transform: translateX(0);
-  }
-  nav a {
-    display: block;
-    padding: 15px 25px;
-    color: white;
-    font-weight: 600;
-    text-decoration: none;
-    border-bottom: 1px solid #005577;
-    transition: background 0.2s;
-  }
-  nav a:hover {
-    background: #004466;
-  }
-  main {
-    max-width: 900px; margin: 40px auto; padding: 0 20px;
-  }
-  section {
-    display: none;
-  }
-  section.active {
-    display: block;
-  }
-  .services-section {
-    display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;
-    margin-bottom: 50px;
-  }
-  .service-card {
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    width: 180px; padding: 25px;
-    text-align: center;
-    transition: transform 0.3s ease;
-    cursor: default;
-  }
-  .service-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
-  }
-  .service-card img {
-    width: 80px; height: 80px; margin-bottom: 15px;
-    object-fit: contain;
-  }
-  .service-card h3 {
-    margin: 10px 0 0; font-size: 1.1rem; color: #004466;
-    font-weight: 700;
-  }
-  .booking-button {
-    display: block;
-    margin: 0 auto 60px;
-    padding: 12px 48px;
-    font-size: 1.25rem;
-    background: #006699;
-    color: white;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    box-shadow: 0 6px 12px rgba(0,102,153,0.4);
-    transition: background 0.3s ease;
-  }
-  .booking-button:hover {
-    background: #004466;
-  }
-  label {
-    display: block;
-    margin-top: 15px;
-    font-weight: 600;
-    color: #223344;
-  }
-  input, select, textarea {
-    width: 100%;
-    padding: 12px 15px;
-    margin-top: 6px;
-    border: 1.8px solid #a9c6d9;
-    border-radius: 10px;
-    font-size: 1rem;
-    font-family: 'Montserrat', sans-serif;
-    transition: border-color 0.3s ease;
-  }
-  input:focus, select:focus, textarea:focus {
-    outline: none;
-    border-color: #006699;
-    box-shadow: 0 0 8px rgba(0,102,153,0.4);
-  }
-  button.submit-btn {
-    margin-top: 28px;
-    background: #006699;
-    color: white;
-    font-size: 1.2rem;
-    padding: 14px 0;
-    border: none;
-    border-radius: 30px;
-    width: 100%;
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(0,102,153,0.4);
-    transition: background 0.3s ease;
-  }
-  button.submit-btn:hover {
-    background: #004466;
-  }
-  #totalPrice {
-    margin-top:12px; font-weight:700; font-size:1.2rem; color:#006699; text-align:center;
-  }
-  /* Responsive */
-  @media (max-width: 600px) {
-    .services-section {
-      gap: 20px;
-      justify-content: center;
-    }
-    .service-card {
-      width: 140px;
-      padding: 20px;
-    }
-    nav {
-      width: 160px;
-    }
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grameen Cooling Solution</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
 </head>
 <body>
+  <header>
+    <div class="logo">🌬️ Grameen Cooling</div>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="booking.html">Booking</a></li>
+        <li><a href="tracking.html">Order Tracking</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
 
-<header>
-  <div class="logo" tabindex="0" role="button" aria-label="Go to Home" onclick="showSection('home')">Grameen Cooling Solution</div>
-  <div class="hamburger" aria-label="Toggle menu" role="button" tabindex="0" aria-expanded="false">
-    <div></div><div></div><div></div>
-  </div>
-</header>
+  <section class="hero">
+    <h1>Premium AC & Jet Pump Servicing</h1>
+    <p>Bringing clean air and cool comfort to every home in Murshidabad.</p>
+    <a class="btn" href="booking.html">Book Now</a>
+  </section>
 
-<nav aria-label="Main Navigation">
-  <a href="#" onclick="showSection('home'); closeNav()">Home</a>
-  <a href="#" onclick="showSection('booking'); closeNav()">Book Service</a>
-  <a href="#" onclick="showSection('tracking'); closeNav()">Track Order</a>
-  <a href="#" onclick="showSection('terms'); closeNav()">Terms & Conditions</a>
-  <a href="#" onclick="showSection('return'); closeNav()">Return Policy</a>
-  <a href="#" onclick="showSection('contact'); closeNav()">Contact Us</a>
-</nav>
-
-<main>
-  <section id="home" class="active" aria-label="Home Section">
-    <div class="services-section" aria-label="AC Services Catalog">
-      <div class="service-card" tabindex="0">
-        <img src="https://cdn-icons-png.flaticon.com/512/709/709699.png" alt="AC Servicing Icon" />
-        <h3>AC Servicing</h3>
-      </div>
-      <div class="service-card" tabindex="0">
-        <img src="https://cdn-icons-png.flaticon.com/512/1627/1627583.png" alt="Breakdown Repair Icon" />
-        <h3>Breakdown Repair</h3>
-      </div>
-      <div class="service-card" tabindex="0">
-        <img src="https://cdn-icons-png.flaticon.com/512/1373/1373473.png" alt="Installation Icon" />
-        <h3>Installation</h3>
-      </div>
-      <div class="service-card" tabindex="0">
-        <img src="https://cdn-icons-png.flaticon.com/512/2779/2779840.png" alt="Uninstallation Icon" />
-        <h3>Uninstallation</h3>
-      </div>
-      <div class="service-card" tabindex="0">
-        <img src="https://cdn-icons-png.flaticon.com/512/2667/2667002.png" alt="Z-Pump Service Icon" />
-        <h3>Z-Pump Service</h3>
-      </div>
-      <div class="service-card" tabindex="0">
-        <img src="https://cdn-icons-png.flaticon.com/512/565/565547.png" alt="Premium Service Icon" />
-        <h3>Premium Service</h3>
-      </div>
+  <section id="services" class="services">
+    <h2>Our Services</h2>
+    <div class="service-card">
+      <h3>AC Servicing</h3>
+      <p>Routine checkups & cleaning to keep your air conditioner performing at its best.</p>
     </div>
-    <button class="booking-button" onclick="showSection('booking')">Book Your Service</button>
+    <div class="service-card">
+      <h3>Jet Pump Service</h3>
+      <p>We clean both indoor & outdoor AC units using high-pressure water jets.</p>
+    </div>
+    <div class="service-card">
+      <h3>Premium Service</h3>
+      <p>Includes full machine dismount, internal wash, and deep cleaning for optimal performance.</p>
+    </div>
   </section>
 
-  <section id="booking" aria-label="Booking Section">
-    <h2>Book Your AC Service</h2>
-    <form id="bookingForm">
-      <label for="name">Full Name</label>
-      <input type="text" id="name" required placeholder="Your full name" />
-
-      <label for="mobile">Mobile Number</label>
-      <input type="tel" id="mobile" required placeholder="10-digit mobile number" pattern="[0-9]{10}" />
-
-      <label for="pincode">Pin Code</label>
-      <input type="text" id="pincode" required placeholder="Area pin code" pattern="[0-9]{6}" />
-
-      <label for="address">Address</label>
-      <textarea id="address" rows="3" required placeholder="Your full address"></textarea>
-
-      <label for="email">Email (optional)</label>
-      <input type="email" id="email" placeholder="Your email address" />
-
-      <label for="service">Select Service</label>
-      <select id="service" required>
-        <option value="">-- Select Service --</option>
-        <option value="AC Servicing" data-price="499">AC Servicing - ₹499</option>
-        <option value="Breakdown Repair" data-price="699">Breakdown Repair - ₹699</option>
-        <option value="Installation" data-price="999">Installation - ₹999</option>
-        <option value="Uninstallation" data-price="599">Uninstallation - ₹599</option>
-        <option value="Z-Pump Service" data-price="799">Z-Pump Service - ₹799</option>
-        <option value="Premium Service" data-price="1499">Premium Service - ₹1499</option>
-      </select>
-
-      <label for="condition">Condition</label>
-      <select id="condition" required>
-        <option value="">-- Select Condition --</option>
-        <option value="New">New</option>
-        <option value="Used">Used</option>
-        <option value="Repair">Repair</option>
-      </select>
-
-      <label for="visitingCharge">Visiting Charge (Fixed)</label>
-      <input type="number" id="visitingCharge" value="200" readonly />
-
-      <label for="quantity">Quantity</label>
-      <input type="number" id="quantity" value="1" min="1" required />
-
-      <div id="totalPrice">Total Price: ₹ 0</div>
-
-      <button type="submit" class="submit-btn">Pay & Book</button>
-    </form>
+  <section id="contact" class="contact">
+    <h2>Get in Touch</h2>
+    <p>📍 Bharatpur, Murshidabad, West Bengal 742301</p>
+    <p>📧 gramincoolingsolution@gmail.com</p>
+    <p>📞 +91 9433319493</p>
   </section>
 
-  <section id="tracking" aria-label="Order Tracking Section">
-    <h2>Track Your Order</h2>
-    <label for="trackOrderId">Enter Order ID</label>
-    <input type="text" id="trackOrderId" placeholder="e.g. ORD1627891234567" />
-    <button onclick="trackOrder()">Track</button>
-    <div id="trackingResult" style="margin-top:20px; font-weight:600;"></div>
-  </section>
-
-  <section id="terms" aria-label="Terms and Conditions">
-    <h2>Terms & Conditions</h2>
-    <p>All services are subject to our terms and conditions. Please read carefully before booking.</p>
-    <ul>
-      <li>Services will be provided as per the scheduled date and time.</li>
-      <li>Payment must be completed before service.</li>
-      <li>Cancellation is possible up to 24 hours before the scheduled service.</li>
-      <li>Warranty and support terms apply as per product and service type.</li>
-    </ul>
-  </section>
-
-  <section id="return" aria-label="Return Policy">
-    <h2>Return Policy</h2>
-    <p>If you are not satisfied with our service, please contact us within 7 days for resolution.</p>
-    <ul>
-      <li>Refunds will be processed after verification.</li>
-      <li>Return requests should be made within the specified time.</li>
-      <li>Terms apply based on service type.</li>
-    </ul>
-  </section>
-
-  <section id="contact" aria-label="Contact Us">
-    <h2>Contact Us</h2>
-    <p><strong>Address:</strong> 123, Cooling Street, Your City</p>
-    <p><strong>Phone:</strong> +91 98765 43210</p>
-    <p><strong>Email:</strong> support@grameencoolingsolution.com</p>
-  </section>
-</main>
-
-<script>
-  // Hamburger toggle
-  const hamburger = document.querySelector('.hamburger');
-  const nav = document.querySelector('nav');
-  hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    nav.classList.toggle('open');
-    const expanded = hamburger.getAttribute('aria-expanded') === 'true';
-    hamburger.setAttribute('aria-expanded', !expanded);
-  });
-  hamburger.addEventListener('keydown', (e) => {
-    if(e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      hamburger.click();
-    }
-  });
-
-  // Section switching
-  function showSection(id) {
-    document.querySelectorAll('main section').forEach(sec => {
-      sec.classList.remove('active');
-    });
-    document.getElementById(id).classList.add('active');
-    // Close nav on mobile after selection
-    closeNav();
-    // Scroll top
-    window.scrollTo(0,0);
-  }
-  function closeNav() {
-    nav.classList.remove('open');
-    hamburger.classList.remove('active');
-    hamburger.setAttribute('aria-expanded', 'false');
-  }
-
-  // Price calculation
-  const serviceSelect = document.getElementById("service");
-  const quantityInput = document.getElementById("quantity");
-  const visitingChargeInput = document.getElementById("visitingCharge");
-  const totalPriceDiv = document.getElementById("totalPrice");
-
-  function updatePrice() {
-    const selectedOption = serviceSelect.options[serviceSelect.selectedIndex];
-    const price = Number(selectedOption.getAttribute("data-price") || 0);
-    const quantity = Number(quantityInput.value) || 1;
-    const visitingCharge = Number(visitingChargeInput.value) || 0;
-    const total = (price * quantity) + visitingCharge;
-    totalPriceDiv.textContent = "Total Price: ₹ " + total;
-  }
-  serviceSelect.addEventListener("change", updatePrice);
-  quantityInput.addEventListener("input", updatePrice);
-  updatePrice();
-
-  // Booking form submission
-  document.getElementById("bookingForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-
-    const name = this.name.value.trim();
-    const mobile = this.mobile.value.trim();
-    const pincode = this.pincode.value.trim();
-    const address = this.address.value.trim();
-    const email = this.email.value.trim();
-    const service = this.service.value;
-    const condition = this.condition.value;
-    const quantity = this.quantity.value;
-    const visitingCharge = this.visitingCharge.value;
-
-    if (!service) {
-      alert("Please select a service.");
-      return;
-    }
-    if (!condition) {
-      alert("Please select condition.");
-      return;
-    }
-
-    const orderId = "ORD" + Date.now();
-
-    let orders = JSON.parse(localStorage.getItem("orders") || "{}");
-    orders[orderId] = {
-      name, mobile, pincode, address, email, service, condition, quantity,
-      visitingCharge,
-      status: "Pending Approval"
-    };
-    localStorage.setItem("orders", JSON.stringify(orders));
-
-    alert(`Thank you for booking!\nYour Order ID: ${orderId}\nPlease save this for tracking.`);
-
-    // Redirect to tracking section after booking
-    showSection('tracking');
-
-    this.reset();
-    updatePrice();
-  });
-
-  // Order tracking
-  function trackOrder() {
-    const orderIdInput = document.getElementById("trackOrderId").value.trim();
-    const resultDiv = document.getElementById("trackingResult");
-    if (!orderIdInput) {
-      resultDiv.textContent = "Please enter your Order ID.";
-      return;
-    }
-    const orders = JSON.parse(localStorage.getItem("orders") || "{}");
-    if (orders[orderIdInput]) {
-      const order = orders[orderIdInput];
-      resultDiv.innerHTML = `<p><strong>Order ID:</strong> ${orderIdInput}</p>
-        <p><strong>Name:</strong> ${order.name}</p>
-        <p><strong>Service:</strong> ${order.service}</p>
-        <p><strong>Condition:</strong> ${order.condition}</p>
-        <p><strong>Quantity:</strong> ${order.quantity}</p>
-        <p><strong>Status:</strong> ${order.status}</p>`;
-    } else {
-      resultDiv.textContent = "Order ID not found. Please check and try again.";
-    }
-  }
-</script>
-
+  <footer>
+    <p>© 2025 Grameen Cooling Solution | Crafted with ❤️ by Copilot</p>
+  </footer>
 </body>
 </html>
