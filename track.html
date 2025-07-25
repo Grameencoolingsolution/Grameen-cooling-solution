@@ -2,68 +2,67 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Track Your Order - Grameen Cooling Solution</title>
-  <link rel="stylesheet" href="style.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Track Your Order</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f9ff;
       padding: 20px;
-      background: #f2f2f2;
-    }
-    h2 {
-      color: #007bff;
-    }
-    .track-box {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
       max-width: 500px;
       margin: auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
     }
     input, button {
       width: 100%;
       padding: 12px;
       margin-top: 10px;
-      font-size: 16px;
+      font-size: 1rem;
     }
     .status {
       margin-top: 20px;
-      font-weight: bold;
+      font-weight: 700;
+      font-size: 1.2rem;
       color: green;
+    }
+    .error {
+      color: red;
     }
   </style>
 </head>
 <body>
-  <div class="track-box">
-    <h2>Track Your Order</h2>
-    <input type="text" id="orderId" placeholder="Enter your Order ID" />
-    <button onclick="trackOrder()">Track Order</button>
-    <div id="result" class="status"></div>
-  </div>
+  <h1>Track Your Order</h1>
+  <input type="text" id="orderId" placeholder="Enter your Order ID" />
+  <button onclick="trackOrder()">Track Order</button>
+  <div id="result" class="status"></div>
 
   <script>
     function trackOrder() {
-      const orderId = document.getElementById("orderId").value;
+      const orderId = document.getElementById("orderId").value.trim();
       const orders = JSON.parse(localStorage.getItem("orders") || "{}");
-      const status = orders[orderId];
-      const resultBox = document.getElementById("result");
+      const result = document.getElementById("result");
 
-      if (status) {
-        resultBox.textContent = `Order Status: ${status}`;
+      if (!orderId) {
+        result.textContent = "Please enter an Order ID.";
+        result.className = "status error";
+        return;
+      }
+
+      if (orders[orderId]) {
+        result.className = "status";
+        result.textContent = `Order Status: ${orders[orderId].status}`;
       } else {
-        resultBox.textContent = "Order not found!";
-        resultBox.style.color = "red";
+        result.className = "status error";
+        result.textContent = "Order not found.";
       }
     }
 
-    // Optional: Auto-fill if ?orderId= is in URL
-    window.onload = function() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const orderId = urlParams.get("orderId");
-      if (orderId) {
-        document.getElementById("orderId").value = orderId;
+    // If ?orderId= present in URL, auto search
+    window.onload = () => {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("orderId");
+      if (id) {
+        document.getElementById("orderId").value = id;
         trackOrder();
       }
     };
