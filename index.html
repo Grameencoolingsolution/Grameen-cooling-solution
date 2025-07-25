@@ -8,47 +8,31 @@
 </head>
 <body>
   <header>
-    <h1>Grameen Cooling Solution</h1>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="booking.html">Book Service</a>
-      <a href="track.html">Track Order</a>
-      <a href="terms.html">Terms</a>
-      <a href="return.html">Return Policy</a>
-      <a href="contact.html">Contact Us</a>
+      <div class="logo">Grameen Cooling Solution</div>
+      <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+      <ul id="menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="book.html">Book Service</a></li>
+        <li><a href="track.html">Track Order</a></li>
+        <li><a href="admin.html">Admin</a></li>
+      </ul>
     </nav>
   </header>
 
-  <section class="hero">
-    <h2>AC, Washing Machine, Geyser, Microwave Repair & Installation</h2>
-    <p>Book reliable and affordable home appliance services now!</p>
-    <a href="booking.html" class="btn">Book a Service</a>
-  </section>
+  <main>
+    <section class="hero">
+      <h1>Stay Cool with Grameen Cooling Solution</h1>
+      <p>Affordable AC services for your comfort.</p>
+      <a href="book.html" class="btn">Book Now</a>
+    </section>
+  </main>
 
-  <section class="products">
-    <h3>Our Services</h3>
-    <div class="product-grid">
-      <div class="product">
-        <img src="https://via.placeholder.com/200x150?text=AC+Service" alt="AC Service" />
-        <p>AC Repair & Installation</p>
-      </div>
-      <div class="product">
-        <img src="https://via.placeholder.com/200x150?text=Washing+Machine" alt="Washing Machine" />
-        <p>Washing Machine Service</p>
-      </div>
-      <div class="product">
-        <img src="https://via.placeholder.com/200x150?text=Geyser" alt="Geyser" />
-        <p>Geyser Repair</p>
-      </div>
-      <div class="product">
-        <img src="https://via.placeholder.com/200x150?text=Microwave" alt="Microwave" />
-        <p>Microwave Repair</p>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <p>© 2025 Grameen Cooling Solution. All rights reserved.</p>
-  </footer>
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById("menu");
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+  </script>
 </body>
 </html>
