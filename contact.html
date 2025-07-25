@@ -2,98 +2,38 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Contact Us - Grameen Cooling Solution</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #fefae0;
-    }
-    header {
-      background: #0077b6;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-    }
-    nav {
-      background: #023e8a;
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      padding: 0.5rem 0;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    main {
-      padding: 2rem;
-    }
-    .info, form {
-      max-width: 400px;
-      margin: auto;
-      background: white;
-      padding: 1.5rem;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #ccc;
-    }
-    form input, form textarea {
-      width: 100%;
-      padding: 0.5rem;
-      margin: 0.5rem 0 1rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    form button {
-      background: #0077b6;
-      color: white;
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    footer {
-      background: #0077b6;
-      color: white;
-      text-align: center;
-      padding: 1rem;
-      margin-top: 2rem;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
     <h1>Contact Us</h1>
   </header>
-
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="services.html">Services</a>
-    <a href="booking.html">Book Now</a>
-    <a href="contact.html">Contact</a>
-  </nav>
-
-  <main>
-    <div class="info">
-      <p><strong>Address:</strong> BD Sherpur, Bharatpur, Murshidabad, West Bengal - 742301</p>
-      <p><strong>Phone:</strong> 9609013418</p>
-      <p><strong>Email:</strong> grameencooling@example.com</p>
-    </div>
-
-    <form>
-      <h3>Send us a message</h3>
-      <input type="text" placeholder="Your Name" required />
-      <input type="email" placeholder="Your Email" required />
-      <textarea rows="4" placeholder="Your Message" required></textarea>
-      <button type="submit">Send</button>
+  <section style="padding: 2rem;">
+    <form id="contactForm">
+      <input type="text" id="name" placeholder="Your Name" required /><br/><br/>
+      <input type="email" id="email" placeholder="Your Email" required /><br/><br/>
+      <input type="tel" id="phone" placeholder="Your Phone" required /><br/><br/>
+      <textarea id="message" placeholder="Your Message" required></textarea><br/><br/>
+      <button type="submit">Send Message</button>
     </form>
-  </main>
-
-  <footer>
-    We're here to help – Call or message anytime!
-  </footer>
+    <p id="response" style="margin-top:1rem;"></p>
+  </section>
+  <script>
+    document.getElementById("contactForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const message = document.getElementById("message").value.trim();
+      if(!name || !email || !phone || !message){
+        document.getElementById("response").innerText = "Please fill in all fields.";
+        return;
+      }
+      document.getElementById("response").innerText = "Thank you! We’ll get back to you soon.";
+      this.reset();
+    });
+  </script>
 </body>
 </html>
