@@ -1,204 +1,119 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Admin Panel - Grameen Cooling Solution</title>
-<style>
-  body { font-family: Arial, sans-serif; margin: 0; background: #f7f9fc; color: #222; }
-  header { background: #004466; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
-  .logo { font-weight: bold; font-size: 1.5rem; cursor: pointer; }
-  .hamburger { display: flex; flex-direction: column; justify-content: space-between; width: 28px; height: 22px; cursor: pointer; }
-  .hamburger div { background: white; height: 4px; border-radius: 2px; transition: 0.3s; }
-  .hamburger.active div:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-  .hamburger.active div:nth-child(2) { opacity: 0; }
-  .hamburger.active div:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-  nav { position: fixed; top: 56px; right: 0; background: #006699; width: 200px; height: calc(100% - 56px); transform: translateX(100%); transition: transform 0.3s ease; padding-top: 20px; z-index: 1500; }
-  nav.open { transform: translateX(0); }
-  nav a { display: block; padding: 15px 25px; color: white; font-weight: 600; text-decoration: none; border-bottom: 1px solid #005577; }
-  nav a:hover { background: #004466; }
-  main { max-width: 1000px; margin: 70px auto 40px; padding: 0 20px; }
-  h1 { margin-bottom: 20px; color: #004466; font-weight: 700; }
-  table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 6px 18px rgba(0,0,0,0.1); border-radius: 12px; overflow: hidden; }
-  th, td { padding: 12px 15px; border-bottom: 1px solid #ddd; text-align: center; font-size: 0.95rem; }
-  th { background: #006699; color: white; font-weight: 700; }
-  tr:hover { background: #f0f8ff; }
-  select, input[type="date"], input[type="time"], input[type="text"] { padding: 6px 8px; font-size: 0.9rem; border-radius: 6px; border: 1.5px solid #a9c6d9; width: 100%; box-sizing: border-box; }
-  select:focus, input[type="date"]:focus, input[type="time"]:focus, input[type="text"]:focus { outline: none; border-color: #004466; box-shadow: 0 0 6px rgba(0,70,102,0.5); }
-  button.action-btn { padding: 6px 12px; border: none; border-radius: 6px; color: white; cursor: pointer; font-weight: 600; transition: background 0.3s; min-width: 70px; margin: 2px; }
-  button.approve { background-color: #28a745; }
-  button.approve:hover { background-color: #218838; }
-  button.reject { background-color: #dc3545; }
-  button.reject:hover { background-color: #bd2130; }
-  button.cancel { background-color: #6c757d; }
-  button.cancel:hover { background-color: #5a6268; }
-  button.complete { background-color: #007bff; }
-  button.complete:hover { background-color: #0056b3; }
-  .status-pending { color: #ff9800; font-weight: 700; }
-  .status-approved { color: #28a745; font-weight: 700; }
-  .status-rejected { color: #dc3545; font-weight: 700; }
-  .status-cancelled { color: #6c757d; font-weight: 700; }
-  .status-complete { color: #007bff; font-weight: 700; }
-  @media (max-width: 900px) {
-    nav { width: 160px; }
-    table, thead, tbody, th, td, tr { display: block; }
-    thead tr { display: none; }
-    tr { margin-bottom: 15px; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); padding: 15px; }
-    td { text-align: right; padding-left: 50%; position: relative; }
-    td::before { content: attr(data-label); position: absolute; left: 15px; top: 15px; font-weight: 700; color: #004466; white-space: nowrap; }
-    td:last-child { border-bottom: 0; }
-  }
-</style>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Admin | Grameen Cooling Solution</title>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+  <script type="module">
+    import {getOrders, saveOrders, STATUSES, statusClass} from './assets/js/app.js';
+
+    const ADMIN_PIN = "1234"; // TODO: change this
+
+    function renderTable(list){
+      const tbody = document.querySelector('#tbl tbody');
+      tbody.innerHTML = '';
+      list.forEach(o=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><b>${o.id}</b><br/><small class="muted">${new Date(o.createdAt).toLocaleString()}</small></td>
+          <td>${o.name}<br/><small class="muted">${o.phone}</small></td>
+          <td>${o.service}</td>
+          <td><span class="${statusClass(o.status)}">${o.status}</span></td>
+          <td>
+            <select data-id="${o.id}" class="input">
+              ${STATUSES.map(s=>`<option ${s===o.status?'selected':''}>${s}</option>`).join('')}
+            </select>
+          </td>
+          <td><button class="btn ghost" data-vid="${o.id}">View</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      tbody.querySelectorAll('select').forEach(sel=>{
+        sel.addEventListener('change', (e)=>{
+          const id = sel.getAttribute('data-id');
+          const list = getOrders();
+          const idx = list.findIndex(x=>x.id===id);
+          if(idx>-1){
+            list[idx].status = sel.value;
+            list[idx].history = list[idx].history || [];
+            list[idx].history.push({ts:new Date().toISOString(), note:`Status → ${sel.value}`});
+            saveOrders(list);
+            renderTable(getOrders());
+          }
+        });
+      });
+
+      tbody.querySelectorAll('button[data-vid]').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const id = btn.getAttribute('data-vid');
+          const o = getOrders().find(x=>x.id===id);
+          alert(`Order ${o.id}\n${o.name} (${o.phone})\n${o.address}\nService: ${o.service}\nStatus: ${o.status}`);
+        });
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', ()=>{
+      const gate = document.getElementById('gate');
+      const dash = document.getElementById('dash');
+      document.getElementById('login').addEventListener('submit', (e)=>{
+        e.preventDefault();
+        const pin = document.getElementById('pin').value;
+        if(pin===ADMIN_PIN){
+          gate.style.display = 'none';
+          dash.style.display = 'block';
+          renderTable(getOrders());
+        }else{
+          alert('Wrong PIN');
+        }
+      });
+    });
+  </script>
 </head>
 <body>
+  <nav class="nav">
+    <div class="inner container">
+      <div class="brand">
+        <img src="assets/images/logo.png" alt="GCS"/>
+        <div class="title">Grameen Cooling Solution</div>
+      </div>
+      <div class="menu">
+        <a href="index.html">Home</a>
+        <a href="booking.html">Book Service</a>
+      </div>
+    </div>
+  </nav>
 
-<header>
-  <div class="logo" tabindex="0" role="button" aria-label="Admin Home" onclick="location.reload()">Grameen Cooling Solution - Admin</div>
-  <div class="hamburger" aria-label="Toggle menu" role="button" tabindex="0" aria-expanded="false">
-    <div></div><div></div><div></div>
-  </div>
-</header>
+  <main class="container">
+    <div id="gate" class="card" style="max-width:420px;margin:30px auto">
+      <div class="title">Admin Login</div>
+      <form id="login">
+        <div class="label">Enter PIN</div>
+        <input class="input" id="pin" type="password" placeholder="4-digit PIN" required/>
+        <button class="btn" style="margin-top:10px">Enter</button>
+      </form>
+      <div class="notice" style="margin-top:10px">Default PIN: 1234 (change in admin.html)</div>
+    </div>
 
-<nav aria-label="Admin Navigation">
-  <a href="#" onclick="location.reload()">Dashboard</a>
-  <a href="#" onclick="alert('Logout clicked!')">Logout</a>
-</nav>
-
-<main>
-  <h1>Orders Management</h1>
-  <table aria-label="Orders List">
-    <thead>
-      <tr>
-        <th>Order ID</th>
-        <th>Name</th>
-        <th>Service</th>
-        <th>Quantity</th>
-        <th>Condition</th>
-        <th>Visiting Charge</th>
-        <th>Technician</th>
-        <th>Visit Date</th>
-        <th>Visit Time</th>
-        <th>Payment Status</th>
-        <th>Status</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody id="ordersTableBody">
-      <!-- Orders will appear here -->
-    </tbody>
-  </table>
-</main>
-
-<script>
-  // Hamburger toggle
-  const hamburger = document.querySelector('.hamburger');
-  const nav = document.querySelector('nav');
-  hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    nav.classList.toggle('open');
-    const expanded = hamburger.getAttribute('aria-expanded') === 'true';
-    hamburger.setAttribute('aria-expanded', !expanded);
-  });
-  hamburger.addEventListener('keydown', (e) => {
-    if(e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      hamburger.click();
-    }
-  });
-
-  // Load orders from localStorage
-  function loadOrders() {
-    const orders = JSON.parse(localStorage.getItem('orders') || '{}');
-    const tbody = document.getElementById('ordersTableBody');
-    tbody.innerHTML = '';
-    Object.keys(orders).forEach(orderId => {
-      const order = orders[orderId];
-      const tr = document.createElement('tr');
-
-      tr.innerHTML = `
-        <td data-label="Order ID">${orderId}</td>
-        <td data-label="Name">${order.name}</td>
-        <td data-label="Service">${order.service}</td>
-        <td data-label="Quantity">${order.quantity}</td>
-        <td data-label="Condition">${order.condition}</td>
-        <td data-label="Visiting Charge">₹${order.visitingCharge}</td>
-        <td data-label="Technician">
-          <input type="text" value="${order.technician || ''}" placeholder="Assign technician" 
-            oninput="updateTechnician('${orderId}', this.value)" aria-label="Technician for ${orderId}" />
-        </td>
-        <td data-label="Visit Date">
-          <input type="date" value="${order.visitDate || ''}" 
-            onchange="updateVisitDate('${orderId}', this.value)" aria-label="Visit date for ${orderId}" />
-        </td>
-        <td data-label="Visit Time">
-          <input type="time" value="${order.visitTime || ''}" 
-            onchange="updateVisitTime('${orderId}', this.value)" aria-label="Visit time for ${orderId}" />
-        </td>
-        <td data-label="Payment Status">
-          <select onchange="updatePaymentStatus('${orderId}', this.value)" aria-label="Payment status for ${orderId}">
-            <option value="Pending" ${order.paymentStatus === 'Pending' ? 'selected' : ''}>Pending</option>
-            <option value="Paid" ${order.paymentStatus === 'Paid' ? 'selected' : ''}>Paid</option>
-          </select>
-        </td>
-        <td data-label="Status">
-          <span class="status-${order.status.toLowerCase().replace(' ', '-')}">${order.status}</span>
-        </td>
-        <td data-label="Actions">
-          <button class="action-btn approve" onclick="updateStatus('${orderId}', 'Approved')" aria-label="Approve order ${orderId}">Approve</button>
-          <button class="action-btn reject" onclick="updateStatus('${orderId}', 'Rejected')" aria-label="Reject order ${orderId}">Reject</button>
-          <button class="action-btn cancel" onclick="updateStatus('${orderId}', 'Cancelled')" aria-label="Cancel order ${orderId}">Cancel</button>
-          <button class="action-btn complete" onclick="updateStatus('${orderId}', 'Complete')" aria-label="Mark work complete for order ${orderId}">Work Complete</button>
-        </td>
-      `;
-      tbody.appendChild(tr);
-    });
-  }
-
-  // Update technician
-  function updateTechnician(orderId, value) {
-    const orders = JSON.parse(localStorage.getItem('orders') || '{}');
-    if (orders[orderId]) {
-      orders[orderId].technician = value;
-      localStorage.setItem('orders', JSON.stringify(orders));
-    }
-  }
-  // Update visit date
-  function updateVisitDate(orderId, value) {
-    const orders = JSON.parse(localStorage.getItem('orders') || '{}');
-    if (orders[orderId]) {
-      orders[orderId].visitDate = value;
-      localStorage.setItem('orders', JSON.stringify(orders));
-    }
-  }
-  // Update visit time
-  function updateVisitTime(orderId, value) {
-    const orders = JSON.parse(localStorage.getItem('orders') || '{}');
-    if (orders[orderId]) {
-      orders[orderId].visitTime = value;
-      localStorage.setItem('orders', JSON.stringify(orders));
-    }
-  }
-  // Update payment status
-  function updatePaymentStatus(orderId, value) {
-    const orders = JSON.parse(localStorage.getItem('orders') || '{}');
-    if (orders[orderId]) {
-      orders[orderId].paymentStatus = value;
-      localStorage.setItem('orders', JSON.stringify(orders));
-    }
-  }
-  // Update order status
-  function updateStatus(orderId, newStatus) {
-    const orders = JSON.parse(localStorage.getItem('orders') || '{}');
-    if (orders[orderId]) {
-      orders[orderId].status = newStatus;
-      localStorage.setItem('orders', JSON.stringify(orders));
-      loadOrders();
-    }
-  }
-
-  // Initial load
-  loadOrders();
-</script>
-
+    <div id="dash" style="display:none">
+      <div class="header">
+        <h2>Orders</h2>
+      </div>
+      <table class="table" id="tbl">
+        <thead>
+          <tr>
+            <th>Order</th>
+            <th>Customer</th>
+            <th>Service</th>
+            <th>Status</th>
+            <th>Update</th>
+            <th>View</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </main>
 </body>
 </html>
