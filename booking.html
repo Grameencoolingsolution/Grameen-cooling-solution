@@ -1,50 +1,198 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Book Your Service | Grameen Cooling</title>
-  <link rel="stylesheet" href="style.css" />
-  <script defer src="script.js"></script>
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Book Service | Grameen Cooling Solution</title>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+  <script type="module">
+    import {generateOrderId, saveOrder, currencyINR} from './assets/js/app.js';
+    import {payWithRazorpay} from './assets/js/razorpay.js';
+
+    window.addEventListener('DOMContentLoaded', ()=>{
+      const qs = new URLSearchParams(location.search);
+      const srv = qs.get('service');
+      if(srv) document.getElementById('service').value = srv;
+
+      const form = document.getElementById('bookForm');
+      form.addEventListener('submit', (e)=>{
+        e.preventDefault();
+
+        const data = Object.fromEntries(new FormData(form).entries());
+        const id = generateOrderId();
+        const amount = Number(data.amount||0);
+
+        const baseOrder = {
+          id,
+          service: data.service,
+          name: data.name,
+          phone: data.phone,
+          email: data.email || '',
+          address: data.address,
+          city: data.city || 'Kolkata',
+          pincode: data.pincode || '',
+          scheduleDate: data.scheduleDate,
+          scheduleTime: data.scheduleTime,
+          description: data.description || '',
+          amount: amount,
+          paymentMethod: data.paymentMethod,
+          status: 'Pending',
+          history: [{ts:new Date().toISOString(), note:'Order created'}],
+          createdAt: new Date().toISOString()
+        };
+
+        const thank = (orderId)=>{
+          const modal = document.getElementById('thankyou');
+          document.getElementById('ty-order').textContent = orderId;
+          modal.style.display = 'flex';
+          setTimeout(()=> location.href = `track.html?orderId=${encodeURIComponent(orderId)}`, 1600);
+        };
+
+        if(data.paymentMethod === 'Online'){
+          payWithRazorpay({
+            amount: amount,
+            orderId: id,
+            name: data.name,
+            email: data.email,
+            phone: data.phone,
+            onSuccess: (res)=>{
+              baseOrder.paymentInfo = { mode:'Online', txnId: res.razorpay_payment_id || res.payment_id || 'N/A' };
+              saveOrder(baseOrder);
+              thank(id);
+            },
+            onCancel: ()=>{
+              alert("Payment cancelled. You can try again or choose Cash on Service.");
+            }
+          });
+        } else {
+          baseOrder.paymentInfo = { mode:'Cash', txnId: null };
+          saveOrder(baseOrder);
+          thank(id);
+        }
+      });
+    });
+  </script>
+  <!-- Razorpay Checkout (optional; needed only if you set your real key) -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
 </head>
 <body>
-  <header>
-    <div class="logo">🌬️ Grameen Cooling</div>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
+  <nav class="nav">
+    <div class="inner container">
+      <div class="brand">
+        <img src="assets/images/logo.png" alt="GCS"/>
+        <div class="title">Grameen Cooling Solution</div>
+      </div>
+      <div class="menu">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="track.html">Track Order</a>
+      </div>
+    </div>
+  </nav>
 
-  <section class="hero">
-    <h1>Book a Service</h1>
-    <p>Fill out the form and pay to confirm your service appointment.</p>
-  </section>
+  <main class="container">
+    <div class="header"><h2>Book a Service</h2></div>
+    <div class="grid cols-3">
+      <div class="card" style="grid-column: span 2;">
+        <form id="bookForm" class="grid" style="gap:14px">
+          <div>
+            <div class="label">Select Service</div>
+            <select class="input" name="service" id="service" required>
+              <option value="">-- Choose --</option>
+              <option>AC Servicing</option>
+              <option>AC Repair</option>
+              <option>Washing Machine Repair</option>
+              <option>Geyser Service</option>
+              <option>Microwave Repair</option>
+              <option>Ceiling Fan Service</option>
+            </select>
+          </div>
 
-  <section class="services" style="max-width:600px; margin:auto;">
-    <form id="booking-form">
-      <label for="name">👤 Name:</label>
-      <input type="text" id="name" name="name" required />
+          <div class="row">
+            <div>
+              <div class="label">Full Name</div>
+              <input class="input" name="name" required placeholder="Your name"/>
+            </div>
+            <div>
+              <div class="label">Phone</div>
+              <input class="input" name="phone" required pattern="[0-9]{10}" placeholder="10-digit mobile"/>
+            </div>
+          </div>
 
-      <label for="email">📧 Email:</label>
-      <input type="email" id="email" name="email" required />
+          <div class="row">
+            <div>
+              <div class="label">Email (optional)</div>
+              <input class="input" name="email" type="email" placeholder="you@example.com"/>
+            </div>
+            <div>
+              <div class="label">City</div>
+              <input class="input" name="city" value="Kolkata"/>
+            </div>
+          </div>
 
-      <label for="phone">📱 Phone:</label>
-      <input type="tel" id="phone" name="phone" required />
+          <div>
+            <div class="label">Address</div>
+            <textarea class="input" name="address" rows="3" required placeholder="House no, street, area"></textarea>
+          </div>
 
-      <label for="service">🛠️ Choose Service:</label>
-      <select id="service" name="service" required>
-        <option value="AC Servicing">AC Servicing – ₹199</option>
-        <option value="Jet Pump Service">Jet Pump Service – ₹299</option>
-        <option value="Premium Service">Premium Service – ₹499</option>
-      </select>
+          <div class="row">
+            <div>
+              <div class="label">Preferred Date</div>
+              <input class="input" name="scheduleDate" type="date" required/>
+            </div>
+            <div>
+              <div class="label">Preferred Time</div>
+              <input class="input" name="scheduleTime" type="time" required/>
+            </div>
+          </div>
 
-      <br/><br/>
-      <button type="button" class="btn" onclick="openRazorpay()">Book & Pay</button>
-    </form>
-  </section>
+          <div>
+            <div class="label">Problem Description</div>
+            <textarea class="input" name="description" rows="3" placeholder="Tell us the issue"></textarea>
+          </div>
 
-  <section id="contact" class
+          <div class="row">
+            <div>
+              <div class="label">Approx. Amount (₹)</div>
+              <input class="input" name="amount" type="number" min="0" step="1" placeholder="e.g. 499"/>
+            </div>
+            <div>
+              <div class="label">Payment Method</div>
+              <select class="input" name="paymentMethod" required>
+                <option>Cash</option>
+                <option>Online</option>
+              </select>
+            </div>
+          </div>
+
+          <button class="btn">Submit & Continue</button>
+          <div class="notice">Online payment is optional. You can pay in cash after service. Final amount may vary after diagnosis.</div>
+        </form>
+      </div>
+
+      <div class="card">
+        <div class="title">What you get</div>
+        <ul>
+          <li>Verified technician visit</li>
+          <li>Transparent estimate</li>
+          <li>7-day service warranty</li>
+          <li>Live order tracking</li>
+        </ul>
+        <hr style="border:none;border-top:1px solid #e5e7eb;margin:12px 0"/>
+        <div class="title">Support</div>
+        <small class="muted">Call/WhatsApp: +91-90000-00000</small>
+      </div>
+    </div>
+  </main>
+
+  <!-- Thank You Modal -->
+  <div class="modal" id="thankyou">
+    <div class="panel">
+      <h3>Thank you! 🎉</h3>
+      <p>Your order has been created.</p>
+      <p>Order ID: <b id="ty-order"></b></p>
+      <small class="muted">Redirecting to tracking...</small>
+    </div>
+  </div>
+</body>
+</html>
