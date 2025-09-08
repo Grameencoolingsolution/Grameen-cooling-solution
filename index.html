@@ -1,87 +1,109 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AC Service Booking</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #f0f8ff;
-      padding: 20px;
-    }
-    .container {
-      max-width: 600px;
-      margin: auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h1 {
-      text-align: center;
-      color: #008080;
-    }
-    label {
-      display: block;
-      margin: 10px 0 5px;
-    }
-    select, input {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    .charges {
-      margin-bottom: 15px;
-      font-size: 0.9em;
-      color: #333;
-      background: #e0ffff;
-      padding: 10px;
-      border-radius: 5px;
-    }
-    button {
-      background: #008080;
-      color: white;
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #006666;
-    }
-  </style>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Grameen Cooling Solution | Home Services</title>
+  <link rel="stylesheet" href="assets/css/style.css"/>
 </head>
 <body>
-  <div class="container">
-    <h1>AC Service Booking</h1>
-    <form>
-      <label for="serviceType">Select Service Type:</label>
-      <select id="serviceType" name="serviceType">
-        <option value="installation">Installation</option>
-        <option value="breakdown">Breakdown Repair</option>
-        <option value="routine">Routine Servicing</option>
-      </select>
-
-      <div class="charges">
-        💰 <strong>Service Charges:</strong><br>
-        Installation – ₹799<br>
-        Breakdown Repair – ₹599<br>
-        Routine Servicing – ₹499<br>
-        Home Visit Charge – ₹199 (included)
+  <nav class="nav">
+    <div class="inner container">
+      <div class="brand">
+        <img src="assets/images/logo.png" alt="Grameen Cooling Solution"/>
+        <div class="title">Grameen Cooling Solution</div>
       </div>
+      <div class="menu">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="booking.html">Book Service</a>
+        <a href="track.html">Track Order</a>
+        <a href="contact.html">Contact</a>
+        <a href="admin.html" class="btn ghost" style="padding:8px 14px">Admin</a>
+      </div>
+    </div>
+  </nav>
 
-      <label for="bookingTime">Preferred Booking Time:</label>
-      <input type="datetime-local" id="bookingTime" name="bookingTime" />
+  <header class="container hero">
+    <div class="hero-card">
+      <div class="badge">Trusted home appliance service in Kolkata</div>
+      <h1>Fast & Reliable <span style="color:var(--primary)">AC & Appliance</span> Service at Home</h1>
+      <p class="subtitle">AC • Washing Machine • Geyser • Microwave • Ceiling Fan — Expert repair & service with easy booking and live order tracking.</p>
+      <div style="display:flex; gap:10px; flex-wrap:wrap">
+        <a class="btn" href="booking.html">Book a Service</a>
+        <a class="btn secondary" href="services.html">View Services</a>
+        <a class="btn ghost" href="track.html">Track Order</a>
+      </div>
+      <div style="display:flex; gap:18px; margin-top:18px; flex-wrap:wrap">
+        <div class="kpi"><div class="num">10k+</div><div>Happy Customers</div></div>
+        <div class="kpi"><div class="num">4.8★</div><div>Avg. Rating</div></div>
+        <div class="kpi"><div class="num">24h</div><div>Quick Turnaround</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <img src="https://placehold.co/800x520?text=AC+Service+at+Home" alt="AC service"/>
+    </div>
+  </header>
 
-      <label for="quantity">Number of AC Units:</label>
-      <input type="number" id="quantity" name="quantity" min="1" placeholder="Enter quantity" />
+  <section class="container">
+    <div class="header">
+      <h3>Popular Services</h3>
+      <a href="services.html">See all</a>
+    </div>
+    <div class="grid cols-4">
+      <div class="card">
+        <img src="https://placehold.co/520x300?text=AC+Servicing" alt="AC"/>
+        <div class="title">AC Servicing</div>
+        <small class="muted">Split & Window AC • Cleaning • Gas Check</small><br/>
+        <a class="btn block" href="booking.html?service=AC Servicing">Book Now</a>
+      </div>
+      <div class="card">
+        <img src="https://placehold.co/520x300?text=Washing+Machine" alt="WM"/>
+        <div class="title">Washing Machine Repair</div>
+        <small class="muted">Top/Front Load • Not Spinning/Draining</small><br/>
+        <a class="btn block" href="booking.html?service=Washing Machine Repair">Book Now</a>
+      </div>
+      <div class="card">
+        <img src="https://placehold.co/520x300?text=Geyser+Service" alt="Geyser"/>
+        <div class="title">Geyser Service</div>
+        <small class="muted">No Heating • Leakage • Installation</small><br/>
+        <a class="btn block" href="booking.html?service=Geyser Service">Book Now</a>
+      </div>
+      <div class="card">
+        <img src="https://placehold.co/520x300?text=Microwave+Repair" alt="Microwave"/>
+        <div class="title">Microwave Repair</div>
+        <small class="muted">Not Heating • Plate Not Rotating</small><br/>
+        <a class="btn block" href="booking.html?service=Microwave Repair">Book Now</a>
+      </div>
+    </div>
+  </section>
 
-      <button type="submit">Book Service</button>
-    </form>
-  </div>
+  <section class="container">
+    <div class="header">
+      <h3>Why choose us</h3>
+    </div>
+    <div class="grid cols-3">
+      <div class="card">
+        <div class="title">Verified Experts</div>
+        <small class="muted">Experienced technicians with background checks.</small>
+      </div>
+      <div class="card">
+        <div class="title">Transparent Pricing</div>
+        <small class="muted">No hidden charges. Pay online or cash.</small>
+      </div>
+      <div class="card">
+        <div class="title">Live Tracking</div>
+        <small class="muted">Track your order status in real-time.</small>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer container">
+    <div>&copy; <span id="yr"></span> Grameen Cooling Solution. All rights reserved. | <a href="terms.html">Terms</a> • <a href="return.html">Return Policy</a> • <a href="contact.html">Contact</a></div>
+  </footer>
+
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
