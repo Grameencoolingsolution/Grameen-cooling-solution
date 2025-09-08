@@ -1,52 +1,102 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Track Your Booking | Grameen Cooling</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <header>
-    <div class="logo">🌬️ Grameen Cooling</div>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="booking.html">Booking</a></li>
-      </ul>
-    </nav>
-  </header>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Track Order | Grameen Cooling Solution</title>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+  <script type="module">
+    import {getOrderById, statusClass, progressPercent, currencyINR} from './assets/js/app.js';
 
-  <section class="hero">
-    <h1>Track Your Service</h1>
-    <p>Enter your registered phone number or booking ID to get the latest status.</p>
-  </section>
+    function render(order){
+      const box = document.getElementById('result');
+      if(!order){
+        box.innerHTML = `<div class="notice">No order found. Please check your Order ID.</div>`;
+        return;
+      }
+      const p = progressPercent(order.status);
+      box.innerHTML = `
+        <div class="card">
+          <div class="header">
+            <div>
+              <div class="title">Order ID: ${order.id}</div>
+              <small class="muted">${new Date(order.createdAt).toLocaleString()}</small>
+            </div>
+            <div class="${statusClass(order.status)}">${order.status}</div>
+          </div>
+          <div class="row">
+            <div>
+              <b>Service</b><br/>${order.service}
+            </div>
+            <div>
+              <b>Customer</b><br/>${order.name} • ${order.phone}
+            </div>
+          </div>
+          <div style="margin:12px 0">
+            <div class="label">Progress</div>
+            <div class="progress"><div style="width:${p}%"></div></div>
+          </div>
+          <div class="label">Address</div>
+          <div>${order.address}, ${order.city||''} ${order.pincode||''}</div>
+          <div class="row" style="margin-top:10px">
+            <div><b>Schedule</b><br/>${order.scheduleDate} at ${order.scheduleTime}</div>
+            <div><b>Payment</b><br/>${order.paymentInfo?.mode||order.paymentMethod} ${order.amount? '• '+currencyINR(order.amount): ''}</div>
+          </div>
+          <hr style="border:none;border-top:1px solid #e5e7eb;margin:12px 0"/>
+          <div class="label">Updates</div>
+          <ul>
+            ${(order.history||[]).map(h=>`<li><small class="muted">${new Date(h.ts).toLocaleString()}</small> — ${h.note}</li>`).join('')}
+          </ul>
+        </div>
+      `;
+    }
 
-  <section class="services" style="max-width:600px; margin:auto;">
-    <form id="tracking-form">
-      <label for="trackingId">🔍 Phone Number or Booking ID:</label>
-      <input type="text" id="trackingId" name="trackingId" required />
-      <br/><br/>
-      <button type="submit" class="btn">Check Status</button>
-    </form>
+    window.addEventListener('DOMContentLoaded', ()=>{
+      const form = document.getElementById('trackForm');
+      const qs = new URLSearchParams(location.search);
+      const id = qs.get('orderId');
+      if(id){
+        document.getElementById('orderId').value = id;
+        render(getOrderById(id));
+      }
 
-    <div id="tracking-result" style="margin-top:2rem; display:none;">
-      <h3>Status Result</h3>
-      <p>Your booking is currently: <strong>Confirmed ✅</strong></p>
-      <!-- You can customize this result with backend integration -->
-    </div>
-  </section>
-
-  <footer>
-    <p>© 2025 Grameen Cooling Solution | Tracking powered by Copilot 🔎</p>
-  </footer>
-
-  <script>
-    document.getElementById("tracking-form").addEventListener("submit", function (e) {
-      e.preventDefault();
-      // Dummy simulation of tracking result
-      document.getElementById("tracking-result").style.display = "block";
+      form.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        const id = document.getElementById('orderId').value.trim();
+        render(getOrderById(id));
+      });
     });
   </script>
+</head>
+<body>
+  <nav class="nav">
+    <div class="inner container">
+      <div class="brand">
+        <img src="assets/images/logo.png" alt="GCS"/>
+        <div class="title">Grameen Cooling Solution</div>
+      </div>
+      <div class="menu">
+        <a href="index.html">Home</a>
+        <a href="booking.html">Book Service</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="header"><h2>Track your Order</h2></div>
+    <div class="grid cols-3">
+      <div class="card" style="grid-column: span 1;">
+        <form id="trackForm">
+          <div class="label">Enter Order ID</div>
+          <input class="input" id="orderId" placeholder="e.g. GCS-20250908-123456" required/>
+          <button class="btn" style="margin-top:10px">Track</button>
+        </form>
+      </div>
+      <div id="result" class="card" style="grid-column: span 2;">
+        <div class="notice">Enter your Order ID to see live status.</div>
+      </div>
+    </div>
+  </main>
 </body>
 </html>
