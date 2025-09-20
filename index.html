@@ -1,109 +1,737 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Grameen Cooling Solution | Home Services</title>
-  <link rel="stylesheet" href="assets/css/style.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gramin Cooling Solution - Complete Home Appliance Services</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        :root {
+            --primary-color: #0077b6;
+            --secondary-color: #00b4d8;
+            --success-color: #2a9d8f;
+            --warning-color: #e9c46a;
+            --danger-color: #e76f51;
+            --info-color: #219ebc;
+            --light-bg: #e0fbfc;
+            --dark-text: #2b2d42;
+            --border-radius: 15px;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-text);
+            background: linear-gradient(135deg, var(--light-bg) 0%, #ffffff 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo::before {
+            content: "❄️";
+            font-size: 1.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-text);
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .nav-links .auth-btn {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .nav-links .auth-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .nav-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--dark-text);
+            margin: 3px 0;
+            transition: var(--transition);
+        }
+
+        /* Main Content */
+        .main-content {
+            min-height: calc(100vh - 80px);
+            padding: 2rem 0;
+        }
+
+        .page {
+            display: none;
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin: 1rem 0;
+            box-shadow: var(--shadow);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, rgba(0, 119, 182, 0.1) 0%, rgba(0, 180, 216, 0.1) 100%);
+            border-radius: var(--border-radius);
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: slideInDown 0.8s ease-out;
+        }
+
+        @keyframes slideInDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 2rem;
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .service-card {
+            background: #ffffff;
+            border: 2px solid var(--secondary-color);
+            color: var(--dark-text);
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            transform: translateY(0) scale(1);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Forms */
+        .form-section {
+            background: var(--light-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            margin: 2rem 0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            color: var(--dark-text);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 119, 182, 0.1);
+        }
+        
+        .auth-form {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .auth-form h2 {
+            margin-bottom: 1rem;
+        }
+        
+        .form-link {
+            display: block;
+            margin-top: 1rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Modals */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            margin: 2% auto;
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            width: 95%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideInScale 0.4s ease-out;
+        }
+
+        @keyframes slideInScale {
+            from { 
+                transform: translateY(-50px) scale(0.9); 
+                opacity: 0; 
+            }
+            to { 
+                transform: translateY(0) scale(1); 
+                opacity: 1; 
+            }
+        }
+
+        .close {
+            position: absolute;
+            right: 1.5rem;
+            top: 1.5rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #999;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .close:hover {
+            background: #f0f0f0;
+            color: var(--danger-color);
+            transform: rotate(90deg);
+        }
+
+        /* Success Popup */
+        .success-popup {
+            background: linear-gradient(135deg, var(--success-color) 0%, var(--info-color) 100%);
+            color: white;
+            text-align: center;
+            padding: 3rem;
+            border-radius: var(--border-radius);
+        }
+
+        .success-popup h2 {
+            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            animation: bounce 1s ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 60%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            80% { transform: translateY(-10px); }
+        }
+
+        .countdown {
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Order Items */
+        .order-item {
+            background: white;
+            border: 1px solid #e9ecef;
+            padding: 2rem;
+            margin: 1rem 0;
+            border-radius: var(--border-radius);
+            border-left: 5px solid var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .order-item:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .order-status {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-pending { 
+            background: linear-gradient(135deg, var(--warning-color), #f7b267); 
+            color: var(--dark-text); 
+        }
+
+        .status-assigned { 
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); 
+            color: white; 
+        }
+
+        .status-completed { 
+            background: linear-gradient(135deg, var(--success-color), #219ebc); 
+            color: white; 
+        }
+
+        .order-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .detail-item {
+            background: var(--light-bg);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Admin Dashboard */
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .admin-card {
+            background: linear-gradient(135deg, rgba(0, 119, 182, 0.1) 0%, rgba(0, 180, 216, 0.1) 100%);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            border-left: 5px solid var(--primary-color);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .admin-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .admin-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .admin-stat {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        /* Search and Filter */
+        .search-section {
+            background: var(--light-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+        }
+
+        .search-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            align-items: end;
+        }
+
+        /* Assignment Section */
+        .assignment-section {
+            background: #e0fbfc;
+            border: 1px solid #c7ecec;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin-top: 1rem;
+        }
+
+        .assignment-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 1rem;
+            align-items: end;
+        }
+
+        /* Loading States */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            z-index: 1001;
+            transform: translateX(400px);
+            transition: transform 0.3s ease-out;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: linear-gradient(135deg, var(--success-color), #20c997);
+        }
+
+        .notification.error {
+            background: linear-gradient(135deg, var(--danger-color), #e74c3c);
+        }
+        
+        .notification.info {
+            background: linear-gradient(135deg, var(--info-color), #00b4d8);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: var(--shadow);
+                border-radius: 0 0 15px 15px;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .order-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .assignment-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Additional Pages Styles */
+        .content-section {
+            margin: 2rem 0;
+        }
+
+        .content-section h3 {
+            color: var(--primary-color);
+            margin: 1.5rem 0 1rem 0;
+            font-size: 1.4rem;
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .content-section ul {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-section li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
 </head>
 <body>
-  <nav class="nav">
-    <div class="inner container">
-      <div class="brand">
-        <img src="assets/images/logo.png" alt="Grameen Cooling Solution"/>
-        <div class="title">Grameen Cooling Solution</div>
-      </div>
-      <div class="menu">
-        <a href="index.html">Home</a>
-        <a href="services.html">Services</a>
-        <a href="booking.html">Book Service</a>
-        <a href="track.html">Track Order</a>
-        <a href="contact.html">Contact</a>
-        <a href="admin.html" class="btn ghost" style="padding:8px 14px">Admin</a>
-      </div>
-    </div>
-  </nav>
-
-  <header class="container hero">
-    <div class="hero-card">
-      <div class="badge">Trusted home appliance service in Kolkata</div>
-      <h1>Fast & Reliable <span style="color:var(--primary)">AC & Appliance</span> Service at Home</h1>
-      <p class="subtitle">AC • Washing Machine • Geyser • Microwave • Ceiling Fan — Expert repair & service with easy booking and live order tracking.</p>
-      <div style="display:flex; gap:10px; flex-wrap:wrap">
-        <a class="btn" href="booking.html">Book a Service</a>
-        <a class="btn secondary" href="services.html">View Services</a>
-        <a class="btn ghost" href="track.html">Track Order</a>
-      </div>
-      <div style="display:flex; gap:18px; margin-top:18px; flex-wrap:wrap">
-        <div class="kpi"><div class="num">10k+</div><div>Happy Customers</div></div>
-        <div class="kpi"><div class="num">4.8★</div><div>Avg. Rating</div></div>
-        <div class="kpi"><div class="num">24h</div><div>Quick Turnaround</div></div>
-      </div>
-    </div>
-    <div class="card">
-      <img src="https://placehold.co/800x520?text=AC+Service+at+Home" alt="AC service"/>
-    </div>
-  </header>
-
-  <section class="container">
-    <div class="header">
-      <h3>Popular Services</h3>
-      <a href="services.html">See all</a>
-    </div>
-    <div class="grid cols-4">
-      <div class="card">
-        <img src="https://placehold.co/520x300?text=AC+Servicing" alt="AC"/>
-        <div class="title">AC Servicing</div>
-        <small class="muted">Split & Window AC • Cleaning • Gas Check</small><br/>
-        <a class="btn block" href="booking.html?service=AC Servicing">Book Now</a>
-      </div>
-      <div class="card">
-        <img src="https://placehold.co/520x300?text=Washing+Machine" alt="WM"/>
-        <div class="title">Washing Machine Repair</div>
-        <small class="muted">Top/Front Load • Not Spinning/Draining</small><br/>
-        <a class="btn block" href="booking.html?service=Washing Machine Repair">Book Now</a>
-      </div>
-      <div class="card">
-        <img src="https://placehold.co/520x300?text=Geyser+Service" alt="Geyser"/>
-        <div class="title">Geyser Service</div>
-        <small class="muted">No Heating • Leakage • Installation</small><br/>
-        <a class="btn block" href="booking.html?service=Geyser Service">Book Now</a>
-      </div>
-      <div class="card">
-        <img src="https://placehold.co/520x300?text=Microwave+Repair" alt="Microwave"/>
-        <div class="title">Microwave Repair</div>
-        <small class="muted">Not Heating • Plate Not Rotating</small><br/>
-        <a class="btn block" href="booking.html?service=Microwave Repair">Book Now</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="container">
-    <div class="header">
-      <h3>Why choose us</h3>
-    </div>
-    <div class="grid cols-3">
-      <div class="card">
-        <div class="title">Verified Experts</div>
-        <small class="muted">Experienced technicians with background checks.</small>
-      </div>
-      <div class="card">
-        <div class="title">Transparent Pricing</div>
-        <small class="muted">No hidden charges. Pay online or cash.</small>
-      </div>
-      <div class="card">
-        <div class="title">Live Tracking</div>
-        <small class="muted">Track your order status in real-time.</small>
-      </div>
-    </div>
-  </section>
-
-  <footer class="footer container">
-    <div>&copy; <span id="yr"></span> Grameen Cooling Solution. All rights reserved. | <a href="terms.html">Terms</a> • <a href="return.html">Return Policy</a> • <a href="contact.html">Contact</a></div>
-  </footer>
-
-  <script>
-    document.getElementById('yr').textContent = new Date().getFullYear();
-  </script>
-</body>
-</html>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Gramin Cooling Solution</div>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#" onclick="showPage('home')">🏠 Home</a></li>
+                    <li><a href="#" onclick="showPage('about')">ℹ️ About Us</a></li>
+                    <li><a href="#" onclick="showPage('services-page')">🛠️ Services</a></li>
+                    <li><a href="#" onclick="showPage('tracking')">📦 Track Order</a></li>
+                    <li><a href="#" onclick="showPage('contact')">📞 Contact</a></li>
+                    <li><a href="#" onclick="showPage('terms')">📋 Terms</a></li>
+                    <li><a href="#" onclick="showPage('login')" id="authLink" class="auth-btn">👤 Login</a></li>
+                    <li id="adminLink" style="display: none;"><a href="#" onclick="showPage('admin')">⚙️ Admin</a></li>
+                </ul>
+                <div class="nav-toggle" onclick="toggleNav()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+ 
